@@ -7,6 +7,9 @@
 # other
 ecosystem.config.cjs
 copy.bash
+data/willys.jsonl
+data/willys-cpy.jsonl
+data/livsmedelsverket-foods.jsonl
 
 # keys
 *.pem

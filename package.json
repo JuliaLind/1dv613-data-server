@@ -6,10 +6,11 @@
   "engines": {
     "node": ">=20.6.0"
   },
-  "type": "module",  "scripts": {
+  "type": "module",
+  "scripts": {
     "test": "dotenv -e .env.test c8 --reporter=text mocha 'test/**/*.test.js' --exit || exit 0",
-    "test-unit": "dotenv -e .env.test c8 --reporter=text mocha 'test/unit/**/*.test.js' --exit || exit 0",
-    "test-scen": "dotenv -e .env.test c8 --reporter=text mocha 'test/scenario/*.test.js' --exit || exit 0",
+    "test:unit": "dotenv -e .env.test c8 --reporter=text mocha 'test/unit/**/*.test.js' --exit || exit 0",
+    "test:scen": "dotenv -e .env.test c8 --reporter=text mocha 'test/scenario/*.test.js' --exit || exit 0",
     "start": "node src/server.js",
     "dev": "nodemon --inspect --env-file=.env src/server.js",
     "lint": "npx eslint ./ || exit 0",
@@ -30,9 +31,11 @@
     "eslint-plugin-jsdoc": "^46.10.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.6.0",
+    "jsdom": "^26.0.0",
     "nodemon": "^3.1.9",
     "sinon": "^19.0.2",
-    "sinon-chai": "^3.7.0"
+    "sinon-chai": "^3.7.0",
+    "xml2js": "^0.6.2"
   },
   "eslintConfig": {
     "extends": "@lnu"
