@@ -8,11 +8,9 @@
 ecosystem.config.cjs
 copy.bash
 data/willys.jsonl
-data/willys-cpy.jsonl
-data/livsmedelsverket-foods.jsonl
-data/combine.js
-data/off-extra.jsonl
-data/combined.jsonl
+data/data_old.json
+data/clean.jsonl
+
 
 # maybe uncomment later
 data/excluded.jsonl
