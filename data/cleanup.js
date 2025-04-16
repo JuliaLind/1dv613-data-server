@@ -22,43 +22,64 @@ const excludeCategory = [
 ]
 
 /**
+ * Returns only the relevant data from the nutrition object.
+ *
+ * @param {object} nutrition - object with nutrition data
+ * @returns {object} only the value and the measurementprecisioncode
+ */
+function getNutritionData (nutrition) {
+  return Number.parseFloat(nutrition.value) || 0
+}
+
+/**
  * Get the nutrient values from a food item.
  *
  * @param {object} item - associative array with food data
  * @returns {object} - object with nutrient values
  */
 function getNutrients (item) {
-  const nutrients = {}
+  let fat
+  let saturatedFat
+  let carbohydrates
+  let sugars
+  let protein
+  let salt
+  let fiber
 
   for (const nutrition of item.nutritionsFactList) {
     switch (nutrition.typeCode) {
-      case 'energi':
-        if (nutrition.unitCode === 'kilokalori') {
-          nutrients.kcal_100g = Number.parseFloat(nutrition.value)
-        }
-        break
       case 'fett':
-        nutrients.fat_100g = Number.parseFloat(nutrition.value)
+        fat = getNutritionData(nutrition)
         break
       case 'varav mättat fett':
-        nutrients.saturated_fat_100g = Number.parseFloat(nutrition.value)
+        saturatedFat = getNutritionData(nutrition)
         break
       case 'kolhydrat':
-        nutrients.carbohydrate_100g = Number.parseFloat(nutrition.value)
+        carbohydrates = getNutritionData(nutrition)
         break
       case 'varav sockerarter':
-        nutrients.sugar_100g = Number.parseFloat(nutrition.value)
+        sugars = getNutritionData(nutrition)
         break
       case 'protein':
-        nutrients.protein_100g = Number.parseFloat(nutrition.value)
+        protein = getNutritionData(nutrition)
         break
       case 'salt':
-        nutrients.salt_100g = Number.parseFloat(nutrition.value)
+        salt = getNutritionData(nutrition)
         break
       case 'fiber':
-        nutrients.fiber_100g = Number.parseFloat(nutrition.value)
+        fiber = getNutritionData(nutrition)
         break
     }
+  }
+
+  const nutrients = {
+    fat: fat || 0,
+    saturatedFat: saturatedFat || 0,
+    carbohydrates: carbohydrates || 0,
+    sugars: sugars || 0,
+    protein: protein || 0,
+    salt: salt || 0,
+    fiber: fiber || 0
   }
   return nutrients
 }
@@ -89,7 +110,8 @@ async function cleanObj (item) {
   }
 
   if (item.nutritionsFactList && item.nutritionsFactList.length > 0) {
-    obj.nutrients = getNutrients(item)
+    obj.kcal_100g = item.nutritionsFactList.find(nutrition => nutrition.typeCode === 'energi' && nutrition.unitCode === 'kilokalori')?.value
+    obj.macros_100g = getNutrients(item)
     return obj
   } else {
     await exclude(item, 'does not have a nutritionFactList')
@@ -150,7 +172,7 @@ async function writeLine (filename, obj) {
  * @param {Array} clean - array with the clean food objects
  */
 async function addToArr (obj, clean) {
-  if (obj.nutrients.kcal_100g) {
+  if (obj.kcal_100g) {
     clean.push(obj)
     await writeLine('clean.jsonl', obj)
   } else {
