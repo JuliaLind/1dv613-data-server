@@ -5,8 +5,10 @@
  * @version 1.0.0
  */
 
+
 import mongoose from 'mongoose'
-import validator from 'validator'
+import { eanValidator, urlValidator } from './validators.js'
+
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -27,33 +29,6 @@ const convertOptions = Object.freeze({
   }
 })
 
-const urlValidator = {
-/**
- * Validates the url field.
- *
- * @param {string} value - the url to validate.
- * @returns {boolean} - true if the value is valid, false otherwise.
- * @throws {Error} - if the value is not valid.
- */
-  validator: (value) => {
-    return validator.isURL(value)
-  },
-  message: 'Invalid image URL'
-}
-
-const nrValidator = {
-  /**
-   * Validates the numeric value.
-   *
-   * @param {string} value - the value to validate.
-   * @returns {boolean} - true if the value is valid, false otherwise.
-   * @throws {Error} - if the value is not valid.
-   */
-  validator: (value) => {
-    return validator.isNumeric(value.toString())
-  },
-  message: 'Invalid number value'
-}
 
 // Create a schema.
 const schema = new mongoose.Schema(
@@ -62,19 +37,8 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      validate: {
-        /**
-         * Validates the name field.
-         *
-         * @param {string} value - the name to validate.
-         * @returns {boolean} - true if the name is valid, false otherwise.
-         * @throws {Error} - if the name is not valid.
-         */
-        validator: (value) => {
-          return validator.isLength(value, { min: 1, max: 255 })
-        },
-        message: 'Name must be between 1 and 255 characters'
-      }
+      minlength: 1,
+      maxlength: 255,
     },
     brand: {
       type: String,
@@ -85,19 +49,7 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
       unique: true,
-      validate: {
-        /**
-         * Validates the ean field.
-         *
-         * @param {string} value - the ean to validate.
-         * @returns {boolean} - true if the value is valid, false otherwise.
-         * @throws {Error} - if the value is not valid.
-         */
-        validator: (value) => {
-          return validator.isEAN(value)
-        },
-        message: 'Invalid EAN code'
-      }
+      validate: eanValidator
     },
     category: {
       type: [String],
@@ -134,43 +86,43 @@ const schema = new mongoose.Schema(
     kcal_100g: {
       type: Number,
       required: true,
-      validate: nrValidator
+      min: [0, 'Kcal cannot be negative'],
     },
     macros_100g: {
       fat: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Fat cannot be negative'],
       },
       saturatedFat: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Saturated fat cannot be negative'],
       },
       carbohydrates: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Carbohydrates cannot be negative'],
       },
       sugars: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Sugars cannot be negative'],
       },
       protein: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Protein cannot be negative'],
       },
       salt: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Salt cannot be negative'],
       },
       fiber: {
         type: Number,
         required: true,
-        validate: nrValidator
+        min: [0, 'Fiber cannot be negative'],
       }
     }
   },

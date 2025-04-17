@@ -6,10 +6,10 @@
  */
 
 import mongoose from 'mongoose'
-import validator from 'validator'
 import { format } from 'date-fns'
 
 import { FoodItemModel } from './FoodItemModel.js'
+import { eanValidator, dateValidator } from './validators.js'
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -49,36 +49,14 @@ const schema = new mongoose.Schema(
     date: {
       type: Date,
       required: true,
-      validate: {
-        /**
-         * Validates the date field.
-         *
-         * @param {string} value - the date to validate.
-         * @returns {boolean} - true if the value is valid, false otherwise.
-         */
-        validator: (value) => {
-          return validator.isDate(value)
-        },
-        message: 'Invalid date'
-      }
+      validate: dateValidator
     },
     foodItems: [{
       ean: {
         type: String,
         required: true,
         trim: true,
-        validate: {
-          /**
-           * Validates the EAN field.
-           *
-           * @param {string} value - the EAN to validate.
-           * @returns {boolean} - true if the value is valid, false otherwise.
-           */
-          validator: (value) => {
-            return validator.isEAN(value)
-          },
-          message: 'Invalid EAN'
-        }
+        validate: eanValidator
       },
       weight: {
         type: Number,
