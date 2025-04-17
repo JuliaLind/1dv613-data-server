@@ -127,10 +127,18 @@ schema.statics.populateMany = async function populateMany (docs) {
  * @param {Map<string,object>} foodMap - a map of EAN codes to food items
  */
 schema.methods.setFoodItems = function (foodMap) {
-  this.foodItems = this.foodItems.map(item => ({
-    ...item.toObject(),
-    data: foodMap.get(item.ean) || null
-  }))
+  this.foodItems = this.foodItems.map(item => {
+    const foodItem = foodMap.get(item.ean)
+    let obj = item.toObject()
+    if (foodItem) {
+      obj = {
+        ...obj,
+        ...foodItem
+      }
+    }
+
+    return obj
+  })
 }
 
 schema.post('findOne', async (doc) => await doc.populateFoods())
