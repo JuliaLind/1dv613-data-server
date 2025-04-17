@@ -5,10 +5,8 @@
  * @version 1.0.0
  */
 
-
 import mongoose from 'mongoose'
 import { eanValidator, urlValidator } from './validators.js'
-
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -29,7 +27,6 @@ const convertOptions = Object.freeze({
   }
 })
 
-
 // Create a schema.
 const schema = new mongoose.Schema(
   {
@@ -38,7 +35,7 @@ const schema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 1,
-      maxlength: 255,
+      maxlength: 255
     },
     brand: {
       type: String,
@@ -86,43 +83,43 @@ const schema = new mongoose.Schema(
     kcal_100g: {
       type: Number,
       required: true,
-      min: [0, 'Kcal cannot be negative'],
+      min: [0, 'Kcal cannot be negative']
     },
     macros_100g: {
       fat: {
         type: Number,
         required: true,
-        min: [0, 'Fat cannot be negative'],
+        min: [0, 'Fat cannot be negative']
       },
       saturatedFat: {
         type: Number,
         required: true,
-        min: [0, 'Saturated fat cannot be negative'],
+        min: [0, 'Saturated fat cannot be negative']
       },
       carbohydrates: {
         type: Number,
         required: true,
-        min: [0, 'Carbohydrates cannot be negative'],
+        min: [0, 'Carbohydrates cannot be negative']
       },
       sugars: {
         type: Number,
         required: true,
-        min: [0, 'Sugars cannot be negative'],
+        min: [0, 'Sugars cannot be negative']
       },
       protein: {
         type: Number,
         required: true,
-        min: [0, 'Protein cannot be negative'],
+        min: [0, 'Protein cannot be negative']
       },
       salt: {
         type: Number,
         required: true,
-        min: [0, 'Salt cannot be negative'],
+        min: [0, 'Salt cannot be negative']
       },
       fiber: {
         type: Number,
         required: true,
-        min: [0, 'Fiber cannot be negative'],
+        min: [0, 'Fiber cannot be negative']
       }
     }
   },
@@ -161,6 +158,22 @@ schema.statics.listItems = async function (page, limit, query = {}) {
     from: skip + 1,
     to: skip + foodItems.length
   }
+}
+
+/**
+ * Returns a map with ean code mapped against food items.
+ *
+ * @param {string[]} eans - a list of EAN codes
+ * @returns {Promise<Map<string, object>>} - a map of EAN codes to food items
+ */
+schema.statics.getByEans = async function (eans) {
+  eans = [...new Set(eans)]
+  const foodItems = await this.find({ ean: { $in: eans } }, 'ean name brand kcal_100g')
+  const foodMap = new Map()
+  for (const foodItem of foodItems) {
+    foodMap.set(foodItem.ean, foodItem.toObject())
+  }
+  return foodMap
 }
 
 /**

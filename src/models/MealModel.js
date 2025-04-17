@@ -25,7 +25,7 @@ const convertOptions = Object.freeze({
   transform: (doc, ret) => {
     ret.id = ret._id.toString()
     delete ret._id
-    ret.date = format(ret.date, 'yyyy-MM-dd') 
+    ret.date = format(ret.date, 'yyyy-MM-dd')
 
     return ret
   }
@@ -84,7 +84,6 @@ const schema = new mongoose.Schema(
  *
  * @param {string|Date} date - is the date to search for
  * @param {string} userId - is the userId to search for
- *
  * @returns {Promise<Map<string,object>>} - a map of meal types to meal objects
  */
 schema.statics.getByDate = async function (date, userId) {
@@ -96,8 +95,6 @@ schema.statics.getByDate = async function (date, userId) {
   return mealMap
 }
 
-
-
 /**
  * Populates the food items in the meal.
  * This function is called after the meal is found.
@@ -106,7 +103,7 @@ schema.statics.getByDate = async function (date, userId) {
  */
 async function populateOne (doc) {
   const eans = doc.foodItems.map(item => item.ean)
-  const foodMap = await getFoodItems(eans)
+  const foodMap = await FoodItemModel.getByEans(eans)
   doc.setFoodItems(foodMap)
 }
 
@@ -118,26 +115,10 @@ async function populateOne (doc) {
  */
 async function populateMany (docs) {
   const eans = docs.flatMap(meal => meal.foodItems.map(item => item.ean))
-  const foodMap = await getFoodItems(eans)
+  const foodMap = await FoodItemModel.getByEans(eans)
   for (const doc of docs) {
     doc.setFoodItems(foodMap)
   }
-}
-
-/**
- * Returns a map with ean code mapped against food items.
- *
- * @param {string[]} eans - a list of EAN codes
- * @returns {Promise<Map<string, object>>} - a map of EAN codes to food items
- */
-async function getFoodItems (eans) {
-  eans = [...new Set(eans)]
-  const foodItems = await FoodItemModel.find({ ean: { $in: eans } }, 'ean name brand kcal_100g')
-  const foodMap = new Map()
-  for (const foodItem of foodItems) {
-    foodMap.set(foodItem.ean, foodItem.toObject())
-  }
-  return foodMap
 }
 
 /**
@@ -159,7 +140,7 @@ schema.post('find', populateMany)
 /**
  * Set time to midnight from the date field to ensure the unique index works.
  */
-mealSchema.pre('save', function (next) {
+schema.pre('save', function (next) {
   if (this.isModified('date')) {
     this.date.setHours(0, 0, 0, 0)
   }

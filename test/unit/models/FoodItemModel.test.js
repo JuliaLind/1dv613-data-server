@@ -71,19 +71,21 @@ describe('FoodItemModel', () => {
       ]
     }
     const listItemsStub = sinon.stub(FoodItemModel, 'listItems')
-    listItemsStub.withArgs(page, limit, expectedQuery).resolves({
+    const exp = {
       foodItems,
       total: foodItems.length + 10,
       page,
       pageSize: foodItems.length,
       from: 21,
       to: 20 + foodItems.length
-    })
+    }
+    listItemsStub.withArgs(page, limit, expectedQuery).resolves(exp)
     const result = await FoodItemModel.searchItems(page, limit, query)
     expect(listItemsStub.calledOnce).to.be.true
     expect(listItemsStub.firstCall.args[0]).to.equal(page)
     expect(listItemsStub.firstCall.args[1]).to.equal(limit)
-    expect(listItemsStub.firstCall.args[2]).to.deep.equal(expectedQuery)  
+    expect(listItemsStub.firstCall.args[2]).to.deep.equal(expectedQuery)
+    expect(result).to.deep.equal(exp)
   })
 
   it('transform toObject, should keep all fields except _id', () => {
@@ -100,5 +102,40 @@ describe('FoodItemModel', () => {
     expect(obj).to.have.property('brand', 'Brand A')
     expect(obj).to.have.property('kcal_100g', 52)
     expect(obj).to.not.have.property('_id')
+  })
+
+  it('getByEans, should return a map with ean codeas keys and food items as values', async () => {
+    const eans = ['1234567890123', '2345678901234']
+    const foodItems = [
+      {
+        ean: '1234567890123',
+        toObject: sinon.stub().returns({
+          ean: '1234567890123',
+          name: 'Apple',
+          brand: 'Brand A',
+          kcal_100g: 52
+        })
+      },
+      {
+        ean: '2345678901234',
+        toObject: sinon.stub().returns({
+          ean: '2345678901234',
+          name: 'Banana',
+          brand: 'Brand B',
+          kcal_100g: 89
+        })
+      }
+    ]
+
+    sinon.stub(FoodItemModel, 'find').resolves(foodItems)
+
+    const result = await FoodItemModel.getByEans(eans)
+
+    expect(result).to.be.an.instanceof(Map)
+    expect(result.size).to.equal(2)
+    expect(result.get('1234567890123')).to.deep.equal(foodItems[0].toObject())
+    expect(result.get('2345678901234')).to.deep.equal(foodItems[1].toObject())
+    expect(FoodItemModel.find.firstCall.args[0]).to.deep.equal({ ean: { $in: eans } })
+    expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand kcal_100g')
   })
 })

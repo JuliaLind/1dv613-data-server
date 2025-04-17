@@ -19,7 +19,6 @@ export const urlValidator = {
   message: 'Invalid image URL'
 }
 
-
 export const eanValidator = {
   /**
    * Validates the ean field.
