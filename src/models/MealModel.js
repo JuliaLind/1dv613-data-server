@@ -7,6 +7,7 @@
 
 import mongoose from 'mongoose'
 import validator from 'validator'
+import { format } from 'date-fns'
 
 import { FoodItemModel } from './FoodItemModel.js'
 
@@ -24,6 +25,7 @@ const convertOptions = Object.freeze({
   transform: (doc, ret) => {
     ret.id = ret._id.toString()
     delete ret._id
+    ret.date = format(ret.date, 'yyyy-MM-dd') 
 
     return ret
   }
@@ -32,21 +34,32 @@ const convertOptions = Object.freeze({
 // Create a schema.
 const schema = new mongoose.Schema(
   {
-    name: {
+    userId: {
       type: String,
       required: true,
       trim: true,
+      minLength: 1,
+      message: 'User ID is required'
+    },
+    type: {
+      type: String,
+      enum: ['breakfast', 'lunch', 'dinner', 'snack1', 'snack2', 'snack3'],
+      required: true
+    },
+    date: {
+      type: Date,
+      required: true,
       validate: {
         /**
-         * Validates the name field.
+         * Validates the date field.
          *
-         * @param {string} value - the name to validate.
+         * @param {string} value - the date to validate.
          * @returns {boolean} - true if the value is valid, false otherwise.
          */
         validator: (value) => {
-          return validator.isLength(value, { min: 1, max: 255 })
+          return validator.isDate(value)
         },
-        message: 'Name must be between 1 and 255 characters'
+        message: 'Invalid date'
       }
     },
     foodItems: [{
@@ -89,6 +102,25 @@ const schema = new mongoose.Schema(
 )
 
 /**
+ * Gets a meal by userId and date.
+ *
+ * @param {string|Date} date - is the date to search for
+ * @param {string} userId - is the userId to search for
+ *
+ * @returns {Promise<Map<string,object>>} - a map of meal types to meal objects
+ */
+schema.statics.getByDate = async function (date, userId) {
+  const docs = await this.find({ date, userId })
+  const mealMap = new Map()
+  for (const doc of docs) {
+    mealMap.set(doc.type, doc)
+  }
+  return mealMap
+}
+
+
+
+/**
  * Populates the food items in the meal.
  * This function is called after the meal is found.
  *
@@ -115,14 +147,14 @@ async function populateMany (docs) {
 }
 
 /**
- * Returns a mpa with ean code mapped against food items.
+ * Returns a map with ean code mapped against food items.
  *
  * @param {string[]} eans - a list of EAN codes
  * @returns {Promise<Map<string, object>>} - a map of EAN codes to food items
  */
 async function getFoodItems (eans) {
   eans = [...new Set(eans)]
-  const foodItems = await FoodItemModel.find({ ean: { $in: eans } })
+  const foodItems = await FoodItemModel.find({ ean: { $in: eans } }, 'ean name brand kcal_100g')
   const foodMap = new Map()
   for (const foodItem of foodItems) {
     foodMap.set(foodItem.ean, foodItem.toObject())
@@ -145,6 +177,21 @@ schema.methods.setFoodItems = function (foodMap) {
 schema.post('findOne', populateOne)
 schema.post('findById', populateOne)
 schema.post('find', populateMany)
+
+/**
+ * Set time to midnight from the date field to ensure the unique index works.
+ */
+mealSchema.pre('save', function (next) {
+  if (this.isModified('date')) {
+    this.date.setHours(0, 0, 0, 0)
+  }
+  next()
+})
+
+/**
+ * The combination userId - date - mealtype must be unique.
+ */
+schema.index({ date: 1, userId: 1, type: 1 }, { unique: true })
 
 // Create a model using the schema.
 export const MealModel = mongoose.model('Meal', schema)

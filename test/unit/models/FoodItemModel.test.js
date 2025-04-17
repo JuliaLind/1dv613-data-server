@@ -1,0 +1,55 @@
+/* global afterEach */
+/* eslint-disable no-unused-expressions */
+
+import chai from 'chai'
+import sinon from 'sinon'
+import chaiAsPromised from 'chai-as-promised'
+import { FoodItemModel } from '../../../src/models/FoodItemModel.js'
+
+chai.use(chaiAsPromised)
+const expect = chai.expect
+
+describe('FoodItemModel', () => {
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  it('listItems', async function () {
+    const page = 3
+    const limit = 10
+
+    const foodItems = [
+      { ean: '1234567890123', name: 'Apple', brand: 'Brand A' },
+      { ean: '2345678901234', name: 'Banana', brand: 'Brand B' }
+    ]
+
+    sinon.stub(FoodItemModel, 'find').returns({
+      sort: sinon.stub().returns({
+        skip: sinon.stub().returns({
+          limit: sinon.stub().resolves(foodItems)
+        })
+      })
+    })
+    sinon.stub(FoodItemModel, 'countDocuments').resolves(foodItems.length + 10)
+
+    const result = await FoodItemModel.listItems(page, limit)
+    expect(FoodItemModel.find.calledOnce).to.be.true
+    expect(FoodItemModel.find.firstCall.args[0]).to.deep.equal({})
+    expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand')
+    expect(FoodItemModel.find().sort.calledOnce).to.be.true
+    expect(FoodItemModel.find().sort.firstCall.args[0]).to.deep.equal({ name: 1 })
+    expect(FoodItemModel.find().sort().skip.calledOnce).to.be.true
+    expect(FoodItemModel.find().sort().skip.firstCall.args[0]).to.equal((page - 1) * limit)
+    expect(FoodItemModel.find().sort().skip().limit.calledOnce).to.be.true
+    expect(FoodItemModel.find().sort().skip().limit.firstCall.args[0]).to.equal(limit)
+    expect(FoodItemModel.countDocuments.calledOnce).to.be.true
+    expect(result).to.deep.equal({
+      foodItems,
+      total: foodItems.length + 10,
+      page,
+      pageSize: foodItems.length,
+      from: 21,
+      to: 20 + foodItems.length
+    })
+  })
+})

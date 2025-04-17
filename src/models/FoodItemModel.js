@@ -188,16 +188,27 @@ const schema = new mongoose.Schema(
  * @param {number} page - is the page number to return.
  * @param {number} limit - is the number of items to return per page.
  * @param {object} query - is an optional query object to filter the results.
- * @returns {Promise<object[]>} -a list of food items.
+ * @returns {Promise<object[]>} -a list of food items, total number of items, page number, page size, from and to numbers.
  */
 schema.statics.listItems = async function (page, limit, query = {}) {
-  const foodItems = await this
-    .find(query, 'ean name brand')
-    .sort({ name: 1 })
-    .skip((page - 1) * limit)
-    .limit(limit)
+  const skip = (page - 1) * limit
+  const [foodItems, total] = await Promise.all([
+    this
+      .find(query, 'ean name brand')
+      .sort({ name: 1 })
+      .skip(skip)
+      .limit(limit),
+    this.countDocuments(query)
+  ])
 
-  return foodItems
+  return {
+    foodItems,
+    total,
+    page,
+    pageSize: foodItems.length,
+    from: skip + 1,
+    to: skip + foodItems.length
+  }
 }
 
 /**
