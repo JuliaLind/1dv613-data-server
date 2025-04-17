@@ -110,7 +110,7 @@ async function cleanObj (item) {
   }
 
   if (item.nutritionsFactList && item.nutritionsFactList.length > 0) {
-    obj.kcal_100g = item.nutritionsFactList.find(nutrition => nutrition.typeCode === 'energi' && nutrition.unitCode === 'kilokalori')?.value
+    obj.kcal_100g = Number.parseFloat(item.nutritionsFactList.find(nutrition => nutrition.typeCode === 'energi' && nutrition.unitCode === 'kilokalori')?.value)
     obj.macros_100g = getNutrients(item)
     return obj
   } else {
