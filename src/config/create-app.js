@@ -25,7 +25,6 @@ export function createApp () {
 
   // Enable Cross Origin Resource Sharing (CORS) (https://www.npmjs.com/package/cors).
   app.use(cors())
-  app.use(express.json({ limit: '500kb' }))
   app.use(logger('dev'))
 
   app.use('/', router)
