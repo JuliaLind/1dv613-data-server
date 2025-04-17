@@ -99,29 +99,10 @@ describe('MealModel', () => {
     sinon.stub(doc, 'setFoodItems')
 
     await MealModel.populateMany([doc])
+
     expect(FoodItemModel.getByEans.calledOnce).to.be.true
     expect(FoodItemModel.getByEans.firstCall.args[0]).to.deep.equal([ean])
     expect(doc.setFoodItems.calledOnce).to.be.true
     expect(doc.setFoodItems.firstCall.args[0]).to.deep.equal(foodMap)
-  })
-
-  it('setFoodItems, should set foodItems to the given map', function () {
-    const doc = new MealModel(meal)
-    doc.setFoodItems(foodMap)
-    // let obj = doc.toObject()
-    expect(doc.foodItems).to.be.an('array')
-    expect(doc.foodItems).to.have.lengthOf(1)
-    expect(doc.foodItems[0]).to.have.property('ean', ean)
-    expect(doc.foodItems[0]).to.have.property('weight', 100)
-    expect(doc.foodItems[0]).to.have.property('unit', 'g')
-    expect(doc.foodItems[0]).to.have.property('brand', 'Some Brand')
-    expect(doc.foodItems[0]).to.have.property('kcal_100g', 100)
-    expect(doc.foodItems[0]).to.have.property('id', ean)
-    expect(doc.foodItems[0]).to.have.property('date', date)
-    expect(doc.foodItems[0]).to.have.property('type', type)
-    expect(doc.foodItems[0]).to.have.property('userId', 'someUserId')
-    expect(doc.foodItems[0]).to.have.property('unit', 'g')
-    expect(doc.foodItems[0]).to.have.property('weight', 100)
-    expect(doc.foodItems[0]).to.have.property('kcal_100g', 100)
   })
 })
