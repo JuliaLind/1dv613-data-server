@@ -42,7 +42,31 @@ describe('MealModel', () => {
     expect(mealMap).to.be.an.instanceOf(Map)
     expect(mealMap.size).to.equal(1)
     expect(mealMap.get(type)).to.be.deep.equal(meal.toObject())
-  }
-  )
+  })
 
+  it ('transform toObject, should contain id as string and date as string', function () {
+    const date = '2023-10-01'
+    const type = 'breakfast'
+    const meal = {
+      userId: 'someUserId',
+      type: 'breakfast',
+      date: new Date(date),
+      type,
+      foodItems: [{
+        ean: '7331495009104',
+        weight: 100,
+        unit: 'g'
+      }]
+    }
+    const doc = new MealModel(meal)
+    expect(doc).to.have.property('_id')
+    const obj = doc.toObject()
+    expect(obj).to.have.property('id')
+    expect(obj).to.have.property('date', date)
+    expect(obj).to.not.have.property('_id')
+    expect(obj).to.have.property('foodItems')
+    expect(obj.foodItems).to.be.an('array')
+    expect(obj).to.have.property('type', type)
+
+  })
 })
