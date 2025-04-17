@@ -6,7 +6,6 @@ import sinon from 'sinon'
 import chaiAsPromised from 'chai-as-promised'
 import { MealModel } from '../../../src/models/MealModel.js'
 
-
 chai.use(chaiAsPromised)
 const expect = chai.expect
 
@@ -14,7 +13,6 @@ describe('MealModel', () => {
   afterEach(() => {
     sinon.restore()
   })
-
 
   it('getByDate, should search for meals by date and userid', async function () {
     const date = '2023-10-01'
@@ -44,12 +42,11 @@ describe('MealModel', () => {
     expect(mealMap.get(type)).to.be.deep.equal(meal.toObject())
   })
 
-  it ('transform toObject, should contain id as string and date as string', function () {
+  it('transform toObject, should contain id as string and date as string', function () {
     const date = '2023-10-01'
     const type = 'breakfast'
     const meal = {
       userId: 'someUserId',
-      type: 'breakfast',
       date: new Date(date),
       type,
       foodItems: [{
@@ -67,6 +64,5 @@ describe('MealModel', () => {
     expect(obj).to.have.property('foodItems')
     expect(obj.foodItems).to.be.an('array')
     expect(obj).to.have.property('type', type)
-
   })
 })

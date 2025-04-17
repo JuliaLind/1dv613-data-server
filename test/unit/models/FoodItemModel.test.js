@@ -27,7 +27,6 @@ describe('FoodItemModel', () => {
     }
   ]
 
-
   it('listItems', async function () {
     const page = 3
     const limit = 10
@@ -65,7 +64,6 @@ describe('FoodItemModel', () => {
   it('searchItems', async function () {
     const page = 3
     const limit = 10
-
 
     const query = 'Brand'
     const regex = new RegExp(query, 'i')
