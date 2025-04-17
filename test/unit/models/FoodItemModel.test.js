@@ -85,4 +85,20 @@ describe('FoodItemModel', () => {
     expect(listItemsStub.firstCall.args[1]).to.equal(limit)
     expect(listItemsStub.firstCall.args[2]).to.deep.equal(expectedQuery)  
   })
+
+  it('transform toObject, should keep all fields except _id', () => {
+    const foodItem = new FoodItemModel({
+      ean: '1234567890123',
+      name: 'Apple',
+      brand: 'Brand A',
+      kcal_100g: 52
+    })
+    expect(foodItem).to.have.property('_id')
+    const obj = foodItem.toObject()
+    expect(obj).to.have.property('ean', '1234567890123')
+    expect(obj).to.have.property('name', 'Apple')
+    expect(obj).to.have.property('brand', 'Brand A')
+    expect(obj).to.have.property('kcal_100g', 52)
+    expect(obj).to.not.have.property('_id')
+  })
 })

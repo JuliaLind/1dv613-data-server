@@ -131,12 +131,12 @@ const schema = new mongoose.Schema(
         }
       }
     },
-    kcal_100_g: {
+    kcal_100g: {
       type: Number,
       required: true,
       validate: nrValidator
     },
-    macros_100_g: {
+    macros_100g: {
       fat: {
         type: Number,
         required: true,
