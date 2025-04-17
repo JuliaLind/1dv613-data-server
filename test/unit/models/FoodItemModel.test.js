@@ -52,4 +52,37 @@ describe('FoodItemModel', () => {
       to: 20 + foodItems.length
     })
   })
+
+  it('searchItems', async function () {
+    const page = 3
+    const limit = 10
+
+    const foodItems = [
+      { ean: '1234567890123', name: 'Apple', brand: 'Brand A' },
+      { ean: '2345678901234', name: 'Banana', brand: 'Brand B' }
+    ]
+
+    const query = 'Brand'
+    const regex = new RegExp(query, 'i')
+    const expectedQuery = {
+      $or: [
+        { name: regex },
+        { brand: regex }
+      ]
+    }
+    const listItemsStub = sinon.stub(FoodItemModel, 'listItems')
+    listItemsStub.withArgs(page, limit, expectedQuery).resolves({
+      foodItems,
+      total: foodItems.length + 10,
+      page,
+      pageSize: foodItems.length,
+      from: 21,
+      to: 20 + foodItems.length
+    })
+    const result = await FoodItemModel.searchItems(page, limit, query)
+    expect(listItemsStub.calledOnce).to.be.true
+    expect(listItemsStub.firstCall.args[0]).to.equal(page)
+    expect(listItemsStub.firstCall.args[1]).to.equal(limit)
+    expect(listItemsStub.firstCall.args[2]).to.deep.equal(expectedQuery)  
+  })
 })
