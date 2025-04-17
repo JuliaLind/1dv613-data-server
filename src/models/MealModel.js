@@ -101,10 +101,10 @@ schema.statics.getByDate = async function (date, userId) {
  *
  * @param {object} doc - mongoose meal document
  */
-async function populateOne (doc) {
-  const eans = doc.foodItems.map(item => item.ean)
+schema.methods.populateFoods = async function () {
+  const eans = this.foodItems.map(item => item.ean)
   const foodMap = await FoodItemModel.getByEans(eans)
-  doc.setFoodItems(foodMap)
+  this.setFoodItems(foodMap)
 }
 
 /**
@@ -113,7 +113,7 @@ async function populateOne (doc) {
  *
  * @param {object[]} docs - an array of mongoose meal documents
  */
-async function populateMany (docs) {
+schema.statics.populateMany = async function populateMany (docs) {
   const eans = docs.flatMap(meal => meal.foodItems.map(item => item.ean))
   const foodMap = await FoodItemModel.getByEans(eans)
   for (const doc of docs) {
@@ -133,9 +133,9 @@ schema.methods.setFoodItems = function (foodMap) {
   }))
 }
 
-schema.post('findOne', populateOne)
-schema.post('findById', populateOne)
-schema.post('find', populateMany)
+schema.post('findOne', async (doc) => await doc.populateFoods())
+schema.post('findById', async (doc) => await doc.populateFoods())
+schema.post('find', async (docs) => await MealModel.populateMany(docs))
 
 /**
  * Set time to midnight from the date field to ensure the unique index works.
