@@ -5,14 +5,10 @@
  * @version 1.0.0
  */
 
-import mongoose, { set } from 'mongoose'
-
-import createError from 'http-errors'
+import mongoose from 'mongoose'
 import validator from 'validator'
 
 import { FoodItemModel } from './FoodItemModel.js'
-
-
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -41,6 +37,12 @@ const schema = new mongoose.Schema(
       required: true,
       trim: true,
       validate: {
+        /**
+         * Validates the name field.
+         *
+         * @param {string} value - the name to validate.
+         * @returns {boolean} - true if the value is valid, false otherwise.
+         */
         validator: (value) => {
           return validator.isLength(value, { min: 1, max: 255 })
         },
@@ -51,9 +53,18 @@ const schema = new mongoose.Schema(
       ean: {
         type: String,
         required: true,
+        trim: true,
         validate: {
-          validator: v => validator.isEAN(v),
-          message: props => `${props.value} is not a valid EAN`
+          /**
+           * Validates the EAN field.
+           *
+           * @param {string} value - the EAN to validate.
+           * @returns {boolean} - true if the value is valid, false otherwise.
+           */
+          validator: (value) => {
+            return validator.isEAN(value)
+          },
+          message: 'Invalid EAN'
         }
       },
       weight: {
@@ -68,16 +79,34 @@ const schema = new mongoose.Schema(
         required: true
       }
     }]
+  },
+  {
+    timestamps: true,
+    toObject: convertOptions,
+    toJSON: convertOptions,
+    optimisticConcurrency: false
   }
 )
 
-async function populateOne(doc) {
+/**
+ * Populates the food items in the meal.
+ * This function is called after the meal is found.
+ *
+ * @param {object} doc - mongoose meal document
+ */
+async function populateOne (doc) {
   const eans = doc.foodItems.map(item => item.ean)
   const foodMap = await getFoodItems(eans)
   doc.setFoodItems(foodMap)
 }
 
-async function populateMany(docs) {
+/**
+ * Populates each meal with food items.
+ * This function is called after the meals are found.
+ *
+ * @param {object[]} docs - an array of mongoose meal documents
+ */
+async function populateMany (docs) {
   const eans = docs.flatMap(meal => meal.foodItems.map(item => item.ean))
   const foodMap = await getFoodItems(eans)
   for (const doc of docs) {
@@ -85,7 +114,13 @@ async function populateMany(docs) {
   }
 }
 
-async function getFoodItems(eans) {
+/**
+ * Returns a mpa with ean code mapped against food items.
+ *
+ * @param {string[]} eans - a list of EAN codes
+ * @returns {Promise<Map<string, object>>} - a map of EAN codes to food items
+ */
+async function getFoodItems (eans) {
   eans = [...new Set(eans)]
   const foodItems = await FoodItemModel.find({ ean: { $in: eans } })
   const foodMap = new Map()
@@ -95,6 +130,11 @@ async function getFoodItems(eans) {
   return foodMap
 }
 
+/**
+ * Sets the food items in the meal.
+ *
+ * @param {Map<string,object>} foodMap - a map of EAN codes to food items
+ */
 schema.methods.setFoodItems = function (foodMap) {
   this.foodItems = this.foodItems.map(item => ({
     ...item.toObject(),
@@ -102,13 +142,9 @@ schema.methods.setFoodItems = function (foodMap) {
   }))
 }
 
-
-// Populate after findOne and find
-mealSchema.post('findOne', populateOne)
-mealSchema.post('findById', populateOne)
-mealSchema.post('find', populateMany)
-
+schema.post('findOne', populateOne)
+schema.post('findById', populateOne)
+schema.post('find', populateMany)
 
 // Create a model using the schema.
 export const MealModel = mongoose.model('Meal', schema)
-
