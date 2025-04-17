@@ -43,19 +43,29 @@ describe('MealModel', () => {
     expect(mealMap.get(type)).to.be.deep.equal(meal.toObject())
   })
 
+  const date = '2023-10-01'
+  const type = 'breakfast'
+  const ean = '7331495009104'
+  const meal = {
+    userId: 'someUserId',
+    date: new Date(date),
+    type,
+    foodItems: [{
+      ean,
+      weight: 100,
+      unit: 'g'
+    }]
+  }
+
+  const foodMap = new Map()
+  foodMap.set(ean, {
+    ean,
+    name: 'Some Food',
+    brand: 'Some Brand',
+    kcal_100g: 100
+  })
+
   it('transform toObject, should contain id as string and date as string', function () {
-    const date = '2023-10-01'
-    const type = 'breakfast'
-    const meal = {
-      userId: 'someUserId',
-      date: new Date(date),
-      type,
-      foodItems: [{
-        ean: '7331495009104',
-        weight: 100,
-        unit: 'g'
-      }]
-    }
     const doc = new MealModel(meal)
     expect(doc).to.have.property('_id')
     const obj = doc.toObject()
@@ -68,32 +78,27 @@ describe('MealModel', () => {
   })
 
   it('populateFoods, should call on the getByEans method of FoodItemModel', async function () {
-    const date = '2023-10-01'
-    const type = 'breakfast'
-    const ean = '7331495009104'
-    const meal = {
-      userId: 'someUserId',
-      date: new Date(date),
-      type,
-      foodItems: [{
-        ean,
-        weight: 100,
-        unit: 'g'
-      }]
-    }
+
     const doc = new MealModel(meal)
-    const foodMap = new Map()
-    foodMap.set(ean, {
-      ean,
-      name: 'Some Food',
-      brand: 'Some Brand',
-      kcal_100g: 100
-    })
+
 
     sinon.stub(FoodItemModel, 'getByEans').resolves(foodMap)
     sinon.stub(doc, 'setFoodItems')
 
     await doc.populateFoods()
+    expect(FoodItemModel.getByEans.calledOnce).to.be.true
+    expect(FoodItemModel.getByEans.firstCall.args[0]).to.deep.equal([ean])
+    expect(doc.setFoodItems.calledOnce).to.be.true
+    expect(doc.setFoodItems.firstCall.args[0]).to.deep.equal(foodMap)
+  })
+
+  it('populateMany, should call on the getByEans method of FoodItemModel', async function () {
+    const doc = new MealModel(meal)
+
+    sinon.stub(FoodItemModel, 'getByEans').resolves(foodMap)
+    sinon.stub(doc, 'setFoodItems')
+
+    await MealModel.populateMany([doc])
     expect(FoodItemModel.getByEans.calledOnce).to.be.true
     expect(FoodItemModel.getByEans.firstCall.args[0]).to.deep.equal([ean])
     expect(doc.setFoodItems.calledOnce).to.be.true
