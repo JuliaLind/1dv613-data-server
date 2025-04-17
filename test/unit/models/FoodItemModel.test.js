@@ -14,14 +14,23 @@ describe('FoodItemModel', () => {
     sinon.restore()
   })
 
+  const foodItems = [
+    {
+      ean: '1234567890123',
+      name: 'Apple',
+      brand: 'Brand A'
+    },
+    {
+      ean: '2345678901234',
+      name: 'Banana',
+      brand: 'Brand B'
+    }
+  ]
+
+
   it('listItems', async function () {
     const page = 3
     const limit = 10
-
-    const foodItems = [
-      { ean: '1234567890123', name: 'Apple', brand: 'Brand A' },
-      { ean: '2345678901234', name: 'Banana', brand: 'Brand B' }
-    ]
 
     sinon.stub(FoodItemModel, 'find').returns({
       sort: sinon.stub().returns({
@@ -57,10 +66,6 @@ describe('FoodItemModel', () => {
     const page = 3
     const limit = 10
 
-    const foodItems = [
-      { ean: '1234567890123', name: 'Apple', brand: 'Brand A' },
-      { ean: '2345678901234', name: 'Banana', brand: 'Brand B' }
-    ]
 
     const query = 'Brand'
     const regex = new RegExp(query, 'i')

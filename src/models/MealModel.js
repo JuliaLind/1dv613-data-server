@@ -90,7 +90,7 @@ schema.statics.getByDate = async function (date, userId) {
   const docs = await this.find({ date, userId })
   const mealMap = new Map()
   for (const doc of docs) {
-    mealMap.set(doc.type, doc)
+    mealMap.set(doc.type, doc.toObject())
   }
   return mealMap
 }
