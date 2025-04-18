@@ -7,9 +7,11 @@
 
 import mongoose from 'mongoose'
 import { format } from 'date-fns'
+import createError from 'http-errors'
 
 import { FoodItemModel } from './FoodItem.js'
 import { eanValidator, dateValidator } from './validators.js'
+import createHttpError from 'http-errors'
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -23,7 +25,7 @@ const convertOptions = Object.freeze({
    * @returns {object} - the transformed object
    */
   transform: (doc, ret) => {
-    ret.id = ret._id.toString()
+    // ret.id = ret._id.toString()
     delete ret._id
     ret.date = format(ret.date, 'yyyy-MM-dd')
 
@@ -47,7 +49,15 @@ const schema = new mongoose.Schema(
       required: true
     },
     date: {
-      type: Date,
+      type: String,
+      trim: true,
+      validate: {
+        validator: (value) => {
+          const date = new Date(value)
+          return !isNaN(date.getTime())
+        },
+        message: 'Date is required'
+      },
       required: true,
       validate: dateValidator
     },

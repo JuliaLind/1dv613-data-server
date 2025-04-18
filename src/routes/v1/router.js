@@ -6,13 +6,18 @@
  */
 import express from 'express'
 import { router as foodsRouter } from './foods.js'
-// import { authenticateJWT } from '../../middleware/auth.js'
+import { router as mealsRouter } from './meals.js'
+import { authenticateJWT } from '../../middleware/auth.js'
 
 export const router = express.Router()
 
 router.use('/foods',
   // authenticateJWT,
   foodsRouter)
+
+router.use('/meals',
+  authenticateJWT,
+  mealsRouter)
 
 router.get('/',
   (req, res) => {

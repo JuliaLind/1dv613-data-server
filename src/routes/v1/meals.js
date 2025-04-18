@@ -6,16 +6,10 @@
  */
 
 import express from 'express'
-// import { MealsController } from '../../controllers/MealsController.js'
+import { MealController } from '../../controllers/MealController.js'
 
 export const router = express.Router()
+const mealController = new MealController()
 
-// const controller = new UserController()
-
-// router.post('/login', (req, res, next) => controller.login(req, res, next))
-
-// router.post('/register', (req, res, next) => controller.register(req, res, next))
-
-// router.post('/refresh', (req, res, next) => controller.refresh(req, res, next))
-
-// router.delete('/', (req, res, next) => controller.delete(req, res, next))
+router.get('/date/:date',
+  (req, res, next) => mealController.index(req, res, next))

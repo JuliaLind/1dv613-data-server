@@ -12,11 +12,6 @@ import { FoodItemModel } from '../models/FoodItem.js'
  * Encapsulates a controller.
  */
 export class FoodsController {
-  errors = {
-    pag: 'Invalid page or limit',
-    notFound: 'Food item not found'
-  }
-
   /**
    * Returns a paginated list of food items
    * in aplhabetical order by name.
