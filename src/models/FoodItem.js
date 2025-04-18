@@ -52,32 +52,18 @@ const schema = new mongoose.Schema(
       type: [String],
       default: []
     },
-    image: {
+    img: {
       sm: {
-        url: {
-          type: String,
-          trim: true,
-          required: true,
-          validate: urlValidator
-        },
-        alt: {
-          type: String,
-          trim: true,
-          required: true
-        }
+        type: String,
+        trim: true,
+        required: true,
+        validate: urlValidator
       },
       lg: {
-        url: {
-          type: String,
-          trim: true,
-          required: true,
-          validate: urlValidator
-        },
-        alt: {
-          type: String,
-          trim: true,
-          required: true
-        }
+        type: String,
+        trim: true,
+        required: true,
+        validate: urlValidator
       }
     },
     kcal_100g: {
@@ -144,7 +130,7 @@ schema.statics.listItems = async function ({ page = 1, limit = 10, query = {} })
   const skip = (page - 1) * limit
   const [foodItems, total] = await Promise.all([
     this
-      .find(query, 'ean name brand kcal_100g')
+      .find(query, 'ean name brand kcal_100g img')
       .sort({ name: 1 })
       .skip(skip)
       .limit(limit),

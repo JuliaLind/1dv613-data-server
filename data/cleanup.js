@@ -97,15 +97,9 @@ async function cleanObj (item) {
     brand: item.manufacturer,
     ean: item.ean,
     category: item.category,
-    image: {
-      sm: {
-        url: item.thumbnail.url,
-        alt: item.thumbnail.name
-      },
-      lg: {
-        url: item.image.url,
-        alt: item.image.alt
-      }
+    img: {
+      sm: item.thumbnail.url,
+      lg: item.image.url,
     }
   }
 
@@ -174,7 +168,7 @@ async function writeLine (filename, obj) {
 async function addToArr (obj, clean) {
   if (obj.kcal_100g) {
     clean.push(obj)
-    await writeLine('clean.jsonl', obj)
+    // await writeLine('clean.jsonl', obj)
   } else {
     await exclude(obj, 'does not have a kcal value')
   }
