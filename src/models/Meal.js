@@ -8,7 +8,7 @@
 import mongoose from 'mongoose'
 import { format } from 'date-fns'
 
-import { FoodItemModel } from './FoodItemModel.js'
+import { FoodItemModel } from './FoodItem.js'
 import { eanValidator, dateValidator } from './validators.js'
 
 const convertOptions = Object.freeze({

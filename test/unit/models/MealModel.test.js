@@ -4,8 +4,8 @@
 import chai from 'chai'
 import sinon from 'sinon'
 import chaiAsPromised from 'chai-as-promised'
-import { MealModel } from '../../../src/models/MealModel.js'
-import { FoodItemModel } from '../../../src/models/FoodItemModel.js'
+import { MealModel } from '../../../src/models/Meal.js'
+import { FoodItemModel } from '../../../src/models/FoodItem.js'
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -78,9 +78,7 @@ describe('MealModel', () => {
   })
 
   it('populateFoods, should call on the getByEans method of FoodItemModel', async function () {
-
     const doc = new MealModel(meal)
-
 
     sinon.stub(FoodItemModel, 'getByEans').resolves(foodMap)
     sinon.stub(doc, 'setFoodItems')

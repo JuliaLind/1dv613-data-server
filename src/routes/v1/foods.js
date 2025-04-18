@@ -6,8 +6,7 @@
  */
 
 import express from 'express'
-import { FoodsController } from '../../../controllers/api/ImageController.js'
-import { loadDoc } from '../../../middlewares/preload.js'
+import { FoodsController } from '../../controllers/FoodsController.js'
 
 export const router = express.Router()
 
@@ -17,11 +16,9 @@ export const foodsController = new FoodsController()
 router.get('/',
   (req, res, next) => foodsController.index(req, res, next))
 
-router.get('/search/:search',
+router.get('/search',
   (req, res, next) => foodsController.search(req, res, next))
 
+router.param('ean', (req, res, next, ean) => foodsController.loadDoc(req, res, next, ean))
 
-router.param('id', (req, res, next, id) => loadDoc(req, res, next, id))
-
-router.get('/:id', (req, res, next) => foodsController.get(req, res, next))
-
+router.get('/ean/:ean', (req, res, next) => foodsController.get(req, res, next))
