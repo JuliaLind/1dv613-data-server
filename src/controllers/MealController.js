@@ -5,7 +5,6 @@
  * @version 1.0.0
  */
 
-import createError from 'http-errors'
 import { MealModel } from '../models/Meal.js'
 
 /**
@@ -29,5 +28,4 @@ export class MealController {
       next(error)
     }
   }
-
 }

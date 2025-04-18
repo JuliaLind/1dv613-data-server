@@ -7,11 +7,8 @@
 
 import mongoose from 'mongoose'
 import { format } from 'date-fns'
-import createError from 'http-errors'
-
 import { FoodItemModel } from './FoodItem.js'
 import { eanValidator, dateValidator } from './validators.js'
-import createHttpError from 'http-errors'
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -51,13 +48,6 @@ const schema = new mongoose.Schema(
     date: {
       type: String,
       trim: true,
-      validate: {
-        validator: (value) => {
-          const date = new Date(value)
-          return !isNaN(date.getTime())
-        },
-        message: 'Date is required'
-      },
       required: true,
       validate: dateValidator
     },

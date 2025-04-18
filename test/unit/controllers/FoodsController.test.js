@@ -8,7 +8,6 @@ import { FoodItemModel } from '../../../src/models/FoodItem.js'
 import { FoodsController } from '../../../src/controllers/FoodsController.js'
 import createError from 'http-errors'
 
-
 chai.use(sinonChai)
 const expect = chai.expect
 
@@ -148,7 +147,6 @@ describe('FoodsController', () => {
     await foodsController.search(req, res, next)
     expect(FoodItemModel.searchItems).to.have.been.calledWith(query)
 
-
     expect(next).to.have.been.calledWith(error)
     expect(res.status).not.to.have.been.called
     expect(res.json).not.to.have.been.called
@@ -207,7 +205,6 @@ describe('FoodsController', () => {
     sinon.stub(FoodItemModel, 'getByEan').rejects(error)
     await foodsController.get(req, res, next)
     expect(FoodItemModel.getByEan).to.have.been.calledWith(ean)
-
 
     expect(next).to.have.been.calledWith(error)
     expect(res.status).not.to.have.been.called

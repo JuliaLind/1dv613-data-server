@@ -8,7 +8,6 @@ import sinonChai from 'sinon-chai'
 import { MealModel } from '../../../src/models/Meal.js'
 import { FoodItemModel } from '../../../src/models/FoodItem.js'
 
-
 chai.use(sinonChai)
 const expect = chai.expect
 
@@ -98,7 +97,6 @@ describe('MealModel', () => {
     sinon.stub(doc, 'setFoodItems')
 
     await MealModel.populateMany([doc])
-
 
     expect(FoodItemModel.getByEans).to.have.been.calledWith([ean])
 

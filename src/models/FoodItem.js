@@ -7,6 +7,7 @@
 
 import mongoose from 'mongoose'
 import { eanValidator, urlValidator } from './validators.js'
+import createError from 'http-errors'
 
 const convertOptions = Object.freeze({
   getters: true,

@@ -5,7 +5,6 @@
  * @version 1.0.0
  */
 
-import createError from 'http-errors'
 import { FoodItemModel } from '../models/FoodItem.js'
 
 /**
