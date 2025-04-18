@@ -19,6 +19,6 @@ router.get('/',
 router.get('/search',
   (req, res, next) => foodsController.search(req, res, next))
 
-router.param('ean', (req, res, next, ean) => foodsController.loadDoc(req, res, next, ean))
+// router.param('ean', (req, res, next, ean) => foodsController.loadDoc(req, res, next, ean))
 
 router.get('/ean/:ean', (req, res, next) => foodsController.get(req, res, next))
