@@ -37,8 +37,7 @@ describe('MealModel', () => {
 
     sinon.stub(MealModel, 'find').resolves([meal])
     const mealMap = await MealModel.getByDate(date, userId)
-    expect(MealModel.find.calledOnce).to.be.true
-    expect(MealModel.find.firstCall.args[0]).to.deep.equal({ date, userId })
+    expect(MealModel.find).to.have.been.calledWith({ date, userId })
 
     expect(mealMap).to.be.an.instanceOf(Map)
     expect(mealMap.size).to.equal(1)
@@ -86,10 +85,10 @@ describe('MealModel', () => {
     sinon.stub(doc, 'setFoodItems')
 
     await doc.populateFoods()
-    expect(FoodItemModel.getByEans.calledOnce).to.be.true
-    expect(FoodItemModel.getByEans.firstCall.args[0]).to.deep.equal([ean])
-    expect(doc.setFoodItems.calledOnce).to.be.true
-    expect(doc.setFoodItems.firstCall.args[0]).to.deep.equal(foodMap)
+
+    expect(FoodItemModel.getByEans).to.have.been.calledWith([ean])
+
+    expect(doc.setFoodItems).to.have.been.calledWith(foodMap)
   })
 
   it('populateMany, should call on the getByEans method of FoodItemModel', async function () {
@@ -100,9 +99,9 @@ describe('MealModel', () => {
 
     await MealModel.populateMany([doc])
 
-    expect(FoodItemModel.getByEans.calledOnce).to.be.true
-    expect(FoodItemModel.getByEans.firstCall.args[0]).to.deep.equal([ean])
-    expect(doc.setFoodItems.calledOnce).to.be.true
-    expect(doc.setFoodItems.firstCall.args[0]).to.deep.equal(foodMap)
+
+    expect(FoodItemModel.getByEans).to.have.been.calledWith([ean])
+
+    expect(doc.setFoodItems).to.have.been.calledWith(foodMap)
   })
 })
