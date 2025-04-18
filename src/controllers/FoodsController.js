@@ -6,14 +6,15 @@
  */
 
 import createError from 'http-errors'
-import { FoodItemModel } from '../models/FoodItemModel.js'
+import { FoodItemModel } from '../models/FoodItem.js'
 
 /**
  * Encapsulates a controller.
  */
-export class FoodController {
+export class FoodsController {
   errors = {
-    pag: 'Invalid page or limit'
+    pag: 'Invalid page or limit',
+    notFound: 'Food item not found'
   }
 
   /**
@@ -38,10 +39,8 @@ export class FoodController {
    * @param {Function} next - Express next middleware function.
    */
   async index (req, res, next) {
-    const { page = 1, limit = 30 } = req.query
-
     try {
-      const foodItems = await FoodItemModel.listItems(page, limit)
+      const foodItems = await FoodItemModel.listItems(req.query)
 
       res.status(200).json(foodItems)
     } catch (error) {
@@ -59,14 +58,34 @@ export class FoodController {
    * @param {Function} next - Express next middleware function.
    */
   async search (req, res, next) {
-    const { page = 1, limit = 30, query } = req.query
-
     try {
-      const foodItems = await FoodItemModel.searchItems(page, limit, query)
+      const searchResult = await FoodItemModel.searchItems(req.query)
+      const data = {
+        ...searchResult,
+        query: req.query
+      }
 
-      res.status(200).json(foodItems)
+      res.status(200).json(data)
     } catch (error) {
       next(this.handleError(error))
+    }
+  }
+
+  /**
+   * Gets a food item by ean.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async get (req, res, next) {
+    const { ean } = req.params
+
+    try {
+      const foodItem = await FoodItemModel.getByEan(ean)
+      res.status(200).json(foodItem)
+    } catch (error) {
+      next(error)
     }
   }
 }

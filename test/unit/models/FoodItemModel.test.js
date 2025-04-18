@@ -4,7 +4,7 @@
 import chai from 'chai'
 import sinon from 'sinon'
 import chaiAsPromised from 'chai-as-promised'
-import { FoodItemModel } from '../../../src/models/FoodItemModel.js'
+import { FoodItemModel } from '../../../src/models/FoodItem.js'
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -28,8 +28,10 @@ describe('FoodItemModel', () => {
   ]
 
   it('listItems', async function () {
-    const page = 3
-    const limit = 10
+    const params = {
+      page: 3,
+      limit: 10
+    }
 
     sinon.stub(FoodItemModel, 'find').returns({
       sort: sinon.stub().returns({
@@ -40,21 +42,21 @@ describe('FoodItemModel', () => {
     })
     sinon.stub(FoodItemModel, 'countDocuments').resolves(foodItems.length + 10)
 
-    const result = await FoodItemModel.listItems(page, limit)
+    const result = await FoodItemModel.listItems(params)
     expect(FoodItemModel.find.calledOnce).to.be.true
     expect(FoodItemModel.find.firstCall.args[0]).to.deep.equal({})
     expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand')
     expect(FoodItemModel.find().sort.calledOnce).to.be.true
     expect(FoodItemModel.find().sort.firstCall.args[0]).to.deep.equal({ name: 1 })
     expect(FoodItemModel.find().sort().skip.calledOnce).to.be.true
-    expect(FoodItemModel.find().sort().skip.firstCall.args[0]).to.equal((page - 1) * limit)
+    expect(FoodItemModel.find().sort().skip.firstCall.args[0]).to.equal((params.page - 1) * params.limit)
     expect(FoodItemModel.find().sort().skip().limit.calledOnce).to.be.true
-    expect(FoodItemModel.find().sort().skip().limit.firstCall.args[0]).to.equal(limit)
+    expect(FoodItemModel.find().sort().skip().limit.firstCall.args[0]).to.equal(params.limit)
     expect(FoodItemModel.countDocuments.calledOnce).to.be.true
     expect(result).to.deep.equal({
       foodItems,
       total: foodItems.length + 10,
-      page,
+      page: params.page,
       pageSize: foodItems.length,
       from: 21,
       to: 20 + foodItems.length
@@ -62,32 +64,45 @@ describe('FoodItemModel', () => {
   })
 
   it('searchItems', async function () {
-    const page = 3
-    const limit = 10
+    const params = {
+      page: 3,
+      limit: 10,
+      query: 'Brand'
+    }
 
-    const query = 'Brand'
-    const regex = new RegExp(query, 'i')
+    const regex = new RegExp(params.query, 'i')
     const expectedQuery = {
       $or: [
         { name: regex },
         { brand: regex }
       ]
     }
-    const listItemsStub = sinon.stub(FoodItemModel, 'listItems')
+
+    sinon.stub(FoodItemModel, 'listItems')
     const exp = {
       foodItems,
       total: foodItems.length + 10,
-      page,
+      page: params.page,
       pageSize: foodItems.length,
       from: 21,
       to: 20 + foodItems.length
     }
-    listItemsStub.withArgs(page, limit, expectedQuery).resolves(exp)
-    const result = await FoodItemModel.searchItems(page, limit, query)
-    expect(listItemsStub.calledOnce).to.be.true
-    expect(listItemsStub.firstCall.args[0]).to.equal(page)
-    expect(listItemsStub.firstCall.args[1]).to.equal(limit)
-    expect(listItemsStub.firstCall.args[2]).to.deep.equal(expectedQuery)
+
+    FoodItemModel.listItems.withArgs(
+      {
+        page: params.page,
+        limit: params.limit,
+        query: expectedQuery
+      }
+    ).resolves(exp)
+    const result = await FoodItemModel.searchItems(params)
+    expect(FoodItemModel.listItems.calledOnce).to.be.true
+
+    const args = FoodItemModel.listItems.firstCall.args[0]
+    expect(args).to.have.property('page', params.page)
+    expect(args).to.have.property('limit', params.limit)
+    expect(args.query).to.deep.equal(expectedQuery)
+
     expect(result).to.deep.equal(exp)
   })
 
