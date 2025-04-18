@@ -18,19 +18,6 @@ export class FoodsController {
   }
 
   /**
-   * Creates a HTML error based on what went wrong.
-   *
-   * @param {Error} error - the error from the database.
-   * @returns {Error} - the error to send in the response.
-   */
-  handleError (error) {
-    if (error.name === 'CastError') {
-      return createError(400, this.errors.pag)
-    }
-    return createError(500)
-  }
-
-  /**
    * Returns a paginated list of food items
    * in aplhabetical order by name.
    *
@@ -44,7 +31,7 @@ export class FoodsController {
 
       res.status(200).json(foodItems)
     } catch (error) {
-      next(this.handleError(error))
+      next(error)
     }
   }
 
@@ -67,7 +54,7 @@ export class FoodsController {
 
       res.status(200).json(data)
     } catch (error) {
-      next(this.handleError(error))
+      next(error)
     }
   }
 

@@ -3,11 +3,13 @@
 
 import chai from 'chai'
 import sinon from 'sinon'
-import chaiAsPromised from 'chai-as-promised'
+import sinonChai from 'sinon-chai'
+
 import { MealModel } from '../../../src/models/Meal.js'
 import { FoodItemModel } from '../../../src/models/FoodItem.js'
 
-chai.use(chaiAsPromised)
+
+chai.use(sinonChai)
 const expect = chai.expect
 
 describe('MealModel', () => {

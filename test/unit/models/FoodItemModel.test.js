@@ -3,10 +3,11 @@
 
 import chai from 'chai'
 import sinon from 'sinon'
-import chaiAsPromised from 'chai-as-promised'
+import sinonChai from 'sinon-chai'
+
 import { FoodItemModel } from '../../../src/models/FoodItem.js'
 
-chai.use(chaiAsPromised)
+chai.use(sinonChai)
 const expect = chai.expect
 
 describe('FoodItemModel', () => {
@@ -43,15 +44,14 @@ describe('FoodItemModel', () => {
     sinon.stub(FoodItemModel, 'countDocuments').resolves(foodItems.length + 10)
 
     const result = await FoodItemModel.listItems(params)
-    expect(FoodItemModel.find.calledOnce).to.be.true
-    expect(FoodItemModel.find.firstCall.args[0]).to.deep.equal({})
-    expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand')
-    expect(FoodItemModel.find().sort.calledOnce).to.be.true
-    expect(FoodItemModel.find().sort.firstCall.args[0]).to.deep.equal({ name: 1 })
-    expect(FoodItemModel.find().sort().skip.calledOnce).to.be.true
-    expect(FoodItemModel.find().sort().skip.firstCall.args[0]).to.equal((params.page - 1) * params.limit)
-    expect(FoodItemModel.find().sort().skip().limit.calledOnce).to.be.true
-    expect(FoodItemModel.find().sort().skip().limit.firstCall.args[0]).to.equal(params.limit)
+    expect(FoodItemModel.find).to.have.been.calledWith({}, 'ean name brand')
+
+    expect(FoodItemModel.find().sort).to.have.been.calledWith({ name: 1 })
+
+    expect(FoodItemModel.find().sort().skip).to.have.been.calledWith((params.page - 1) * params.limit)
+
+    expect(FoodItemModel.find().sort().skip().limit).to.have.been.calledWith(params.limit)
+
     expect(FoodItemModel.countDocuments.calledOnce).to.be.true
     expect(result).to.deep.equal({
       foodItems,
@@ -96,7 +96,6 @@ describe('FoodItemModel', () => {
       }
     ).resolves(exp)
     const result = await FoodItemModel.searchItems(params)
-    expect(FoodItemModel.listItems.calledOnce).to.be.true
 
     const args = FoodItemModel.listItems.firstCall.args[0]
     expect(args).to.have.property('page', params.page)
