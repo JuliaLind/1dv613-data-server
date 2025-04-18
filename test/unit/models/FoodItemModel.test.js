@@ -44,7 +44,7 @@ describe('FoodItemModel', () => {
     sinon.stub(FoodItemModel, 'countDocuments').resolves(foodItems.length + 10)
 
     const result = await FoodItemModel.listItems(params)
-    expect(FoodItemModel.find).to.have.been.calledWith({}, 'ean name brand')
+    expect(FoodItemModel.find).to.have.been.calledWith({}, 'ean name brand kcal_100g')
 
     expect(FoodItemModel.find().sort).to.have.been.calledWith({ name: 1 })
 

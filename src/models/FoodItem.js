@@ -20,7 +20,6 @@ const convertOptions = Object.freeze({
    * @returns {object} - the transformed object
    */
   transform: (doc, ret) => {
-    // ret.id = ret._id.toString()
     delete ret._id
 
     return ret
@@ -127,7 +126,8 @@ const schema = new mongoose.Schema(
     timestamps: true,
     toObject: convertOptions,
     toJSON: convertOptions,
-    optimisticConcurrency: false
+    optimisticConcurrency: false,
+    id: false
   }
 )
 
@@ -143,7 +143,7 @@ schema.statics.listItems = async function ({ page = 1, limit = 10, query = {} })
   const skip = (page - 1) * limit
   const [foodItems, total] = await Promise.all([
     this
-      .find(query, 'ean name brand')
+      .find(query, 'ean name brand kcal_100g')
       .sort({ name: 1 })
       .skip(skip)
       .limit(limit),
