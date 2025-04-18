@@ -188,4 +188,29 @@ describe('FoodsController', () => {
     expect(res.json).to.have.been.calledWith(exp)
     expect(next.called).to.be.false
   })
+
+  it('get, should call next with error when FoodItemModel.getByEan throws an error', async () => {
+    const foodsController = new FoodsController()
+    const ean = '1234567890123'
+    const req = {
+      params: {
+        ean
+      }
+    }
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub()
+    }
+    const next = sinon.stub()
+    const error = new Error()
+
+    sinon.stub(FoodItemModel, 'getByEan').rejects(error)
+    await foodsController.get(req, res, next)
+    expect(FoodItemModel.getByEan).to.have.been.calledWith(ean)
+
+
+    expect(next).to.have.been.calledWith(error)
+    expect(res.status).not.to.have.been.called
+    expect(res.json).not.to.have.been.called
+  })
 })
