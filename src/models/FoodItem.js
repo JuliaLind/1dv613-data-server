@@ -126,7 +126,7 @@ const schema = new mongoose.Schema(
  * @param {object} query - is an optional query object to filter the results.
  * @returns {Promise<object[]>} -a list of food items, total number of items, page number, page size, from and to numbers.
  */
-schema.statics.listItems = async function ({ page = 1, limit = 10, query = {} }) {
+schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) {
   const skip = (page - 1) * limit
   const [foodItems, total] = await Promise.all([
     this
