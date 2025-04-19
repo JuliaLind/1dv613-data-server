@@ -43,7 +43,7 @@ export class FoodsController {
       const searchResult = await FoodItemModel.searchItems(req.query)
       const data = {
         ...searchResult,
-        query: req.query
+        q: req.query.q
       }
 
       res.status(200).json(data)

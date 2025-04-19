@@ -99,7 +99,7 @@ async function cleanObj (item) {
     category: item.category,
     img: {
       sm: item.thumbnail.url,
-      lg: item.image.url,
+      lg: item.image.url
     }
   }
 

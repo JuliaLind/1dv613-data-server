@@ -24,6 +24,7 @@ const convertOptions = Object.freeze({
   transform: (doc, ret) => {
     // ret.id = ret._id.toString()
     delete ret._id
+    delete ret.userId
     ret.date = format(ret.date, 'yyyy-MM-dd')
 
     return ret
@@ -68,11 +69,28 @@ const schema = new mongoose.Schema(
         enum: ['g', 'ml'],
         default: 'g',
         required: true
+      },
+
+      // Optional fields for client
+      name: String,
+      brand: String,
+      kcal_100g: Number,
+      macros_100g: {
+        fat: Number,
+        saturatedFat: Number,
+        carbohydrates: Number,
+        sugars: Number,
+        protein: Number,
+        salt: Number,
+        fiber: Number
+      },
+      img: {
+        sm: String
       }
     }]
   },
   {
-    timestamps: true,
+    timestamps: false,
     toObject: convertOptions,
     toJSON: convertOptions,
     optimisticConcurrency: false
@@ -129,10 +147,12 @@ schema.statics.populateMany = async function populateMany (docs) {
 schema.methods.setFoodItems = function (foodMap) {
   const foodItems = []
   for (const item of this.foodItems) {
+
     const foodItem = foodMap.get(item.ean)
+
     if (foodItem) {
       foodItems.push({
-        ...item,
+        ...item.toObject(),
         ...foodItem
       })
     }
@@ -140,19 +160,8 @@ schema.methods.setFoodItems = function (foodMap) {
   this.foodItems = foodItems
 }
 
-schema.post('findOne', async (doc) => await doc.populateFoods())
-schema.post('findById', async (doc) => await doc.populateFoods())
 schema.post('find', async (docs) => await MealModel.populateMany(docs))
 
-/**
- * Set time to midnight from the date field to ensure the unique index works.
- */
-schema.pre('save', function (next) {
-  if (this.isModified('date')) {
-    this.date.setHours(0, 0, 0, 0)
-  }
-  next()
-})
 
 /**
  * The combination userId - date - mealtype must be unique.

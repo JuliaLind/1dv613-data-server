@@ -10,6 +10,7 @@
   "scripts": {
     "test": "dotenv -e .env.test c8 --reporter=text mocha 'test/**/*.test.js' --exit || exit 0",
     "test:unit": "dotenv -e .env.test c8 --reporter=text mocha 'test/unit/**/*.test.js' --exit || exit 0",
+    "test:int": "dotenv -e .env.test c8 --reporter=text mocha 'test/integr/**/*.test.js' --exit || exit 0",
     "test:scen": "dotenv -e .env.test c8 --reporter=text mocha 'test/scenario/*.test.js' --exit || exit 0",
     "start": "node src/server.js",
     "dev": "nodemon --inspect --env-file=.env src/server.js",
