@@ -120,6 +120,35 @@ const schema = new mongoose.Schema(
 
 /**
  * Returns a paginated list of food items with their ean code, name and brand, sorted in alphabetical order by name.
+ * The list is filtered by the query.
+ *
+ * @param {number} page - is the page number to return.
+ * @param {number} limit - is the number of items to return per page.
+ * @param {string} query - is the query string to search for.
+ * @returns {Promise<object[]>} - a list of food items that matched the search query.
+ */
+schema.statics.searchItems = async function ({ query, page, limit }) {
+  const regex = new RegExp(query, 'i')
+
+  const foodItems = await this
+    .listItems(
+      {
+        query: {
+          $or: [
+            { name: regex },
+            { brand: regex }
+          ]
+        },
+        page,
+        limit
+      }
+    )
+
+  return foodItems
+}
+
+/**
+ * Returns a paginated list of food items with their ean code, name and brand, sorted in alphabetical order by name.
  *
  * @param {number} page - is the page number to return.
  * @param {number} limit - is the number of items to return per page.
@@ -127,6 +156,10 @@ const schema = new mongoose.Schema(
  * @returns {Promise<object[]>} -a list of food items, total number of items, page number, page size, from and to numbers.
  */
 schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) {
+
+  page = Number.parseInt(page)
+  limit = Number.parseInt(limit)
+
   const skip = (page - 1) * limit
   const [foodItems, total] = await Promise.all([
     this
@@ -155,7 +188,7 @@ schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) 
  */
 schema.statics.getByEans = async function (eans) {
   eans = [...new Set(eans)]
-  const foodItems = await this.find({ ean: { $in: eans } }, 'ean name brand kcal_100g')
+  const foodItems = await this.find({ ean: { $in: eans } }, 'ean name brand kcal_100g macros_100g img.sm')
   const foodMap = new Map()
   for (const foodItem of foodItems) {
     foodMap.set(foodItem.ean, foodItem.toObject())
@@ -179,34 +212,7 @@ schema.statics.getByEan = async function (ean) {
   return foodItem
 }
 
-/**
- * Returns a paginated list of food items with their ean code, name and brand, sorted in alphabetical order by name.
- * The list is filtered by the query.
- *
- * @param {number} page - is the page number to return.
- * @param {number} limit - is the number of items to return per page.
- * @param {string} query - is the query string to search for.
- * @returns {Promise<object[]>} - a list of food items that matched the search query.
- */
-schema.statics.searchItems = async function ({ query, page, limit }) {
-  const regex = new RegExp(query, 'i')
 
-  const foodItems = await this
-    .listItems(
-      {
-        query: {
-          $or: [
-            { name: regex },
-            { brand: regex }
-          ]
-        },
-        page,
-        limit
-      }
-    )
-
-  return foodItems
-}
 
 // Create a model using the schema.
 export const FoodItemModel = mongoose.model('FoodItem', schema)
