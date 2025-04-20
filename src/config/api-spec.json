@@ -344,7 +344,58 @@
           }
         }
       }
+    },
+    "/meals": {
+      "post": {
+        "summary": "Create a new meal",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MealCreateInput"
+              },
+              "example": {
+                "type": "dinner",
+                "date": "2025-04-23",
+                "foodItems": [
+                  {
+                    "ean": "5038862003636",
+                    "weight": 12,
+                    "unit": "g"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Meal successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MealEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
     }
+
   },
   "components": {
     "responses": {
@@ -388,6 +439,37 @@
       }
     },
     "schemas": {
+      "MealCreateInput": {
+        "type": "object",
+        "required": ["type", "date", "foodItems"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "dinner"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-04-23"
+          },
+          "foodItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["ean", "weight", "unit"],
+              "properties": {
+                "ean": { "type": "string", "example": "5038862003636" },
+                "weight": { "type": "number", "example": 12 },
+                "unit": {
+                  "type": "string",
+                  "enum": ["g"],
+                  "example": "g"
+                }
+              }
+            }
+          }
+        }
+      },
       "DayMealPlan": {
         "type": "object",
         "properties": {

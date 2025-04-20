@@ -66,7 +66,7 @@ const schema = new mongoose.Schema(
       },
       unit: {
         type: String,
-        enum: ['g', 'ml'],
+        enum: ['g'], // to allow for more values in the future
         default: 'g',
         required: true
       },
