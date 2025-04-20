@@ -97,15 +97,7 @@
             }
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status_code": 500,
-                  "message": "Unexpected server error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/ServerError"
           }
         }
       }
@@ -203,15 +195,7 @@
             }
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status_code": 500,
-                  "message": "Unexpected server error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/ServerError"
           }
         }
       }
@@ -316,26 +300,10 @@
             }
           },
           "404": {
-            "description": "Food item not found",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status_code": 404,
-                  "message": "Not found"
-                }
-              }
-            }
+            "$ref": "#/components/responses/NotFound"
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status_code": 500,
-                  "message": "Unexpected server error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/ServerError"
           }
         }
       }
@@ -343,6 +311,11 @@
     "/meals/date/{date}": {
       "get": {
         "summary": "Fetch all meals for a specific date",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -364,32 +337,56 @@
             }
           },
           "401": {
-            "description": "Unauthorized access - token is invalid, missing or expired",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status_code": 401,
-                  "message": "Unauthorized"
-                }
-              }
-            }
+            "$ref": "#/components/responses/UnauthorizedError"
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status_code": 500,
-                  "message": "Unexpected server error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/ServerError"
           }
         }
       }
     }
   },
   "components": {
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Missing or invalid JWT token",
+        "content": {
+          "application/json": {
+            "example": {
+              "error": "Unauthorized"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "example": {
+              "status_code": 404,
+              "message": "Not found"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "example": {
+              "error": "Unexpected server error"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "DayMealPlan": {
         "type": "object",
