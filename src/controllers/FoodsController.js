@@ -40,10 +40,13 @@ export class FoodsController {
    */
   async search (req, res, next) {
     try {
-      const searchResult = await FoodItemModel.searchItems(req.query)
+      const searchResult = await FoodItemModel.searchItems({
+        ...req.query,
+        query: req.params.search
+      })
       const data = {
         ...searchResult,
-        q: req.query.q
+        query: req.query.query
       }
 
       res.status(200).json(data)
