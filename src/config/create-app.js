@@ -10,6 +10,7 @@ import helmet from 'helmet'
 import logger from 'morgan'
 import cors from 'cors'
 import { router } from '../routes/router.js'
+import setupSwagger from './swagger.js'
 
 /**
  * Creates a new app instance with all the
@@ -27,6 +28,7 @@ export function createApp () {
   app.use(cors())
   app.use(logger('dev'))
 
+  setupSwagger(app)
   app.use('/', router)
 
   // Error handler.

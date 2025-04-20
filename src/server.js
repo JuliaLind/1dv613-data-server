@@ -19,8 +19,13 @@ try {
 
   // Starts the HTTP server listening for connections.
   server = app.listen(process.env.PORT, () => {
-    console.log(`Server running at http://localhost:${process.env.PORT}`)
-    console.log('Press Ctrl-C to terminate...')
+    const address = server.address()
+    const host = address.address === '::' ? 'localhost' : address.address
+    const port = address.port
+
+    console.info(`Server running at http://${host}:${port}`)
+    console.info(`Docs available at http://${host}:${port}/v1/docs`)
+    console.info('Press Ctrl-C to terminate...')
   })
 } catch (err) {
   console.error(err)

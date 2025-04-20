@@ -1,0 +1,103 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Data-server API",
+    "version": "1.0.0",
+    "description": "Stores meal and food information for SlimDreams app"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5054"
+    }
+  ],
+  "paths": {
+    "/foods": {
+      "get": {
+        "summary": "Retrieve all foods",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer" },
+            "required": false,
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer" },
+            "required": false,
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of food items with pagination info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "foodItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "img": {
+                            "type": "object",
+                            "properties": {
+                              "sm": { "type": "string", "format": "uri" },
+                              "lg": { "type": "string", "format": "uri" }
+                            }
+                          },
+                          "name": { "type": "string" },
+                          "brand": { "type": "string" },
+                          "ean": { "type": "string" },
+                          "kcal_100g": { "type": "number" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" },
+                    "from": { "type": "integer" },
+                    "to": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "foodItems": [
+                    {
+                      "img": {
+                        "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/03080216060453_C1N1_s01",
+                        "lg": "https://assets.axfood.se/image/upload/f_auto,t_500/03080216060453_C1N1_s01"
+                      },
+                      "name": "1664 Blanc 0,0% Veteöl, Glasflaska",
+                      "brand": "Kronenbourg",
+                      "ean": "3080216060453",
+                      "kcal_100g": 29
+                    },
+                    {
+                      "img": {
+                        "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/05997523312114_C1C1_s02",
+                        "lg": "https://assets.axfood.se/image/upload/f_auto,t_500/05997523312114_C1C1_s02"
+                      },
+                      "name": "5 Spices Beef Cup Noodles",
+                      "brand": "Nissin",
+                      "ean": "5997523312114",
+                      "kcal_100g": 78
+                    }
+                  ],
+                  "total": 6482,
+                  "page": 3,
+                  "pageSize": 2,
+                  "from": 5,
+                  "to": 6
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
