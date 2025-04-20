@@ -7,6 +7,7 @@
 
 import { MealModel } from '../models/Meal.js'
 import createError from 'http-errors'
+import mongoose from 'mongoose'
 
 /**
  * Encapsulates a controller.
@@ -78,6 +79,10 @@ export class MealController {
    */
   async preload (req, res, next, id) {
     try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return next(createError(400, 'Invalid meal id'))
+      }
+
       const meal = await MealModel.findById(id)
 
       if (!meal) {

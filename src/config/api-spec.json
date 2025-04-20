@@ -451,7 +451,65 @@
           }
         }
       }
+    },
+    "/meals/{id}/upd": {
+      "patch": {
+        "summary": "Update a food item in a meal",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Id of the meal to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodItemUpdateInput"
+              },
+              "example": {
+                "id": "6805773e386f47da9e70bf56",
+                "weight": 70,
+                "unit": "g"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Food item updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "6805773e386f47da9e70bf56"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
     }
+
   },
   "components": {
     "responses": {
@@ -507,6 +565,25 @@
       }
     },
     "schemas": {
+      "FoodItemUpdateInput": {
+        "type": "object",
+        "required": ["id", "weight", "unit"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6805773e386f47da9e70bf56"
+          },
+          "weight": {
+            "type": "number",
+            "example": 70
+          },
+          "unit": {
+            "type": "string",
+            "enum": ["g"],
+            "example": "g"
+          }
+        }
+      },
       "FoodItemCreateInput": {
         "type": "object",
         "required": ["ean", "weight", "unit"],
