@@ -130,18 +130,17 @@ export class MealController {
   async updFoodItem (req, res, next) {
     try {
       const meal = req.meal
-      const newData = req.params.foodItem
-      const foodItem = meal.foodItems.id(newData.id)
+      const { weight, unit, id } = req.body
+      const foodItem = meal.foodItems.id(id)
       if (foodItem) {
-        foodItem.weight = newData.weight
-        foodItem.unit = newData.unit
+        foodItem.weight = weight
+        foodItem.unit = unit
       }
 
       if (meal.isModified()) {
         await meal.save()
       }
-      await meal.populateFoods()
-      res.status(200).json(meal.foodItems)
+      res.status(204).end()
     } catch (error) {
       next(this.handleError(error))
     }
