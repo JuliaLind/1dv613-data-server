@@ -331,7 +331,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DayMealPlan"
+                  "$ref": "#/components/schemas/MealsSingleDay"
                 }
               }
             }
@@ -634,7 +634,7 @@
           }
         }
       },
-      "DayMealPlan": {
+      "MealsSingleDay": {
         "type": "object",
         "properties": {
           "breakfast": { "$ref": "#/components/schemas/MealEntry" },
@@ -653,12 +653,12 @@
           "date": { "type": "string", "format": "date", "example": "2025-04-19" },
           "foodItems": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/FoodItemWithMealData" }
+            "items": { "$ref": "#/components/schemas/FoodItem" }
           },
           "id": { "type": "string", "example": "68056d9809d9b5724d0b9c4a" }
         }
       },
-      "FoodItemWithMealData": {
+      "FoodItem": {
         "type": "object",
         "properties": {
           "ean": { "type": "string", "example": "7340005405176" },
