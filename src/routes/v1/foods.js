@@ -16,7 +16,7 @@ export const foodsController = new FoodsController()
 router.get('/',
   (req, res, next) => foodsController.index(req, res, next))
 
-router.get('/search',
+router.get('/search/:search',
   (req, res, next) => foodsController.search(req, res, next))
 
 // router.param('ean', (req, res, next, ean) => foodsController.loadDoc(req, res, next, ean))
