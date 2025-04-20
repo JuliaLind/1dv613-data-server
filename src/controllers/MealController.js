@@ -111,7 +111,6 @@ export class MealController {
       if (meal.isModified()) {
         await meal.save()
       }
-      await meal.populateFoods()
 
       res.status(201).json(newId)
     } catch (error) {

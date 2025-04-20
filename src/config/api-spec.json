@@ -394,16 +394,84 @@
           }
         }
       }
+    },
+    "/meals/{id}/add": {
+      "patch": {
+        "summary": "Add a food item to a meal",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the meal to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodItemCreateInput"
+              },
+              "example": {
+                "ean": "5038862003636",
+                "weight": 50,
+                "unit": "g"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Food item successfully added to the meal. Returns the id of the new food item.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "6805773e386f47da9e70bf56"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
     }
-
   },
   "components": {
     "responses": {
+      "ForbiddenError": {
+        "description": "User is unathorized but does not have neccessary permissions to the resource",
+        "content": {
+          "application/json": {
+            "example": {
+              "status_code": 403,
+              "message": "Forbidden"
+            }
+          }
+        }
+      },
       "UnauthorizedError": {
         "description": "Missing or invalid JWT token",
         "content": {
           "application/json": {
             "example": {
+              "status_code": 401,
               "error": "Unauthorized"
             }
           }
@@ -439,6 +507,25 @@
       }
     },
     "schemas": {
+      "FoodItemCreateInput": {
+        "type": "object",
+        "required": ["ean", "weight", "unit"],
+        "properties": {
+          "ean": {
+            "type": "string",
+            "example": "5038862003636"
+          },
+          "weight": {
+            "type": "number",
+            "example": 50
+          },
+          "unit": {
+            "type": "string",
+            "enum": ["g"],
+            "example": "g"
+          }
+        }
+      },
       "MealCreateInput": {
         "type": "object",
         "required": ["type", "date", "foodItems"],

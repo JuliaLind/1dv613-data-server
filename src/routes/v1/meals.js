@@ -16,7 +16,7 @@ router.get('/date/:date',
 
 router.param('id', (req, res, next, id) => mealController.preload(req, res, next, id))
 
-router.patch('/:id/add/',
+router.patch('/:id/add',
   (req, res, next) => mealController.addFoodItem(req, res, next))
 
 router.patch('/:id/upd',
