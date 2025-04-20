@@ -6,7 +6,7 @@
  */
 
 import mongoose from 'mongoose'
-import { format } from 'date-fns'
+import { format, parseISO, startOfWeek, subDays } from 'date-fns'
 import { FoodItemModel } from './FoodItem.js'
 import { eanValidator, dateValidator } from './validators.js'
 
@@ -126,13 +126,23 @@ schema.methods.populateFoods = async function () {
 }
 
 /**
+ * Extracts all eans from the meal documents.
+ *
+ * @param {object[]} docs - mongoose meal documents
+ * @returns {string[]} - an array of ean codes
+ */
+function getEans (docs) {
+  return docs.flatMap(meal => meal.foodItems.map(item => item.ean))
+}
+
+/**
  * Populates each meal with food items.
  * This function is called after the meals are found.
  *
  * @param {object[]} docs - an array of mongoose meal documents
  */
 schema.statics.populateMany = async function populateMany (docs) {
-  const eans = docs.flatMap(meal => meal.foodItems.map(item => item.ean))
+  const eans = getEans(docs)
   const foodMap = await FoodItemModel.getByEans(eans)
   for (const doc of docs) {
     doc.setFoodItems(foodMap)
