@@ -407,7 +407,7 @@
             "name": "id",
             "required": true,
             "schema": { "type": "string" },
-            "description": "ID of the meal to update"
+            "description": "Id of the meal to update"
           }
         ],
         "requestBody": {
@@ -508,8 +508,82 @@
           }
         }
       }
+    },
+    "/meals/{id}/del/{foodItemId}": {
+      "patch": {
+        "summary": "Delete a food item from a meal",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Id of the meal"
+          },
+          {
+            "in": "path",
+            "name": "foodItemId",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Id of the food item to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Food item successfully removed from meal"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/meals/{id}": {
+      "delete": {
+        "summary": "Delete a meal",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Id of the meal to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Meal successfully deleted"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
     }
-
   },
   "components": {
     "responses": {
@@ -551,6 +625,7 @@
         "content": {
           "application/json": {
             "example": {
+              "status_code": 500,
               "error": "Unexpected server error"
             }
           }
