@@ -440,9 +440,6 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           },
-          "403": {
-            "$ref": "#/components/responses/ForbiddenError"
-          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
@@ -497,9 +494,6 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           },
-          "403": {
-            "$ref": "#/components/responses/ForbiddenError"
-          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
@@ -538,9 +532,6 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           },
-          "403": {
-            "$ref": "#/components/responses/ForbiddenError"
-          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
@@ -572,9 +563,6 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           },
-          "403": {
-            "$ref": "#/components/responses/ForbiddenError"
-          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
@@ -587,17 +575,6 @@
   },
   "components": {
     "responses": {
-      "ForbiddenError": {
-        "description": "User is unathorized but does not have neccessary permissions to the resource",
-        "content": {
-          "application/json": {
-            "example": {
-              "status_code": 403,
-              "message": "Forbidden"
-            }
-          }
-        }
-      },
       "UnauthorizedError": {
         "description": "Missing or invalid JWT token",
         "content": {

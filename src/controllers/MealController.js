@@ -83,14 +83,15 @@ export class MealController {
         return next(createError(400, 'Invalid meal id'))
       }
 
-      const meal = await MealModel.findById(id)
+      const meal = await MealModel.findOne(
+        {
+          _id: id,
+          userId: req.user.id
+        }
+      )
 
       if (!meal) {
         return next(createError(404, 'Meal not found'))
-      }
-
-      if (meal.userId !== req.user.id) {
-        return next(createError(403, 'You are not allowed to access this meal'))
       }
 
       req.meal = meal
