@@ -46,14 +46,25 @@
                           "img": {
                             "type": "object",
                             "properties": {
-                              "sm": { "type": "string", "format": "uri" },
-                              "lg": { "type": "string", "format": "uri" }
+                              "sm": { "type": "string", "format": "uri" }
                             }
                           },
                           "name": { "type": "string" },
                           "brand": { "type": "string" },
                           "ean": { "type": "string" },
-                          "kcal_100g": { "type": "number" }
+                          "kcal_100g": { "type": "number" },
+                          "macros_100g": {
+                            "type": "object",
+                            "properties": {
+                              "fat": { "type": "number", "example": 3 },
+                              "saturatedFat": { "type": "number", "example": 1.9 },
+                              "carbohydrates": { "type": "number", "example": 3.7 },
+                              "sugars": { "type": "number", "example": 3.7 },
+                              "protein": { "type": "number", "example": 3.5 },
+                              "salt": { "type": "number", "example": 0.09 },
+                              "fiber": { "type": "number", "example": 0 }
+                            }
+                          }
                         }
                       }
                     },
@@ -68,24 +79,40 @@
                   "foodItems": [
                     {
                       "img": {
-                        "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/03080216060453_C1N1_s01",
-                        "lg": "https://assets.axfood.se/image/upload/f_auto,t_500/03080216060453_C1N1_s01"
+                          "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/08007153007490_C1C1_s01"
                       },
-                      "name": "1664 Blanc 0,0% Veteöl, Glasflaska",
-                      "brand": "Kronenbourg",
-                      "ean": "3080216060453",
-                      "kcal_100g": 29
-                    },
-                    {
+                      "macros_100g": {
+                          "fat": 92,
+                          "saturatedFat": 14,
+                          "carbohydrates": 0,
+                          "sugars": 0,
+                          "protein": 0,
+                          "salt": 0,
+                          "fiber": 0
+                      },
+                      "name": "100% Italiensk Extra Virgin Olivolja",
+                      "brand": "Farchioni",
+                      "ean": "8007153007490",
+                      "kcal_100g": 828
+                  },
+                  {
                       "img": {
-                        "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/05997523312114_C1C1_s02",
-                        "lg": "https://assets.axfood.se/image/upload/f_auto,t_500/05997523312114_C1C1_s02"
+                          "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/07350029731557_C1L1_s04"
                       },
-                      "name": "5 Spices Beef Cup Noodles",
-                      "brand": "Nissin",
-                      "ean": "5997523312114",
-                      "kcal_100g": 78
-                    }
+                      "macros_100g": {
+                          "fat": 12,
+                          "saturatedFat": 1.2,
+                          "carbohydrates": 14,
+                          "sugars": 0.6,
+                          "protein": 14,
+                          "salt": 0.96,
+                          "fiber": 11
+                      },
+                      "name": "14% Bröd",
+                      "brand": "Dahls Bageri",
+                      "ean": "7350029731557",
+                      "kcal_100g": 230
+                  }
                   ],
                   "total": 6482,
                   "page": 3,
@@ -144,14 +171,25 @@
                           "img": {
                             "type": "object",
                             "properties": {
-                              "sm": { "type": "string", "format": "uri" },
-                              "lg": { "type": "string", "format": "uri" }
+                              "sm": { "type": "string", "format": "uri" }
                             }
                           },
                           "name": { "type": "string" },
                           "brand": { "type": "string" },
                           "ean": { "type": "string" },
-                          "kcal_100g": { "type": "number" }
+                          "kcal_100g": { "type": "number" },
+                          "macros_100g": {
+                            "type": "object",
+                            "properties": {
+                              "fat": { "type": "number", "example": 3 },
+                              "saturatedFat": { "type": "number", "example": 1.9 },
+                              "carbohydrates": { "type": "number", "example": 3.7 },
+                              "sugars": { "type": "number", "example": 3.7 },
+                              "protein": { "type": "number", "example": 3.5 },
+                              "salt": { "type": "number", "example": 0.09 },
+                              "fiber": { "type": "number", "example": 0 }
+                            }
+                          }
                         }
                       }
                     },
@@ -164,26 +202,42 @@
                 },
                 "example": {
                   "foodItems": [
-                      {
-                          "img": {
-                              "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/07350056791500_C1C1_s01",
-                              "lg": "https://assets.axfood.se/image/upload/f_auto,t_500/07350056791500_C1C1_s01"
-                          },
-                          "name": "Ayran Turkisk Yoghurtdryck",
-                          "brand": "Larsa Foods",
-                          "ean": "7350056791500",
-                          "kcal_100g": 42
+                    {
+                      "img": {
+                          "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/08007153007490_C1C1_s01"
                       },
-                      {
-                          "img": {
-                              "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/07350056796000_C1L1_s01",
-                              "lg": "https://assets.axfood.se/image/upload/f_auto,t_500/07350056796000_C1L1_s01"
-                          },
-                          "name": "Ayran Turkisk Yoghurtdryck",
-                          "brand": "Larsa Foods",
-                          "ean": "7350056796000",
-                          "kcal_100g": 42
-                      }
+                      "macros_100g": {
+                          "fat": 92,
+                          "saturatedFat": 14,
+                          "carbohydrates": 0,
+                          "sugars": 0,
+                          "protein": 0,
+                          "salt": 0,
+                          "fiber": 0
+                      },
+                      "name": "100% Italiensk Extra Virgin Olivolja",
+                      "brand": "Farchioni",
+                      "ean": "8007153007490",
+                      "kcal_100g": 828
+                  },
+                  {
+                      "img": {
+                          "sm": "https://assets.axfood.se/image/upload/f_auto,t_100/07350029731557_C1L1_s04"
+                      },
+                      "macros_100g": {
+                          "fat": 12,
+                          "saturatedFat": 1.2,
+                          "carbohydrates": 14,
+                          "sugars": 0.6,
+                          "protein": 14,
+                          "salt": 0.96,
+                          "fiber": 11
+                      },
+                      "name": "14% Bröd",
+                      "brand": "Farchioni",
+                      "ean": "7350029731557",
+                      "kcal_100g": 230
+                  }
                   ],
                   "total": 2,
                   "page": 1,

@@ -71,7 +71,7 @@ const schema = new mongoose.Schema(
         required: true
       },
 
-      // Optional fields for client
+      // Optiona fields that are populated when sent to client
       name: String,
       brand: String,
       kcal_100g: Number,

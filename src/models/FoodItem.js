@@ -163,7 +163,7 @@ schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) 
   const skip = (page - 1) * limit
   const [foodItems, total] = await Promise.all([
     this
-      .find(query, 'ean name brand kcal_100g img')
+      .find(query, 'ean name brand kcal_100g img.sm macros_100g')
       .sort({ name: 1 })
       .skip(skip)
       .limit(limit),
