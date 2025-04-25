@@ -32,6 +32,17 @@ export class MealController {
   }
 
   /**
+   * If the document is modified, save it to the database.
+   *
+   * @param {object} doc - The document to save.
+   */
+  async #saveToDb (doc) {
+    if (doc.isModified()) {
+      await doc.save()
+    }
+  }
+
+  /**
    * Returns a paginated list of food items
    * in aplhabetical order by name.
    *
@@ -121,9 +132,7 @@ export class MealController {
       const length = meal.foodItems.push(req.body)
       const newId = meal.foodItems[length - 1]._id.toString()
 
-      if (meal.isModified()) {
-        await meal.save()
-      }
+      await this.#saveToDb(meal)
 
       res.status(201).json(newId)
     } catch (error) {
@@ -149,9 +158,8 @@ export class MealController {
         foodItem.unit = unit
       }
 
-      if (meal.isModified()) {
-        await meal.save()
-      }
+      await this.#saveToDb(meal)
+
       res.status(204).end()
     } catch (error) {
       next(this.handleError(error))
@@ -170,9 +178,8 @@ export class MealController {
       const meal = req.meal
 
       meal.foodItems.pull(req.params.foodItemId)
-      if (meal.isModified()) {
-        await meal.save()
-      }
+      
+      this.#saveToDb(meal)
 
       res.status(204).end()
     } catch (error) {
