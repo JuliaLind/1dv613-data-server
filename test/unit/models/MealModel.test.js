@@ -117,7 +117,8 @@ describe('MealModel', () => {
 
       const foodMap = new Map([
         ['7350126082712',
-          { name: 'Apple', 
+          {
+            name: 'Apple',
             kcal_100g: 52,
             img: { sm: 'apple.jpg' },
             macros_100g: {
@@ -127,11 +128,12 @@ describe('MealModel', () => {
               fiber: 0,
               sugars: 0,
               salt: 0,
-              fiber: 0,
-              carbohydrates: 14,
-            } }],
+              carbohydrates: 14
+            }
+          }],
         ['7350029731557',
-          { name: 'Banana',
+          {
+            name: 'Banana',
             kcal_100g: 89,
             img: { sm: 'banana.jpg' },
             macros_100g: {
@@ -141,11 +143,10 @@ describe('MealModel', () => {
               sugars: 0,
               salt: 0,
               carbohydrates: 0,
-              salt: 0,
-              saturatedFat: 0.3,
+              saturatedFat: 0.3
             }
           }
-          ]])
+        ]])
 
       doc.setFoodItems(foodMap)
 
@@ -157,39 +158,45 @@ describe('MealModel', () => {
         delete item1[field]
         delete item2[field]
       }
-      expect(item1).to.deep.
-      equal({ 
-      ean: '7350126082712', name: 'Apple',
-        weight: 100, unit: 'g', kcal_100g: 52,
-        img: { sm: 'apple.jpg' },
-        macros_100g: {
-          saturatedFat: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-          sugars: 0,
-          salt: 0,
-          fiber: 0,
-          carbohydrates: 14,
-        } })
-      
-      expect(item2).to.deep.
-      equal({ 
-        ean: '7350029731557', name: 'Banana', 
-        weight: 200, unit: 'g',
-        kcal_100g: 89,
-        img: { sm: 'banana.jpg' },
-        macros_100g: {
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-          sugars: 0,
-          salt: 0,
-          carbohydrates: 0,
-          salt: 0,
-          saturatedFat: 0.3,
-        }
-      })
+      expect(item1).to.deep
+        .equal({
+          ean: '7350126082712',
+          name: 'Apple',
+          weight: 100,
+          unit: 'g',
+          kcal_100g: 52,
+          img: { sm: 'apple.jpg' },
+          macros_100g: {
+            saturatedFat: 0,
+            protein: 0,
+            fat: 0,
+            fiber: 0,
+            sugars: 0,
+            salt: 0,
+            fiber: 0,
+            carbohydrates: 14
+          }
+        })
+
+      expect(item2).to.deep
+        .equal({
+          ean: '7350029731557',
+          name: 'Banana',
+          weight: 200,
+          unit: 'g',
+          kcal_100g: 89,
+          img: { sm: 'banana.jpg' },
+          macros_100g: {
+            protein: 0,
+            fat: 0,
+            fiber: 0,
+            sugars: 0,
+            salt: 0,
+            carbohydrates: 0,
+            salt: 0,
+            saturatedFat: 0.3
+          }
+        })
     })
   })
 })
