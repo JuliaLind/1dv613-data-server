@@ -44,7 +44,7 @@ describe('FoodItemModel', () => {
     sinon.stub(FoodItemModel, 'countDocuments').resolves(foodItems.length + 10)
 
     const result = await FoodItemModel.listItems(params)
-    expect(FoodItemModel.find).to.have.been.calledWith({}, 'ean name brand kcal_100g')
+    expect(FoodItemModel.find).to.have.been.calledWith({}, 'ean name brand kcal_100g img.sm macros_100g')
 
     expect(FoodItemModel.find().sort).to.have.been.calledWith({ name: 1 })
 
@@ -153,6 +153,6 @@ describe('FoodItemModel', () => {
     expect(result.get('1234567890123')).to.deep.equal(foodItems[0].toObject())
     expect(result.get('2345678901234')).to.deep.equal(foodItems[1].toObject())
     expect(FoodItemModel.find.firstCall.args[0]).to.deep.equal({ ean: { $in: eans } })
-    expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand kcal_100g')
+    expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand kcal_100g macros_100g img.sm')
   })
 })

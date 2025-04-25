@@ -46,7 +46,7 @@ export class FoodsController {
       })
       const data = {
         ...searchResult,
-        query: req.query.query
+        query: req.params.search
       }
 
       res.status(200).json(data)

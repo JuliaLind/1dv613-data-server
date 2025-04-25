@@ -84,11 +84,11 @@ describe('FoodsController', () => {
   it('query, should return items returned by FoodItemModel.searchItems method', async () => {
     const foodsController = new FoodsController()
 
-    const query = {
-      query: 'äpple'
+    const params = {
+      search: 'äpple',
     }
     const req = {
-      query
+      params
     }
     const res = {
       status: sinon.stub().returnsThis(),
@@ -113,12 +113,12 @@ describe('FoodsController', () => {
       pageSize: 2,
       from: 1,
       to: 2,
-      query
+      query: params.search
     }
 
     sinon.stub(FoodItemModel, 'searchItems').resolves(exp)
     await foodsController.search(req, res, next)
-    expect(FoodItemModel.searchItems).to.have.been.calledWith(query)
+    expect(FoodItemModel.searchItems).to.have.been.calledWith({ query: params.search })
 
     expect(res.status).to.have.been.calledWith(200)
 
@@ -130,11 +130,11 @@ describe('FoodsController', () => {
   it('search, should call next with error when FoodItemModel.listItems throws an error', async () => {
     const foodsController = new FoodsController()
 
-    const query = {
-      query: 'äpple'
+    const params = {
+      search: 'äpple'
     }
     const req = {
-      query
+      params
     }
     const res = {
       status: sinon.stub().returnsThis(),
@@ -145,7 +145,7 @@ describe('FoodsController', () => {
 
     sinon.stub(FoodItemModel, 'searchItems').rejects(error)
     await foodsController.search(req, res, next)
-    expect(FoodItemModel.searchItems).to.have.been.calledWith(query)
+    expect(FoodItemModel.searchItems).to.have.been.calledWith({ query: params.search })
 
     expect(next).to.have.been.calledWith(error)
     expect(res.status).not.to.have.been.called

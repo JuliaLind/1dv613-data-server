@@ -14,9 +14,9 @@ import mongoose from 'mongoose'
  */
 export class MealController {
   handleError (error) {
-    if (error.code === 11000) {
-      return createError(409)
-    }
+    // if (error.code === 11000) {
+    //   return createError(409)
+    // }
 
     if (error.errors) {
       return createError(400)

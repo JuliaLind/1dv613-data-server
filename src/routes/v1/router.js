@@ -7,6 +7,7 @@
 import express from 'express'
 import { router as foodsRouter } from './foods.js'
 import { router as mealsRouter } from './meals.js'
+import { router as userRouter } from './user.js'
 import { authenticateJWT } from '../../middleware/auth.js'
 
 export const router = express.Router()
@@ -18,6 +19,12 @@ router.use('/foods',
 router.use('/meals',
   authenticateJWT,
   mealsRouter)
+
+router.use('/user',
+  authenticateJWT,
+  userRouter)
+
+
 
 router.get('/',
   (req, res) => {
