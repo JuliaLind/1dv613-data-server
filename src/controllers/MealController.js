@@ -18,9 +18,9 @@ export class MealController {
    * @param error
    */
   handleError (error) {
-    // if (error.code === 11000) {
-    //   return createError(409)
-    // }
+    if (error.code === 11000) {
+      return createError(409)
+    }
 
     if (error.errors) {
       return createError(400)

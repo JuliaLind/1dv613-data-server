@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { MealModel } from '../models/Meal'
+import { MealModel } from '../models/Meal.js'
 
 /**
  * Encapsulates a controller.

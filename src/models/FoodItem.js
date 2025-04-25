@@ -206,7 +206,7 @@ schema.statics.getByEans = async function (eans) {
 schema.statics.getByEan = async function (ean) {
   const foodItem = await FoodItemModel.findOne({ ean })
   if (!foodItem) {
-    throw createError(404, this.errors.notFound)
+    throw createError(404)
   }
   return foodItem
 }

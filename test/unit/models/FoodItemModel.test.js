@@ -2,12 +2,14 @@
 /* eslint-disable no-unused-expressions */
 
 import chai from 'chai'
+import chaiAsPromised from 'chai-as-promised'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 
 import { FoodItemModel } from '../../../src/models/FoodItem.js'
 
 chai.use(sinonChai)
+chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('FoodItemModel', () => {
@@ -154,5 +156,33 @@ describe('FoodItemModel', () => {
     expect(result.get('2345678901234')).to.deep.equal(foodItems[1].toObject())
     expect(FoodItemModel.find.firstCall.args[0]).to.deep.equal({ ean: { $in: eans } })
     expect(FoodItemModel.find.firstCall.args[1]).to.equal('ean name brand kcal_100g macros_100g img.sm')
+  })
+
+  it('getByEan, should return a food item by ean', async () => {
+    const ean = '1234567890123'
+    const foodItem = {
+      ean: '1234567890123',
+      name: 'Apple',
+      brand: 'Brand A',
+      kcal_100g: 52
+    }
+
+    sinon.stub(FoodItemModel, 'findOne').resolves(foodItem)
+
+    const result = await FoodItemModel.getByEan(ean)
+    expect(result).to.deep.equal(foodItem)
+    expect(FoodItemModel.findOne).to.have.been.calledWith({ ean })
+  })
+  it('getByEan, should throw an error if food item is not found', async () => {
+    const ean = '1234567890123'
+
+    sinon.stub(FoodItemModel, 'findOne').resolves(null)
+
+    const promise = FoodItemModel.getByEan(ean)
+    const error = await promise.catch((err) => {
+      return err
+    })
+
+    expect(error.status).to.equal(404)
   })
 })
