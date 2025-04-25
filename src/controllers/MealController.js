@@ -178,7 +178,7 @@ export class MealController {
       const meal = req.meal
 
       meal.foodItems.pull(req.params.foodItemId)
-      
+
       this.#saveToDb(meal)
 
       res.status(204).end()

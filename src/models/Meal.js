@@ -22,7 +22,6 @@ const convertOptions = Object.freeze({
    * @returns {object} - the transformed object
    */
   transform: (doc, ret) => {
-    // ret.id = ret._id.toString()
     delete ret._id
     delete ret.userId
     ret.date = format(ret.date, 'yyyy-MM-dd')
@@ -107,6 +106,7 @@ const schema = new mongoose.Schema(
 schema.statics.getByDate = async function (date, userId) {
   const docs = await this.find({ date, userId })
   const mealMap = new Map()
+
   for (const doc of docs) {
     mealMap.set(doc.type, doc.toObject())
   }
@@ -121,6 +121,7 @@ schema.statics.getByDate = async function (date, userId) {
 schema.methods.populateFoods = async function () {
   const eans = this.foodItems.map(item => item.ean)
   const foodMap = await FoodItemModel.getByEans(eans)
+
   this.setFoodItems(foodMap)
 }
 
@@ -143,6 +144,7 @@ function getEans (docs) {
 schema.statics.populateMany = async function populateMany (docs) {
   const eans = getEans(docs)
   const foodMap = await FoodItemModel.getByEans(eans)
+
   for (const doc of docs) {
     doc.setFoodItems(foodMap)
   }

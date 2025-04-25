@@ -183,11 +183,14 @@ schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) 
  */
 schema.statics.getByEans = async function (eans) {
   eans = [...new Set(eans)]
+
   const foodItems = await this.find({ ean: { $in: eans } }, 'ean name brand kcal_100g macros_100g img.sm')
   const foodMap = new Map()
+
   for (const foodItem of foodItems) {
     foodMap.set(foodItem.ean, foodItem.toObject())
   }
+
   return foodMap
 }
 
@@ -201,9 +204,11 @@ schema.statics.getByEans = async function (eans) {
  */
 schema.statics.getByEan = async function (ean) {
   const foodItem = await FoodItemModel.findOne({ ean })
+
   if (!foodItem) {
     throw createError(404)
   }
+
   return foodItem
 }
 
