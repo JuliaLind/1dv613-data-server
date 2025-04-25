@@ -85,7 +85,7 @@ describe('FoodsController', () => {
     const foodsController = new FoodsController()
 
     const params = {
-      search: 'äpple',
+      search: 'äpple'
     }
     const req = {
       params

@@ -13,6 +13,10 @@ import mongoose from 'mongoose'
  * Encapsulates a controller.
  */
 export class MealController {
+  /**
+   *
+   * @param error
+   */
   handleError (error) {
     // if (error.code === 11000) {
     //   return createError(409)
@@ -24,6 +28,7 @@ export class MealController {
 
     return createError(500)
   }
+
   /**
    * Returns a paginated list of food items
    * in aplhabetical order by name.

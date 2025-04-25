@@ -157,7 +157,6 @@ schema.statics.populateMany = async function populateMany (docs) {
 schema.methods.setFoodItems = function (foodMap) {
   const foodItems = []
   for (const item of this.foodItems) {
-
     const foodItem = foodMap.get(item.ean)
 
     if (foodItem) {
@@ -171,7 +170,6 @@ schema.methods.setFoodItems = function (foodMap) {
 }
 
 schema.post('find', async (docs) => await MealModel.populateMany(docs))
-
 
 /**
  * The combination userId - date - mealtype must be unique.

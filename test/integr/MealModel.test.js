@@ -4,7 +4,7 @@
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import {connectDB } from '../../src/config/mongoose.js'
+import { connectDB } from '../../src/config/mongoose.js'
 import mongoose from 'mongoose'
 import { MealModel } from '../../src/models/Meal.js'
 import { FoodItemModel } from '../../src/models/FoodItem.js'
@@ -29,14 +29,13 @@ describe('MealModel', () => {
     }]
   }
 
-
   before(async () => {
     await connectDB(process.env.DB_CONNECTION_STRING)
     await FoodItemModel.insertMany(products)
     mealDoc = await MealModel.create(meal)
   })
 
-  after (async () => {
+  after(async () => {
     await FoodItemModel.deleteMany({})
     await MealModel.deleteMany({})
     await mongoose.connection.close()

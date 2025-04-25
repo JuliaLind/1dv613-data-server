@@ -24,8 +24,6 @@ router.use('/user',
   authenticateJWT,
   userRouter)
 
-
-
 router.get('/',
   (req, res) => {
     res.status(200).json({

@@ -156,7 +156,6 @@ schema.statics.searchItems = async function ({ query, page, limit }) {
  * @returns {Promise<object[]>} -a list of food items, total number of items, page number, page size, from and to numbers.
  */
 schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) {
-
   page = Number.parseInt(page)
   limit = Number.parseInt(limit)
 
@@ -211,8 +210,6 @@ schema.statics.getByEan = async function (ean) {
   }
   return foodItem
 }
-
-
 
 // Create a model using the schema.
 export const FoodItemModel = mongoose.model('FoodItem', schema)
