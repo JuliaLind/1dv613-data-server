@@ -123,8 +123,6 @@ const schema = new mongoose.Schema(
  * The list is filtered by the query.
  *
  * @param {number} page - is the page number to return.
- * @param {number} limit - is the number of items to return per page.
- * @param {string} query - is the query string to search for.
  * @returns {Promise<object[]>} - a list of food items that matched the search query.
  */
 schema.statics.searchItems = async function ({ query, page, limit }) {
@@ -151,8 +149,6 @@ schema.statics.searchItems = async function ({ query, page, limit }) {
  * Returns a paginated list of food items with their ean code, name and brand, sorted in alphabetical order by name.
  *
  * @param {number} page - is the page number to return.
- * @param {number} limit - is the number of items to return per page.
- * @param {object} query - is an optional query object to filter the results.
  * @returns {Promise<object[]>} -a list of food items, total number of items, page number, page size, from and to numbers.
  */
 schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) {

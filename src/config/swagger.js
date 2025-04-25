@@ -5,8 +5,9 @@ const swaggerDocument = JSON.parse(await fs.readFile('./src/config/api-spec.json
 )
 
 /**
+ * Swagger middleware. Displays the API documentation.
  *
- * @param app
+ * @param {object} app - Express app
  */
 export default (app) => {
   app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))

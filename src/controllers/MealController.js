@@ -14,8 +14,10 @@ import mongoose from 'mongoose'
  */
 export class MealController {
   /**
+   * Handles errors from the MealModel.
    *
-   * @param error
+   * @param {Error} error - the error thrown by the database.
+   * @returns {Error} - a new HTTP error.
    */
   handleError (error) {
     if (error.code === 11000) {

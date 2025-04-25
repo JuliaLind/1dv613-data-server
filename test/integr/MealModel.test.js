@@ -1,8 +1,7 @@
-/* global afterEach */
+/* global before after */
 /* eslint-disable no-unused-expressions */
 
 import chai from 'chai'
-import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import { connectDB } from '../../src/config/mongoose.js'
 import mongoose from 'mongoose'
@@ -14,7 +13,6 @@ chai.use(sinonChai)
 const expect = chai.expect
 
 describe('MealModel', () => {
-  let mealDoc
   const date = '2023-10-01'
   const type = 'breakfast'
   const userId = 'someUserId'
@@ -32,7 +30,7 @@ describe('MealModel', () => {
   before(async () => {
     await connectDB(process.env.DB_CONNECTION_STRING)
     await FoodItemModel.insertMany(products)
-    mealDoc = await MealModel.create(meal)
+    await MealModel.create(meal)
   })
 
   after(async () => {

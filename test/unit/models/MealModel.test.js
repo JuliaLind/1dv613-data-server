@@ -173,7 +173,6 @@ describe('MealModel', () => {
             fiber: 0,
             sugars: 0,
             salt: 0,
-            fiber: 0,
             carbohydrates: 14
           }
         })
@@ -193,7 +192,6 @@ describe('MealModel', () => {
             sugars: 0,
             salt: 0,
             carbohydrates: 0,
-            salt: 0,
             saturatedFat: 0.3
           }
         })

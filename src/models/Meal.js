@@ -6,7 +6,7 @@
  */
 
 import mongoose from 'mongoose'
-import { format, parseISO, startOfWeek, subDays } from 'date-fns'
+import { format } from 'date-fns'
 import { FoodItemModel } from './FoodItem.js'
 import { eanValidator, dateValidator } from './validators.js'
 
@@ -117,7 +117,6 @@ schema.statics.getByDate = async function (date, userId) {
  * Populates the food items in the meal.
  * This function is called after the meal is found.
  *
- * @param {object} doc - mongoose meal document
  */
 schema.methods.populateFoods = async function () {
   const eans = this.foodItems.map(item => item.ean)
