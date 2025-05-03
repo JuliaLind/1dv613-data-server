@@ -1,0 +1,34 @@
+stages:
+  - lint
+  - test:unit
+  - test:scen
+
+variables:
+  NODE_ENV: test
+  PORT: 8080
+  DB_CONNECTION_STRING: 'mongodb://mongo:27017/data_test'
+  AUTH_TOKEN_SECRET_PATH: './public.pem'
+
+lint:
+  stage: lint
+  image: node:20
+  script:
+    - npm ci
+    - npm run lint
+
+test:unit:
+  stage: test:unit
+  image: node:20
+  script:
+    - npm ci
+    - npm run test:unit
+
+test:scen:
+  stage: test:scen
+  image: node:20
+  services:
+    - mongo:7.0.4
+  script:
+    - echo "$TEST_PUBLIC_PEM" > public.pem
+    - npm ci
+    - npm run test:scen
