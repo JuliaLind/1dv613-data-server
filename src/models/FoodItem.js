@@ -165,13 +165,19 @@ schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) 
     this.countDocuments(query)
   ])
 
+  
+  const pageSize = foodItems.length
+
+  const from = pageSize > 0 ? skip + 1 : 0
+  const to = pageSize > 0 ? skip + pageSize : 0
+
   return {
     foodItems,
     total,
     page,
-    pageSize: foodItems.length,
-    from: skip + 1,
-    to: skip + foodItems.length
+    pageSize,
+    from,
+    to
   }
 }
 

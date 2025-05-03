@@ -300,4 +300,24 @@ describe('scenario - GET foods/', () => {
     expect(res.body).to.have.property('from', 15)
     expect(res.body).to.have.property('to', 20)
   })
+
+  it('should return 200 for food route and return empty array because page out of range', async () => {
+    const exp = []
+    const res = await chai.request(app)
+      .get('/api/v1/foods?page=' + 4) // 20 items in total, 7 items per page
+
+
+    expect(res).to.have.status(200)
+
+    const foodItems = res.body.foodItems
+    expect(foodItems).to.be.an('array')
+
+    expect(foodItems).to.deep.equal(exp)
+    expect(foodItems).to.have.lengthOf(0)
+    expect(res.body).to.have.property('total', 20)
+    expect(res.body).to.have.property('page', 4)
+    expect(res.body).to.have.property('pageSize', 0)
+    expect(res.body).to.have.property('from', 0)
+    expect(res.body).to.have.property('to', 0)
+  })
 })
