@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5054/v1"
+      "url": "/data/api/v1"
     }
   ],
   "paths": {
@@ -629,6 +629,17 @@
   },
   "components": {
     "responses": {
+      "BadRequest": {
+        "description": "For example validation error",
+        "content": {
+          "application/json": {
+            "example": {
+              "status_code": 400,
+              "error": "Bad Request"
+            }
+          }
+        }
+      },
       "UnauthorizedError": {
         "description": "Missing or invalid JWT token",
         "content": {
