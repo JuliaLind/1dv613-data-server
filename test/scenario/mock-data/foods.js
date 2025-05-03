@@ -478,29 +478,5 @@ export const foods = [
       salt: 1.2,
       fiber: 0
     }
-  },
-  {
-    name: 'Kött & Grill Krydda Påse',
-    brand: 'Knorr',
-    ean: '7310394005905',
-    category: [
-      'skafferi',
-      'kryddor-och-smaksattare',
-      'kryddor'
-    ],
-    img: {
-      sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07310394005905_C1N1_s04',
-      lg: 'https://assets.axfood.se/image/upload/f_auto,t_500/07310394005905_C1N1_s04'
-    },
-    kcal_100g: 156,
-    macros_100g: {
-      fat: 2.5,
-      saturatedFat: 0.8,
-      carbohydrates: 14,
-      sugars: 2.2,
-      protein: 15,
-      salt: 56.8,
-      fiber: 0
-    }
   }
 ]
