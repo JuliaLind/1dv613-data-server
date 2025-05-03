@@ -26,17 +26,13 @@ router.use('/user',
   authenticateJWT,
   userRouter)
 
-
 router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-
-
-
 
 router.get('/',
   (req, res) => {
     res.status(200).json({
       message: 'Welcome to the data server API',
       version: '1.0.0',
-      documentation: '/docs/ (note the trailing slash)',
+      documentation: '/docs/ (note the trailing slash)'
     })
   })
