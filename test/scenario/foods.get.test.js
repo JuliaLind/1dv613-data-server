@@ -23,7 +23,7 @@ describe('scenario - GET foods/', () => {
     await server.close()
   })
 
-  it('should return 200 for food route and return all food items', async () => {
+  it('should return 200 for food route and return first 7 food items', async () => {
     const res = await chai.request(app)
       .get('/api/v1/foods')
     
@@ -49,7 +49,13 @@ describe('scenario - GET foods/', () => {
           salt: 0.01,
           fiber: 0
       }
-  })
+    })
+
+    expect(res.body).to.have.property('total', foods.length)
+    expect(res.body).to.have.property('page', 1)
+    expect(res.body).to.have.property('pageSize', 7)
+    expect(res.body).to.have.property('from', 1)
+    expect(res.body).to.have.property('to', 7)
   })
 
 })
