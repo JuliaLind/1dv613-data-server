@@ -15,7 +15,7 @@ try {
   connection = await connectDB(process.env.DB_CONNECTION_STRING)
   process.env.ACCESS_TOKEN_SECRET = await fs.readFile(process.env.AUTH_TOKEN_SECRET_PATH, 'utf-8')
 
-  const app = createApp()
+  app = createApp()
 
   // Starts the HTTP server listening for connections.
   server = app.listen(process.env.PORT, () => {
