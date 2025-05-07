@@ -5,14 +5,20 @@
  * @version 1.0.0
  */
 
-import { MealModel } from '../models/Meal.js'
 import createError from 'http-errors'
-import mongoose from 'mongoose'
+
+import { MealService } from '../services/MealService.js'
 
 /**
  * Encapsulates a controller.
  */
 export class MealController {
+  #mealService
+
+  constructor (mealService = new MealService()) {
+    this.#mealService = mealService
+  }
+
   /**
    * Handles errors from the MealModel.
    *
@@ -32,17 +38,6 @@ export class MealController {
   }
 
   /**
-   * If the document is modified, save it to the database.
-   *
-   * @param {object} doc - The document to save.
-   */
-  async #saveToDb (doc) {
-    if (doc.isModified()) {
-      await doc.save()
-    }
-  }
-
-  /**
    * Returns a paginated list of food items
    * in aplhabetical order by name.
    *
@@ -52,9 +47,9 @@ export class MealController {
    */
   async index (req, res, next) {
     try {
-      const meals = await MealModel.getByDate(req.params.date, req.user.id)
+      const meals = await this.#mealService.getByDate(req.params.date, req.user.id)
 
-      res.status(200).json(Object.fromEntries(meals))
+      res.status(200).json(meals)
     } catch (error) {
       next(error)
     }
@@ -69,16 +64,7 @@ export class MealController {
    */
   async post (req, res, next) {
     try {
-      const meal = {
-        ...req.body,
-        userId: req.user.id
-      }
-
-      /**
-       * @type {import('mongoose').Document & { populateFoods: () => Promise<void> }}
-       */
-      const doc = await MealModel.create(meal)
-      await doc.populateFoods()
+      const doc = await this.#mealService.create(req.body, req.user.id)
 
       res.status(201).json(doc)
     } catch (error) {
@@ -97,22 +83,7 @@ export class MealController {
    */
   async preload (req, res, next, id) {
     try {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(createError(400, 'Invalid meal id'))
-      }
-
-      const meal = await MealModel.findOne(
-        {
-          _id: id,
-          userId: req.user.id
-        }
-      )
-
-      if (!meal) {
-        return next(createError(404, 'Meal not found'))
-      }
-
-      req.meal = meal
+      req.meal = await this.#mealService.getOne(id, req.user.id)
       next()
     } catch (error) {
       next(error)
@@ -128,13 +99,9 @@ export class MealController {
    */
   async addFoodItem (req, res, next) {
     try {
-      const meal = req.meal
-      const length = meal.foodItems.push(req.body)
-      const newId = meal.foodItems[length - 1]._id.toString()
+      const foodItemId = await this.#mealService.addFoodItem(req.meal, req.body)
 
-      await this.#saveToDb(meal)
-
-      res.status(201).json(newId)
+      res.status(201).json(foodItemId)
     } catch (error) {
       next(this.handleError(error))
     }
@@ -150,15 +117,7 @@ export class MealController {
    */
   async updFoodItem (req, res, next) {
     try {
-      const meal = req.meal
-      const { weight, unit, id } = req.body
-      const foodItem = meal.foodItems.id(id)
-      if (foodItem) {
-        foodItem.weight = weight
-        foodItem.unit = unit
-      }
-
-      await this.#saveToDb(meal)
+      await this.#mealService.updFoodItem(req.meal, req.body)
 
       res.status(204).end()
     } catch (error) {
@@ -175,11 +134,7 @@ export class MealController {
    */
   async delFoodItem (req, res, next) {
     try {
-      const meal = req.meal
-
-      meal.foodItems.pull(req.params.foodItemId)
-
-      this.#saveToDb(meal)
+      this.#mealService.delFoodItem(req.meal, req.params.foodItemId)
 
       res.status(204).end()
     } catch (error) {
@@ -196,8 +151,7 @@ export class MealController {
    */
   async delete (req, res, next) {
     try {
-      const meal = req.meal
-      await meal.deleteOne()
+      this.#mealService.delete(req.meal)
 
       res.status(204).end()
     } catch (error) {
