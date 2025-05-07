@@ -29,4 +29,6 @@ export class UserController {
       next(this.handleError(error))
     }
   }
+
+  // TODO add routes for creating, updating and deleting user data + add routes and schema to swagger
 }
