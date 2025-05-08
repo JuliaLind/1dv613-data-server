@@ -6,6 +6,7 @@
  */
 
 import mongoose from 'mongoose'
+import { format } from 'date-fns'
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -34,8 +35,14 @@ const schema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      minLength: 1,
+      minlength: 1,
       message: 'User ID is required'
+    },
+    gender: {
+      type: String,
+      required: true,
+      enum: ['m', 'f'],
+      message: 'gender is required'
     },
     currentWeight: {
       type: Number,
@@ -58,10 +65,15 @@ const schema = new mongoose.Schema(
     weeklyChange: {
       type: Number,
       required: true,
-      min: 0,
-      max: 1,
-      message: 'Weekly change must be between 0 and 1 kg'
+      message: 'Weekly change is required',
+      min: 0
     },
+    activityLevel: {
+      type: String,
+      required: true,
+      enum: ['sedentary', 'light', 'moderate', 'heavy', 'athlete'],
+      message: 'Activity level is required',
+    }
   },
   {
     timestamps: true,
