@@ -48,7 +48,7 @@ export class UserController {
       const user = await UserModel.findById(req.user.id)
 
       if (!user) {
-        return next(createError('No user data registered', 404))
+        return next(createError(404, 'No user data registered'))
       }
 
       req.doc = user
