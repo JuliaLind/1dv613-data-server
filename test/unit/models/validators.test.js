@@ -24,17 +24,6 @@ describe('validators', () => {
     expect(res).to.be.true
   })
 
-
-  // no longer using validator for ean validation because too strict and returns false for Willys ean codes
-  // it('eanValidator, should call on the isEAN method of validator node module, should return same result as the validator method', async function () {
-  //   sinon.stub(validator, 'isEAN').returns(false)
-  //   const ean = 'someEanCode'
-  //   const res = eanValidator.validator(ean)
-  //   expect(validator.isEAN.calledOnce).to.be.true
-  //   expect(validator.isEAN.firstCall.args[0]).to.equal(ean)
-  //   expect(res).to.be.false
-  // })
-
   const correctLengths = [8, 11, 13]
   correctLengths.forEach((length) => {
     it(`eanValidator, should return true for valid EAN code of length ${length}`, async function () {
@@ -51,7 +40,6 @@ describe('validators', () => {
       expect(res).to.be.false
     })
   })
-
 
   it('dateValidator, should call on the isDate method of validator node module, should return same result as the validator method', async function () {
     sinon.stub(validator, 'isDate').returns(true)

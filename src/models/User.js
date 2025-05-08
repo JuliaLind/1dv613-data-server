@@ -1,12 +1,11 @@
 /**
- * Mongoose model Meal.
+ * Mongoose model User.
  *
  * @author Julia Lind
  * @version 1.0.0
  */
 
 import mongoose from 'mongoose'
-import { format } from 'date-fns'
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -72,7 +71,7 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       enum: ['sedentary', 'light', 'moderate', 'heavy', 'athlete'],
-      message: 'Activity level is required',
+      message: 'Activity level is required'
     }
   },
   {
@@ -82,7 +81,6 @@ const schema = new mongoose.Schema(
     optimisticConcurrency: false
   }
 )
-
 
 // Create a model using the schema.
 export const MealModel = mongoose.model('User', schema)

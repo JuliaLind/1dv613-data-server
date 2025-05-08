@@ -24,10 +24,9 @@ export const eanValidator = {
    * Validates the ean field.
    *
    * @param {string} value - the ean to validate.
-   * @param v
    * @returns {boolean} - true if the value is valid, false otherwise.
    */
-  validator: v => /^(\d{8}|\d{11}|\d{13})$/.test(v),
+  validator: value => /^(\d{8}|\d{11}|\d{13})$/.test(value),
   message: 'Invalid EAN code'
 }
 

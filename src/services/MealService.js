@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import createError from 'http-errors'
 import { MealModel } from '../models/Meal.js'
 
+/**
+ *
+ */
 export class MealService {
   /**
    * If the document is modified, save it to the database.
@@ -14,11 +17,21 @@ export class MealService {
     }
   }
 
+  /**
+   *
+   * @param date
+   * @param userId
+   */
   async getByDate (date, userId) {
     const meals = await MealModel.getByDate(date, userId)
     return Object.fromEntries(meals)
   }
 
+  /**
+   *
+   * @param meal
+   * @param userId
+   */
   async create (meal, userId) {
     /**
      * @type {import('mongoose').Document & { populateFoods: () => Promise<void> }}
@@ -31,7 +44,12 @@ export class MealService {
     return doc
   }
 
-  async getOne(id, userId) {
+  /**
+   *
+   * @param id
+   * @param userId
+   */
+  async getOne (id, userId) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(createError(400, 'Invalid meal id'))
     }
@@ -50,6 +68,11 @@ export class MealService {
     return meal
   }
 
+  /**
+   *
+   * @param meal
+   * @param foodItem
+   */
   async addFoodItem (meal, foodItem) {
     const length = meal.foodItems.push(foodItem)
     const foodItemId = meal.foodItems[length - 1]._id.toString()
@@ -57,7 +80,12 @@ export class MealService {
     return foodItemId
   }
 
-  async updFoodItem (meal, foodData ) {
+  /**
+   *
+   * @param meal
+   * @param foodData
+   */
+  async updFoodItem (meal, foodData) {
     const { weight, unit, id } = foodData
     const foodItem = meal.foodItems.id(id)
     if (foodItem) {
@@ -68,16 +96,29 @@ export class MealService {
     await this.#saveToDb(meal)
   }
 
+  /**
+   *
+   * @param meal
+   * @param foodItemId
+   */
   async delFoodItem (meal, foodItemId) {
     meal.foodItems.pull(foodItemId)
 
     this.#saveToDb(meal)
   }
 
+  /**
+   *
+   * @param meal
+   */
   async delete (meal) {
     await meal.deleteOne()
   }
 
+  /**
+   *
+   * @param userId
+   */
   async delByUserId (userId) {
     await MealModel.deleteMany({
       userId

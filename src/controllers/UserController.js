@@ -6,13 +6,16 @@
  */
 
 import { UserModel } from '../models/User.js'
+import { MealModel } from '../models/Meal.js'
+import createError from 'http-errors'
+import { createHttpError } from './lib/functions.js'
 
 /**
  * Encapsulates a controller.
  */
 export class UserController {
   /**
-   * Deletes all data for a user.
+   * Deletes all data for a user, including all meals.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -38,6 +41,7 @@ export class UserController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>}
    */
   async preLoad (req, res, next) {
     try {
@@ -50,10 +54,17 @@ export class UserController {
       req.doc = user
       next()
     } catch (error) {
-      next(this.handleError(error))
+      next(error)
     }
   }
 
+  /**
+   * Creates a new user data document in the database.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async post (req, res, next) {
     try {
       const user = new UserModel({
@@ -64,20 +75,27 @@ export class UserController {
       await user.save()
 
       res.status(201).json({
-        id: user._id,
+        id: user._id
       })
     } catch (error) {
-      next(this.handleError(error))
+      next(createHttpError(error))
     }
   }
 
+  /**
+   * Updates the user data in the database.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async put (req, res, next) {
     Object.assign(req.doc, req.body)
     try {
       await req.doc.save()
       res.status(204).end()
     } catch (error) {
-      next(error)
+      next(createHttpError(error))
     }
   }
 }

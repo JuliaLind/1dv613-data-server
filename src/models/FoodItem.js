@@ -165,7 +165,6 @@ schema.statics.listItems = async function ({ page = 1, limit = 7, query = {} }) 
     this.countDocuments(query)
   ])
 
-  
   const pageSize = foodItems.length
 
   const from = pageSize > 0 ? skip + 1 : 0

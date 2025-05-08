@@ -1,4 +1,4 @@
-/* global after beforeEach afterEach */
+/* global after before */
 
 import chai from 'chai'
 import chaiHttp from 'chai-http' // must have for chai.request
@@ -27,7 +27,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Zeta',
         ean: '7350002401095',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07350002401095_C1N1_s02',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07350002401095_C1N1_s02'
         },
         kcal_100g: 97,
         macros_100g: {
@@ -45,7 +45,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Santa Maria',
         ean: '7311310026745',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07311310026745_C1N1_s02',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07311310026745_C1N1_s02'
         },
         kcal_100g: 269,
         macros_100g: {
@@ -63,7 +63,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Kavli',
         ean: '7311442111302',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07311442111302_C1N1_s04',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07311442111302_C1N1_s04'
         },
         kcal_100g: 700,
         macros_100g: {
@@ -81,7 +81,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Falköpings',
         ean: '7393061003770',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07393061003770_C1N1_s01',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07393061003770_C1N1_s01'
         },
         kcal_100g: 310,
         macros_100g: {
@@ -99,7 +99,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Maille',
         ean: '3036810201280',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/03036810201280_C1N1_s01',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/03036810201280_C1N1_s01'
         },
         kcal_100g: 151,
         macros_100g: {
@@ -117,7 +117,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Podravka',
         ean: '3850104075537',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/03850104075537_C1N1_s03',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/03850104075537_C1N1_s03'
         },
         kcal_100g: 302,
         macros_100g: {
@@ -135,7 +135,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Yoggi',
         ean: '7310865018465',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07310865018465_C1L1_s02',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07310865018465_C1L1_s02'
         },
         kcal_100g: 78,
         macros_100g: {
@@ -149,7 +149,6 @@ describe('scenario - GET foods/', () => {
         }
       }
     ]
-    
 
     const res = await chai.request(app)
       .get('/api/v1/foods')
@@ -193,7 +192,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Aladin',
         ean: '4018342172183',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/04018342172183_C1C1_s01',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/04018342172183_C1C1_s01'
         },
         kcal_100g: 432,
         macros_100g: {
@@ -211,7 +210,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Risifrutti',
         ean: '7310090792628',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07310090792628_C1C1_s02',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/07310090792628_C1C1_s02'
         },
         kcal_100g: 111,
         macros_100g: {
@@ -229,7 +228,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Lu',
         ean: '5410041001204',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/05410041001204_C1C1_s02',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/05410041001204_C1C1_s02'
         },
         kcal_100g: 482,
         macros_100g: {
@@ -247,7 +246,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Podravka',
         ean: '3850104047589',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/03850104047589_C1N1_s02',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/03850104047589_C1N1_s02'
         },
         kcal_100g: 164,
         macros_100g: {
@@ -265,7 +264,7 @@ describe('scenario - GET foods/', () => {
         brand: 'Biggans',
         ean: '73501749',
         img: {
-          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/00000073501749_C1N1_s01',
+          sm: 'https://assets.axfood.se/image/upload/f_auto,t_100/00000073501749_C1N1_s01'
         },
         kcal_100g: 623,
         macros_100g: {
@@ -278,14 +277,12 @@ describe('scenario - GET foods/', () => {
           fiber: 0
         }
       }
-      
+
     ]
-    
-    
 
     const res = await chai.request(app)
       .get('/api/v1/foods?page=' + 3) // 20 items in total, 7 items per page
-      console.log('fooditem count', foods.length)
+    console.log('fooditem count', foods.length)
 
     expect(res).to.have.status(200)
 
@@ -305,7 +302,6 @@ describe('scenario - GET foods/', () => {
     const exp = []
     const res = await chai.request(app)
       .get('/api/v1/foods?page=' + 4) // 20 items in total, 7 items per page
-
 
     expect(res).to.have.status(200)
 

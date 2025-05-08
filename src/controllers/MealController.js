@@ -5,8 +5,8 @@
  * @version 1.0.0
  */
 
-import createError from 'http-errors'
 import { MealService } from '../services/MealService.js'
+import { createHttpError } from './lib/functions.js'
 
 /**
  * Encapsulates a controller.
@@ -14,26 +14,13 @@ import { MealService } from '../services/MealService.js'
 export class MealController {
   #mealService
 
+  /**
+   * Crates a new instance of the MealController.
+   *
+   * @param {MealService} mealService - service for communicating with the Meal Model
+   */
   constructor (mealService = new MealService()) {
     this.#mealService = mealService
-  }
-
-  /**
-   * Handles errors from the MealModel.
-   *
-   * @param {Error} error - the error thrown by the database.
-   * @returns {Error} - a new HTTP error.
-   */
-  handleError (error) {
-    if (error.code === 11000) {
-      return createError(409)
-    }
-
-    if (error.errors) {
-      return createError(400)
-    }
-
-    return createError(500)
   }
 
   /**
@@ -66,7 +53,7 @@ export class MealController {
 
       res.status(201).json(doc)
     } catch (error) {
-      next(error)
+      next(createHttpError(error))
     }
   }
 
@@ -101,7 +88,7 @@ export class MealController {
 
       res.status(201).json(foodItemId)
     } catch (error) {
-      next(this.handleError(error))
+      next(createHttpError(error))
     }
   }
 
@@ -119,7 +106,7 @@ export class MealController {
 
       res.status(204).end()
     } catch (error) {
-      next(this.handleError(error))
+      next(createHttpError(error))
     }
   }
 
@@ -136,7 +123,7 @@ export class MealController {
 
       res.status(204).end()
     } catch (error) {
-      next(this.handleError(error))
+      next(createHttpError(error))
     }
   }
 
@@ -153,7 +140,7 @@ export class MealController {
 
       res.status(204).end()
     } catch (error) {
-      next(this.handleError(error))
+      next(createHttpError(error))
     }
   }
 }
