@@ -51,7 +51,7 @@ export class MealService {
    */
   async getOne (id, userId) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return next(createError(400, 'Invalid meal id'))
+      throw createError(400, 'Invalid meal id')
     }
 
     const meal = await MealModel.findOne(

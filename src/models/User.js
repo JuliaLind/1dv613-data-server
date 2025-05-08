@@ -83,4 +83,4 @@ const schema = new mongoose.Schema(
 )
 
 // Create a model using the schema.
-export const MealModel = mongoose.model('User', schema)
+export const UserModel = mongoose.model('User', schema)
