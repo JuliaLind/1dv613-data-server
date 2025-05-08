@@ -15,8 +15,7 @@ export class MealService {
   }
 
   async getByDate (date, userId) {
-    const meals = await MealModel.find({ date, userId })
-
+    const meals = await MealModel.getByDate(date, userId)
     return Object.fromEntries(meals)
   }
 

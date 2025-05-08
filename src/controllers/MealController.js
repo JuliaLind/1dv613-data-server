@@ -6,7 +6,6 @@
  */
 
 import createError from 'http-errors'
-
 import { MealService } from '../services/MealService.js'
 
 /**
@@ -48,7 +47,6 @@ export class MealController {
   async index (req, res, next) {
     try {
       const meals = await this.#mealService.getByDate(req.params.date, req.user.id)
-
       res.status(200).json(meals)
     } catch (error) {
       next(error)
