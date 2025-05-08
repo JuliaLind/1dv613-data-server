@@ -1,4 +1,4 @@
-import  createError from 'http-errors'
+import createError from 'http-errors'
 
 /**
  * Creates a HTML error for the response
