@@ -67,9 +67,21 @@ export class UserController {
    */
   async post (req, res, next) {
     try {
+      const {
+        height,
+        currentWeight,
+        targetWeight,
+        weeklyChange,
+        activityLevel,
+      } = req.body
+
       const user = new UserModel({
         userId: req.user.id,
-        ...req.body
+        height,
+        currentWeight,
+        targetWeight,
+        weeklyChange,
+        activityLevel,
       })
 
       await user.save()
