@@ -14,8 +14,9 @@ export class UserController {
   #userService
 
   /**
+   * Creates a new instance of the UserController.
    *
-   * @param userService
+   * @param {UserService} userService - service for communicating with the User Model
    */
   constructor (userService = new UserService()) {
     this.#userService = userService
@@ -30,7 +31,7 @@ export class UserController {
    */
   async delete (req, res, next) {
     try {
-      await req.doc.deleteOne()
+      await this.#userService.delete(req.doc)
 
       res.status(204).end()
     } catch (error) {

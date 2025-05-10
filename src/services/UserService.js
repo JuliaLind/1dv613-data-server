@@ -71,4 +71,13 @@ export class UserService {
       await doc.save()
     }
   }
+
+  /**
+   * Deletes the user data document from the database.
+   *
+   * @param {object} doc - The user document to delete.
+   */
+  async delete (doc) {
+    await doc.deleteOne()
+  }
 }

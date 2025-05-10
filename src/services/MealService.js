@@ -18,9 +18,11 @@ export class MealService {
   }
 
   /**
+   * Gets all meals for a given date and the given user.
    *
-   * @param date
-   * @param userId
+   * @param {string} date - the date to get meals from
+   * @param {string} userId - id of the user
+   * @returns {Promise<Map<string,object>>} - a map of meal types to meal objects
    */
   async getByDate (date, userId) {
     const meals = await MealModel.getByDate(date, userId)
@@ -28,9 +30,11 @@ export class MealService {
   }
 
   /**
+   * Creates a new meal for a user.
    *
-   * @param meal
-   * @param userId
+   * @param {object} meal - associative array of meal data
+   * @param {string} userId - id of the user
+   * @returns { Promise<object>} - the new meal document
    */
   async create (meal, userId) {
     /**
@@ -45,15 +49,19 @@ export class MealService {
   }
 
   /**
+   * Gets a meal by id and userId.
    *
-   * @param id
-   * @param userId
+   * @param {string} id - id of the meal to get
+   * @param {string} userId - id of the user
+   * @returns {Promise<object>} - the meal object
    */
   async getOne (id, userId) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw createError(400, 'Invalid meal id')
     }
 
+    // search for the meal by id and userId
+    // to ensure user can't access meals of other users
     const meal = await MealModel.findOne(
       {
         _id: id,
@@ -69,9 +77,11 @@ export class MealService {
   }
 
   /**
+   * Adds a new food item to a meal.
    *
-   * @param meal
-   * @param foodItem
+   * @param {object} meal - mongoose meal document
+   * @param {object} foodItem - associative array of food item data
+   * @returns {Promise<string>} - the id of the new food item
    */
   async addFoodItem (meal, foodItem) {
     const { ean, weight, unit } = foodItem
@@ -82,9 +92,10 @@ export class MealService {
   }
 
   /**
+   * Updates the weight or unit of a food item in a meal.
    *
-   * @param meal
-   * @param foodData
+   * @param {object} meal - mongoose meal document
+   * @param {object} foodData - associative array of food item data
    */
   async updFoodItem (meal, foodData) {
     const { weight, unit, id } = foodData
@@ -98,9 +109,10 @@ export class MealService {
   }
 
   /**
+   * Deletes a food item from a meal.
    *
-   * @param meal
-   * @param foodItemId
+   * @param {object} meal - mongoose meal document
+   * @param {string} foodItemId - id of the food item to delete
    */
   async delFoodItem (meal, foodItemId) {
     meal.foodItems.pull(foodItemId)
@@ -109,16 +121,18 @@ export class MealService {
   }
 
   /**
+   * Deletes a meal.
    *
-   * @param meal
+   * @param {object} meal - mongoose meal document
    */
   async delete (meal) {
     await meal.deleteOne()
   }
 
   /**
+   * Deletes all meals that belong to the user.
    *
-   * @param userId
+   * @param {string} userId - the user id
    */
   async delByUserId (userId) {
     await MealModel.deleteMany({
