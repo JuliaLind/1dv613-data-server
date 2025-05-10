@@ -20,12 +20,19 @@ export class UserService {
     }
   }
 
+  #historyEntry (currentWeight) {
+    return {
+      effectiveDate: new Date(),
+      currentWeight
+    }
+  }
+
   /**
    * Creates a new user data document in the database.
    *
    * @param {object} userData - associative array of user data
    * @param {string} userId - The userId of the user to update.
-   * @returns {string} - The mongo database id of the new user document.
+   * @returns {Promise<string>} - The mongo database id of the new user document.
    */
   async create (userData, userId) {
     const {
@@ -33,22 +40,21 @@ export class UserService {
       currentWeight,
       targetWeight,
       weeklyChange,
-      activityLevel
+      activityLevel,
+      gender
     } = userData
 
     const user = new UserModel({
       userId,
       height,
+      gender,
       currentWeight,
       targetWeight,
       weeklyChange,
-      activityLevel
+      activityLevel,
+      history: [this.#historyEntry(currentWeight)]
     })
 
-    user.history.push({
-      effectiveDate: new Date(),
-      currentWeight
-    })
     await user.save()
 
     return user._id.toString()
@@ -63,10 +69,7 @@ export class UserService {
   async upd (doc, newData) {
     doc.set(newData)
     if (doc.isModified()) {
-      doc.history.push({
-        effectiveDate: new Date(),
-        currentWeight: doc.currentWeight
-      })
+      doc.history.push(this.#historyEntry(newData.currentWeight))
 
       await doc.save()
     }
