@@ -19,7 +19,6 @@ export const authenticateJWT = async (req, res, next) => {
 
     next()
   } catch (error) {
-    console.error(error.message)
     next(createError(401, 'Access token invalid or not provided.'))
   }
 }

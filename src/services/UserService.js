@@ -18,6 +18,7 @@ export class UserService {
     if (!user) {
       throw createError(404, 'No user data registered')
     }
+    return user
   }
 
   /**

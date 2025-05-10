@@ -21,6 +21,7 @@ const convertOptions = Object.freeze({
   transform: (doc, ret) => {
     delete ret._id
     delete ret.userId
+    delete ret.id
 
     return ret
   }
