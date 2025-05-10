@@ -74,7 +74,8 @@ export class MealService {
    * @param foodItem
    */
   async addFoodItem (meal, foodItem) {
-    const length = meal.foodItems.push(foodItem)
+    const { ean, weight, unit } = foodItem
+    const length = meal.foodItems.push({ ean, weight, unit })
     const foodItemId = meal.foodItems[length - 1]._id.toString()
     await this.#saveToDb(meal)
     return foodItemId

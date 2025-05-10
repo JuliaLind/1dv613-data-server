@@ -37,6 +37,11 @@ const schema = new mongoose.Schema(
       minlength: 1,
       message: 'User ID is required'
     },
+    effectiveDate: {
+      type: Date,
+      required: true,
+      index: true
+    },
     gender: {
       type: String,
       required: true,
@@ -81,6 +86,27 @@ const schema = new mongoose.Schema(
     optimisticConcurrency: false
   }
 )
+
+// Allow for multiple user data entries to keep history.
+schema.index({ userId: 1, effectiveDate: 1 }, { unique: true })
+
+/**
+ *
+ * @param userId
+ * @param date
+ */
+schema.statics.getLatest = async function (userId, date) {
+  if (!date) {
+    date = new Date()
+  }
+  const latest = await this.findOne({ userId })
+    .sort({ effectiveDate: -1 })
+    .where('effectiveDate')
+    .lte(date)
+    .exec()
+
+  return latest
+}
 
 // Create a model using the schema.
 export const UserModel = mongoose.model('User', schema)

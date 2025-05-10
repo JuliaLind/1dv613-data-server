@@ -6,7 +6,6 @@
  */
 
 import { UserModel } from '../models/User.js'
-import { MealModel } from '../models/Meal.js'
 import createError from 'http-errors'
 import { createHttpError } from './lib/functions.js'
 
@@ -15,7 +14,7 @@ import { createHttpError } from './lib/functions.js'
  */
 export class UserController {
   /**
-   * Deletes all data for a user, including all meals.
+   * Deletes the user data from the database. Does not delete the meals of the user.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -23,10 +22,6 @@ export class UserController {
    */
   async delete (req, res, next) {
     try {
-      await MealModel.deleteMany({
-        userId: req.user.id
-      })
-
       await req.doc.deleteOne()
 
       res.status(204).end()
@@ -72,7 +67,7 @@ export class UserController {
         currentWeight,
         targetWeight,
         weeklyChange,
-        activityLevel,
+        activityLevel
       } = req.body
 
       const user = new UserModel({
@@ -81,7 +76,7 @@ export class UserController {
         currentWeight,
         targetWeight,
         weeklyChange,
-        activityLevel,
+        activityLevel
       })
 
       await user.save()

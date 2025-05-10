@@ -28,5 +28,8 @@ router.patch('/:id/del/:foodItemId',
 router.delete('/:id',
   (req, res, next) => mealController.delete(req, res, next))
 
+router.delete('/',
+  (req, res, next) => mealController.delByUserId(req, res, next))
+
 router.post('/',
   (req, res, next) => mealController.post(req, res, next))

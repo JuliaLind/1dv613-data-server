@@ -143,4 +143,20 @@ export class MealController {
       next(createHttpError(error))
     }
   }
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  async delByUserId (req, res, next) {
+    try {
+      await this.#mealService.delByUserId(req.params.user.id)
+
+      res.status(204).end()
+    } catch (error) {
+      next(createHttpError(error))
+    }
+  }
 }
