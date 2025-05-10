@@ -9,6 +9,7 @@ export class UserService {
    * Finds a user by id.
    *
    * @param {string} id - The userId of the user to find.
+   * @returns {Promise<object>} - The user document from database.
    */
   async findOne (id) {
     const user = await UserModel.findOne({
