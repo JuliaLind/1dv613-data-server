@@ -20,6 +20,13 @@ export class UserService {
     }
   }
 
+  /**
+   * Creates a history entry for the user,
+   * that contains current weight and date.
+   *
+   * @param {number} currentWeight - The current weight of the user.
+   * @returns {object} - The history entry object.
+   */
   #historyEntry (currentWeight) {
     return {
       effectiveDate: new Date(),
