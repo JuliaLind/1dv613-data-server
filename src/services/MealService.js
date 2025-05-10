@@ -3,7 +3,7 @@ import createError from 'http-errors'
 import { MealModel } from '../models/Meal.js'
 
 /**
- *
+ * Service for managing meals.
  */
 export class MealService {
   /**

@@ -4,15 +4,23 @@
  * @author Julia Lind
  * @version 1.0.0
  */
-
-import { UserModel } from '../models/User.js'
-import createError from 'http-errors'
 import { createHttpError } from './lib/functions.js'
+import { UserService } from '../services/UserService.js'
 
 /**
  * Encapsulates a controller.
  */
 export class UserController {
+  #userService
+
+  /**
+   *
+   * @param userService
+   */
+  constructor (userService = new UserService()) {
+    this.#userService = userService
+  }
+
   /**
    * Deletes the user data from the database. Does not delete the meals of the user.
    *
@@ -40,13 +48,7 @@ export class UserController {
    */
   async preLoad (req, res, next) {
     try {
-      const user = await UserModel.findById(req.user.id)
-
-      if (!user) {
-        return next(createError(404, 'No user data registered'))
-      }
-
-      req.doc = user
+      req.doc = await this.#userService.findOne(req.user.id)
       next()
     } catch (error) {
       next(error)
@@ -62,27 +64,8 @@ export class UserController {
    */
   async post (req, res, next) {
     try {
-      const {
-        height,
-        currentWeight,
-        targetWeight,
-        weeklyChange,
-        activityLevel
-      } = req.body
-
-      const user = new UserModel({
-        userId: req.user.id,
-        height,
-        currentWeight,
-        targetWeight,
-        weeklyChange,
-        activityLevel
-      })
-
-      await user.save()
-
       res.status(201).json({
-        id: user._id
+        id: await this.#userService.create(req.body, req.user.id)
       })
     } catch (error) {
       next(createHttpError(error))
@@ -97,9 +80,8 @@ export class UserController {
    * @param {Function} next - Express next middleware function.
    */
   async put (req, res, next) {
-    Object.assign(req.doc, req.body)
     try {
-      await req.doc.save()
+      await this.#userService.upd(req.doc, req.body)
       res.status(204).end()
     } catch (error) {
       next(createHttpError(error))

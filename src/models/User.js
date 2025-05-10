@@ -37,11 +37,6 @@ const schema = new mongoose.Schema(
       minlength: 1,
       message: 'User ID is required'
     },
-    effectiveDate: {
-      type: Date,
-      required: true,
-      index: true
-    },
     gender: {
       type: String,
       required: true,
@@ -70,13 +65,32 @@ const schema = new mongoose.Schema(
       type: Number,
       required: true,
       message: 'Weekly change is required',
-      min: 0
+      min: 0.25
     },
     activityLevel: {
       type: String,
       required: true,
       enum: ['sedentary', 'light', 'moderate', 'heavy', 'athlete'],
       message: 'Activity level is required'
+    },
+    history: {
+      type: Array,
+      default: [],
+      items: {
+        type: Object,
+        properties: {
+          effectiveDate: {
+            type: Date,
+            required: true
+          },
+          currentWeight: {
+            type: Number,
+            required: true,
+            min: 1,
+            message: 'Weight must be a positive number'
+          }
+        }
+      }
     }
   },
   {
@@ -86,27 +100,6 @@ const schema = new mongoose.Schema(
     optimisticConcurrency: false
   }
 )
-
-// Allow for multiple user data entries to keep history.
-schema.index({ userId: 1, effectiveDate: 1 }, { unique: true })
-
-/**
- *
- * @param userId
- * @param date
- */
-schema.statics.getLatest = async function (userId, date) {
-  if (!date) {
-    date = new Date()
-  }
-  const latest = await this.findOne({ userId })
-    .sort({ effectiveDate: -1 })
-    .where('effectiveDate')
-    .lte(date)
-    .exec()
-
-  return latest
-}
 
 // Create a model using the schema.
 export const UserModel = mongoose.model('User', schema)
