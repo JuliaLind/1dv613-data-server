@@ -1,13 +1,3 @@
-############## old - works!
-
-# FROM node:22-slim
-
-# WORKDIR /
-# COPY package*.json ./
-# RUN npm install --omit=dev
-# COPY . .
-# CMD ["npm", "start"]
-
 # Specify an initial image, a specific version of the Node.js image.
 FROM node:20.17.0-bookworm-slim AS base
 

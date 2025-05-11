@@ -78,7 +78,7 @@ export class UserService {
   async upd (doc, newData) {
     doc.set(newData)
     if (doc.isModified()) {
-      doc.history.push(this.#historyEntry(newData.currentWeight))
+      doc.history.unshift(this.#historyEntry(newData.currentWeight))
 
       await doc.save()
     }
