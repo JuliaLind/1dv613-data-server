@@ -153,7 +153,7 @@ export class MealController {
    */
   async delByUserId (req, res, next) {
     try {
-      await this.#mealService.delByUserId(req.params.user.id)
+      await this.#mealService.delByUserId(req.user.id)
 
       res.status(204).end()
     } catch (error) {

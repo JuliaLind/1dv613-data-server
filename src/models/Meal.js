@@ -9,6 +9,7 @@ import mongoose from 'mongoose'
 import { format } from 'date-fns'
 import { FoodItemModel } from './FoodItem.js'
 import { eanValidator, dateValidator } from './validators.js'
+import createError from 'http-errors'
 
 const convertOptions = Object.freeze({
   getters: true,
@@ -105,6 +106,10 @@ const schema = new mongoose.Schema(
  */
 schema.statics.getByDate = async function (date, userId) {
   const docs = await this.find({ date, userId })
+
+  if (docs.length === 0) {
+    throw createError(404, 'No meals found for this date')
+  }
   const mealMap = new Map()
 
   for (const doc of docs) {
