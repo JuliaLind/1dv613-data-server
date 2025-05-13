@@ -22,19 +22,19 @@ export class UserService {
     return user
   }
 
-  /**
-   * Creates a history entry for the user,
-   * that contains current weight and date.
-   *
-   * @param {number} currentWeight - The current weight of the user.
-   * @returns {object} - The history entry object.
-   */
-  #historyEntry (currentWeight) {
-    return {
-      effectiveDate: new Date(),
-      currentWeight
-    }
-  }
+  // /**
+  //  * Creates a history entry for the user,
+  //  * that contains current weight and date.
+  //  *
+  //  * @param {number} currentWeight - The current weight of the user.
+  //  * @returns {object} - The history entry object.
+  //  */
+  // #historyEntry (currentWeight) {
+  //   return {
+  //     effectiveDate: new Date(),
+  //     currentWeight
+  //   }
+  // }
 
   /**
    * Creates a new user data document in the database.
@@ -50,7 +50,8 @@ export class UserService {
       targetWeight,
       weeklyChange,
       activityLevel,
-      gender
+      gender,
+      effectiveDate
     } = userData
 
     const user = new UserModel({
@@ -61,7 +62,7 @@ export class UserService {
       targetWeight,
       weeklyChange,
       activityLevel,
-      history: [this.#historyEntry(currentWeight)]
+      history: [{effectiveDate, currentWeight}]
     })
 
     await user.save()
@@ -78,7 +79,15 @@ export class UserService {
   async upd (doc, newData) {
     doc.set(newData)
     if (doc.isModified()) {
-      doc.history.unshift(this.#historyEntry(newData.currentWeight))
+      const {
+        currentWeight,
+        effectiveDate
+      } = newData
+
+      doc.history.unshift({
+        effectiveDate,
+        currentWeight
+      })
 
       await doc.save()
     }
