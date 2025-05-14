@@ -89,6 +89,18 @@ const schema = new mongoose.Schema(
             required: true,
             min: 1,
             message: 'Weight must be a positive number'
+          },
+          age: {
+            type: Number,
+            required: true,
+            min: 1,
+            message: 'Age must be a positive number'
+          },
+          height: {
+            type: Number,
+            required: true,
+            min: 1,
+            message: 'Height must be a positive number'
           }
         }
       }
