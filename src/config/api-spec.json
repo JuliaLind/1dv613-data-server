@@ -447,6 +447,33 @@
             "$ref": "#/components/responses/ServerError"
           }
         }
+      },
+      "delete": {
+        "summary": "Delete all meals of a user",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "204": {
+            "description": "Meals successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MealEntry"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
       }
     },
     "/meals/{id}/add": {
@@ -625,6 +652,197 @@
           }
         }
       }
+    },
+    "/user": {
+      "get": {
+        "summary": "Get user information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "description": "Unique identifier of the user"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": ["m", "f"],
+                      "description": "Gender of the user"
+                    },
+                    "currentWeight": {
+                      "type": "number",
+                      "description": "Current weight of the user in kilograms"
+                    },
+                    "targetWeight": {
+                      "type": "number",
+                      "description": "Target weight of the user in kilograms"
+                    },
+                    "height": {
+                      "type": "number",
+                      "description": "Height of the user in centimeters"
+                    },
+                    "weeklyChange": {
+                      "type": "number",
+                      "description": "The target weekly weight change for the user in kilograms"
+                    },
+                    "activityLevel": {
+                      "type": "string",
+                      "enum": ["sedentary", "light", "moderate", "heavy", "athlete"],
+                      "description": "The user's activity level"
+                    },
+                    "history": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "effectiveDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date the user's weight history was updated"
+                          },
+                          "currentWeight": {
+                            "type": "number",
+                            "description": "The user's weight at the given date"
+                          },
+                          "age": {
+                            "type": "number",
+                            "description": "The user's age at the given date"
+                          },
+                          "height": {
+                            "type": "number",
+                            "description": "The user's height at the given date"
+                          }
+                        }
+                      },
+                      "description": "The user's weight and other details over time"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was created"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user information was last updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Register user information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User information updated successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User information successfully deleted"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -662,6 +880,17 @@
           }
         }
       },
+      "Conflict": {
+        "description": "Duplicate entry",
+        "content": {
+          "application/json": {
+            "example": {
+              "status_code": 409,
+              "message": "Conflict"
+            }
+          }
+        }
+      },
       "ServerError": {
         "description": "Internal server error",
         "content": {
@@ -682,6 +911,62 @@
       }
     },
     "schemas": {
+      "UserInput": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier of the user"
+          },
+          "gender": {
+            "type": "string",
+            "enum": ["m", "f"],
+            "description": "Gender of the user"
+          },
+          "currentWeight": {
+            "type": "number",
+            "description": "Current weight of the user in kilograms"
+          },
+          "targetWeight": {
+            "type": "number",
+            "description": "Target weight of the user in kilograms"
+          },
+          "height": {
+            "type": "number",
+            "description": "Height of the user in centimeters"
+          },
+          "weeklyChange": {
+            "type": "number",
+            "description": "The target weekly weight change for the user in kilograms"
+          },
+          "activityLevel": {
+            "type": "string",
+            "enum": ["sedentary", "light", "moderate", "heavy", "athlete"],
+            "description": "The user's activity level"
+          },
+          "age": {
+            "type": "number",
+            "description": "The user's age"
+          },
+          "effectiveDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the user's weight history was updated"
+          }
+        },
+        "required": [
+          "userId",
+          "gender",
+          "currentWeight",
+          "targetWeight",
+          "height",
+          "weeklyChange",
+          "activityLevel",
+          "age",
+          "effectiveDate"
+        ]
+      },
+
       "FoodItemUpdateInput": {
         "type": "object",
         "required": ["id", "weight", "unit"],

@@ -1,0 +1,176 @@
+{
+  "_id": {
+    "$oid": "68247b4451a32cab6babf609"
+  },
+  "userId": "6820f273ee555f6d7f8cee61",
+  "gender": "f",
+  "currentWeight": 60,
+  "targetWeight": 50,
+  "height": 163,
+  "weeklyChange": 0.25,
+  "activityLevel": "light",
+  "history": [
+    {
+      "effectiveDate": "2025-05-14T11:15:16.129Z",
+      "currentWeight": 58.9,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-05-13T11:15:16.129Z",
+      "currentWeight": 59.3,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-05-09T11:15:16.129Z",
+      "currentWeight": 59.5,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-05-08T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-05-07T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-05-06T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-05-04T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-05-03T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },  
+        {
+      "effectiveDate": "2025-05-02T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-30T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-29T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-28T14:15:16.129Z",
+      "currentWeight": 59.6,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-28T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-27T11:15:16.129Z",
+      "currentWeight": 59.3,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-26T11:15:16.129Z",
+      "currentWeight": 59.5,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-25T11:15:16.129Z",
+      "currentWeight": 59.9,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-20T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-18T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-04-13T11:15:16.129Z",
+      "currentWeight": 59.7,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-12T11:15:16.129Z",
+      "currentWeight": 59.8,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-11T11:15:16.129Z",
+      "currentWeight": 59,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-10T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-08T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-07T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    },
+        {
+      "effectiveDate": "2025-04-04T11:15:16.129Z",
+      "currentWeight": 59.5,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-04-03T11:15:16.129Z",
+      "currentWeight": 60,
+      "age": 36,
+      "height": 163
+    } 
+  ],
+  "createdAt": {
+    "$date": "2025-05-14T11:15:16.153Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-14T11:15:16.153Z"
+  }
+}

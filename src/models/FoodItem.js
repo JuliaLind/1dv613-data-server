@@ -114,7 +114,8 @@ const schema = new mongoose.Schema(
     toObject: convertOptions,
     toJSON: convertOptions,
     optimisticConcurrency: false,
-    id: false
+    id: false,
+    versionKey: false
   }
 )
 
