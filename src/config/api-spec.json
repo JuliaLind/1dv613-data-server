@@ -817,7 +817,7 @@
           }
         },
         "responses": {
-          "200": {
+          "204": {
             "description": "User information updated successfully"
           },
           "400": {
