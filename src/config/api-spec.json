@@ -671,33 +671,40 @@
                   "properties": {
                     "userId": {
                       "type": "string",
-                      "description": "Unique identifier of the user"
+                      "description": "Unique identifier of the user",
+                      "example": "6805773e386f47da9e70bf56"
                     },
                     "gender": {
                       "type": "string",
                       "enum": ["m", "f"],
-                      "description": "Gender of the user"
+                      "description": "Gender of the user",
+                      "example": "m"
                     },
                     "currentWeight": {
                       "type": "number",
-                      "description": "Current weight of the user in kilograms"
+                      "description": "Current weight of the user in kilograms",
+                      "example": 70
                     },
                     "targetWeight": {
                       "type": "number",
-                      "description": "Target weight of the user in kilograms"
+                      "description": "Target weight of the user in kilograms",
+                      "example": 65
                     },
                     "height": {
                       "type": "number",
-                      "description": "Height of the user in centimeters"
+                      "description": "Height of the user in centimeters",
+                      "example": 175
                     },
                     "weeklyChange": {
                       "type": "number",
-                      "description": "The target weekly weight change for the user in kilograms"
+                      "description": "The target weekly weight change for the user in kilograms",
+                      "example": 0.5
                     },
                     "activityLevel": {
                       "type": "string",
                       "enum": ["sedentary", "light", "moderate", "heavy", "athlete"],
-                      "description": "The user's activity level"
+                      "description": "The user's activity level",
+                      "example": "moderate"
                     },
                     "history": {
                       "type": "array",
@@ -707,19 +714,23 @@
                           "effectiveDate": {
                             "type": "string",
                             "format": "date-time",
-                            "description": "The date the user's weight history was updated"
+                            "description": "The date the user's weight history was updated",
+                            "example": "2025-04-23T10:00:00Z"
                           },
                           "currentWeight": {
                             "type": "number",
-                            "description": "The user's weight at the given date"
+                            "description": "The user's weight at the given date",
+                            "example": 70
                           },
                           "age": {
                             "type": "number",
-                            "description": "The user's age at the given date"
+                            "description": "The user's age at the given date",
+                            "example": 30
                           },
                           "height": {
                             "type": "number",
-                            "description": "The user's height at the given date"
+                            "description": "The user's height at the given date",
+                            "example": 175
                           }
                         }
                       },
@@ -728,12 +739,14 @@
                     "createdAt": {
                       "type": "string",
                       "format": "date-time",
-                      "description": "Timestamp when the user was created"
+                      "description": "Timestamp when the user was created",
+                      "example": "2025-04-23T10:00:00Z"
                     },
                     "updatedAt": {
                       "type": "string",
                       "format": "date-time",
-                      "description": "Timestamp when the user information was last updated"
+                      "description": "Timestamp when the user information was last updated",
+                      "example": "2025-04-23T10:00:00Z"
                     }
                   }
                 }
@@ -916,42 +929,51 @@
         "properties": {
           "userId": {
             "type": "string",
-            "description": "Unique identifier of the user"
+            "description": "Unique identifier of the user",
+            "example": "6805773e386f47da9e70bf56"
           },
           "gender": {
             "type": "string",
             "enum": ["m", "f"],
-            "description": "Gender of the user"
+            "description": "Gender of the user",
+            "example": "m"
           },
           "currentWeight": {
             "type": "number",
-            "description": "Current weight of the user in kilograms"
+            "description": "Current weight of the user in kilograms",
+            "example": 70
           },
           "targetWeight": {
             "type": "number",
-            "description": "Target weight of the user in kilograms"
+            "description": "Target weight of the user in kilograms",
+            "example": 65
           },
           "height": {
             "type": "number",
-            "description": "Height of the user in centimeters"
+            "description": "Height of the user in centimeters",
+            "example": 175
           },
           "weeklyChange": {
             "type": "number",
-            "description": "The target weekly weight change for the user in kilograms"
+            "description": "The target weekly weight change for the user in kilograms",
+            "example": 0.5
           },
           "activityLevel": {
             "type": "string",
             "enum": ["sedentary", "light", "moderate", "heavy", "athlete"],
-            "description": "The user's activity level"
+            "description": "The user's activity level",
+            "example": "moderate"
           },
           "age": {
             "type": "number",
-            "description": "The user's age"
+            "description": "The user's age",
+            "example": 30
           },
           "effectiveDate": {
             "type": "string",
             "format": "date-time",
-            "description": "The date the user's weight history was updated"
+            "description": "The date the user's weight history was updated",
+            "example": "2025-04-23T10:00:00Z"
           }
         },
         "required": [
