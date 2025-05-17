@@ -170,19 +170,17 @@ describe('FoodItemModel', () => {
     sinon.stub(FoodItemModel, 'findOne').resolves(foodItem)
 
     const result = await FoodItemModel.getByEan(ean)
-    expect(result).to.deep.equal(foodItem)
+    expect(result).to.equal(foodItem)
     expect(FoodItemModel.findOne).to.have.been.calledWith({ ean })
   })
+
   it('getByEan, should throw an error if food item is not found', async () => {
     const ean = '1234567890123'
 
     sinon.stub(FoodItemModel, 'findOne').resolves(null)
 
-    const promise = FoodItemModel.getByEan(ean)
-    const error = await promise.catch((err) => {
-      return err
+    expect(FoodItemModel.getByEan(ean)).to.be.rejected.then(err => {
+      expect(err).to.have.property('statusCode', 404)
     })
-
-    expect(error.status).to.equal(404)
   })
 })

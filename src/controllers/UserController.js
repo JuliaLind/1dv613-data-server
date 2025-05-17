@@ -47,7 +47,7 @@ export class UserController {
    * @param {Function} next - Express next middleware function.
    * @returns {Promise<void>}
    */
-  async preLoad (req, res, next) {
+  async preload (req, res, next) {
     try {
       req.doc = await this.#userService.findOne(req.user.id)
       next()
