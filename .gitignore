@@ -13,7 +13,7 @@ data/clean.jsonl
 
 
 # maybe uncomment later
-data/excluded.jsonl
+# data/excluded.jsonl
 
 # keys
 *.pem
