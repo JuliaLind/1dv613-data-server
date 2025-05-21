@@ -16,8 +16,6 @@ describe('scenario - GET foods/', () => {
   })
   after(async () => {
     await FoodItemModel.deleteMany()
-    await connection.disconnect()
-    await server.close()
   })
 
   it('should return 200 for food route and return first 7 food items after sortin in alphabetical order', async () => {
