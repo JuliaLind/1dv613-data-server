@@ -53,6 +53,10 @@ describe('scenario - PUT user/', () => {
     // first history entry should be created
     expect(user.history).to.have.lengthOf(1)
     expect(user.history[0].currentWeight).to.equal(60)
+    expect(user.history[0].effectiveDate).to.equal(format(subDays(new Date(), 5), 'yyyy-MM-dd'))
+    expect(user.history[0].age).to.equal(36)
+    expect(user.history[0].height).to.equal(163)
+    expect(Object.keys(user.history[0])).to.have.lengthOf(4)
 
     const updatedData = {
       gender: 'f',
