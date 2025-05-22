@@ -28,6 +28,11 @@ describe('scenario - PUT user/', () => {
     sinon.restore()
   })
 
+  after(async () => {
+    await connection.disconnect()
+    await server.close()
+  })
+
   
   it('Req 1.5.6 - should save user history when updating profile', async () => {
     const token = 'dummytoken'
