@@ -10,8 +10,6 @@ import { subDays, format } from 'date-fns'
 import { app, connection, server } from '../../src/server.js'
 import { UserModel } from '../../src/models/User.js'
 
-
-
 const expect = chai.expect
 chai.use(sinonChai)
 chai.use(chaiHttp) // must have for chai.request
@@ -20,8 +18,8 @@ describe('scenario - PUT user/', () => {
   const userId = '123456789012345678901234'
   before(async () => {
     sinon.stub(JwtService, 'decodeUser').resolves({
-        id: userId
-      })
+      id: userId
+    })
   })
 
   afterEach(() => {
@@ -33,7 +31,6 @@ describe('scenario - PUT user/', () => {
     await server.close()
   })
 
-  
   it('Req 1.5.6 - should save user history when updating profile', async () => {
     const token = 'dummytoken'
     const userData = {
@@ -47,14 +44,13 @@ describe('scenario - PUT user/', () => {
       age: 36
     }
 
-
     // create new user
     let res = await chai.request(app)
       .post('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(userData)
 
-    let user = await UserModel.findOne({userId})
+    let user = await UserModel.findOne({ userId })
     // first history entry should be created
     expect(user.history).to.have.lengthOf(1)
     expect(user.history[0].currentWeight).to.equal(60)
@@ -82,7 +78,7 @@ describe('scenario - PUT user/', () => {
 
     expect(res).to.have.status(204)
 
-    user = await UserModel.findOne({  userId})
+    user = await UserModel.findOne({ userId })
 
     // second history entry should be created
     expect(user.history).to.have.lengthOf(2)
@@ -100,7 +96,7 @@ describe('scenario - PUT user/', () => {
         currentWeight: 55
       })
 
-    user = await UserModel.findOne({userId})
+    user = await UserModel.findOne({ userId })
     // third history entry should be created
     expect(user.history).to.have.lengthOf(3)
     expect(user.history[0].currentWeight).to.equal(55)

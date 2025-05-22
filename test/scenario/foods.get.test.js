@@ -3,7 +3,7 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http' // must have for chai.request
 
-import { app, connection, server } from '../../src/server.js'
+import { app } from '../../src/server.js'
 import { FoodItemModel } from '../../src/models/FoodItem.js'
 import { foods } from './mock-data/foods.js'
 
