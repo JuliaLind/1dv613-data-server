@@ -5,6 +5,7 @@ import chaiHttp from 'chai-http' // must have for chai.request
 import { JwtService } from '../../src/services/JwtService.js'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
+import { subDays, format } from 'date-fns'
 
 import { app } from '../../src/server.js'
 import { MealModel } from '../../src/models/Meal.js'
@@ -17,7 +18,7 @@ describe('scenario - DELETE meals/', () => {
   const token = 'dummytoken'
   const userId = '123456789012345678901234'
   const otherUserId = '234567890123456789012345'
-  const selectedDate = '2025-01-01'
+  const selectedDate = format(subDays(new Date(), 5), 'yyyy-MM-dd')
   const lunch = {
     date: selectedDate,
     type: 'lunch',
@@ -39,30 +40,15 @@ describe('scenario - DELETE meals/', () => {
       }
     ]
   }
+  let mealId
 
   beforeEach(async () => {
     await MealModel.deleteMany()
-    await MealModel.create({
+    const firstUserMeal = await MealModel.create({
       ...lunch,
       userId
     })
-
-    await MealModel.create({
-      ...lunch,
-      userId: otherUserId
-    })
-
-    await MealModel.create({
-      ...lunch,
-      date: '2025-03-02',
-      userId
-    })
-
-    await MealModel.create({
-      ...lunch,
-      date: '2025-03-12',
-      userId: otherUserId
-    })
+    mealId = firstUserMeal._id.toString()
   })
 
   afterEach(async () => {
@@ -70,26 +56,33 @@ describe('scenario - DELETE meals/', () => {
     sinon.restore()
   })
 
-  it('Should delete all meals of the user, but not of other user', async () => {
-    let firstUserMeals = await MealModel.find({ userId })
-    expect(firstUserMeals).to.have.lengthOf(2)
-
-    let secondUserMeals = await MealModel.find({ userId: otherUserId })
-    expect(secondUserMeals).to.have.lengthOf(2)
-
+  it('Should be able to delete own meal', async () => {
     sinon.stub(JwtService, 'decodeUser').resolves({
       id: userId
     })
-
     const res = await chai.request(app)
-      .delete('/api/v1/meals')
+      .delete(`/api/v1/meals/${mealId}`)
       .set('Authorization', `Bearer ${token}`)
       .send()
 
     expect(res).to.have.status(204)
-    firstUserMeals = await MealModel.find({ userId })
-    secondUserMeals = await MealModel.find({ userId: otherUserId })
-    expect(firstUserMeals).to.have.lengthOf(0)
-    expect(secondUserMeals).to.have.lengthOf(2)
+
+    const meals = await MealModel.findById(mealId)
+    expect(meals).to.be.null
+  })
+
+  it('Should not be able to delete meal of another user', async () => {
+    sinon.stub(JwtService, 'decodeUser').resolves({
+      id: otherUserId
+    })
+
+    const res = await chai.request(app)
+      .delete(`/api/v1/meals/${mealId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send()
+
+    expect(res).to.have.status(404) // should not disclose that the meal exists
+    const meals = await MealModel.findById(mealId)
+    expect(meals).to.not.be.null
   })
 })
