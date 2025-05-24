@@ -6,13 +6,29 @@
  */
 
 import mongoose from 'mongoose'
+import { format } from 'date-fns'
 
 const historyEntrySchema = new mongoose.Schema(
   {
     effectiveDate: {
-      type: Date,
+      type: String,
       required: true,
-      default: Date.now
+      /**
+       * Default value is today's date in the format YYYY-MM-DD.
+       *
+       * @returns {string} - The default effective date.
+       */
+      default: () => format(Date.now(), 'yyyy-MM-dd'),
+      validate: {
+        /**
+         * Validator function to check if the date is in the format YYYY-MM-DD.
+         *
+         * @param {string} v - The value to validate.
+         * @returns {boolean} - Returns true if the date is valid, false otherwise.
+         */
+        validator: (v) => /^\d{4}-\d{2}-\d{2}$/.test(v),
+        message: 'Effective date must be in the format YYYY-MM-DD'
+      }
     },
     currentWeight: {
       type: Number,

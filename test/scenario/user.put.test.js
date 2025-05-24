@@ -33,6 +33,7 @@ describe('scenario - PUT user/', () => {
 
   it('Req 1.5.6 - should save user history when updating profile', async () => {
     const token = 'dummytoken'
+    let effectiveDate = format(subDays(new Date(), 5), 'yyyy-MM-dd')
     const userData = {
       gender: 'f',
       currentWeight: 60,
@@ -40,7 +41,7 @@ describe('scenario - PUT user/', () => {
       height: 163,
       weeklyChange: 0.5,
       activityLevel: 'light',
-      effectiveDate: format(subDays(new Date(), 5), 'yyyy-MM-dd'),
+      effectiveDate,
       age: 36
     }
 
@@ -50,15 +51,16 @@ describe('scenario - PUT user/', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(userData)
 
-    let user = await UserModel.findOne({ userId })
+    let user = (await UserModel.findOne({ userId })).toObject()
     // first history entry should be created
     expect(user.history).to.have.lengthOf(1)
     expect(user.history[0].currentWeight).to.equal(60)
-    expect(user.history[0].effectiveDate).to.equal(format(subDays(new Date(), 5), 'yyyy-MM-dd'))
+    expect(user.history[0].effectiveDate).to.equal(effectiveDate)
     expect(user.history[0].age).to.equal(36)
     expect(user.history[0].height).to.equal(163)
     expect(Object.keys(user.history[0])).to.have.lengthOf(4)
 
+    effectiveDate = format(subDays(new Date(), 4), 'yyyy-MM-dd')
     const updatedData = {
       gender: 'f',
       currentWeight: 58,
@@ -66,7 +68,7 @@ describe('scenario - PUT user/', () => {
       height: 163,
       weeklyChange: 0.5,
       activityLevel: 'light',
-      effectiveDate: format(subDays(new Date(), 4), 'yyyy-MM-dd'),
+      effectiveDate,
       age: 36
     }
 
@@ -78,7 +80,7 @@ describe('scenario - PUT user/', () => {
 
     expect(res).to.have.status(204)
 
-    user = await UserModel.findOne({ userId })
+    user = (await UserModel.findOne({ userId })).toObject()
 
     // second history entry should be created
     expect(user.history).to.have.lengthOf(2)
@@ -87,16 +89,17 @@ describe('scenario - PUT user/', () => {
     expect(user.history[0].currentWeight).to.equal(58)
 
     // update user data second time
+    effectiveDate = format(subDays(new Date(), 3), 'yyyy-MM-dd')
     await chai.request(app)
       .put('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send({
         ...updatedData,
-        effectiveDate: format(subDays(new Date(), 3), 'yyyy-MM-dd'),
+        effectiveDate,
         currentWeight: 55
       })
 
-    user = await UserModel.findOne({ userId })
+    user = (await UserModel.findOne({ userId })).toObject()
     // third history entry should be created
     expect(user.history).to.have.lengthOf(3)
     expect(user.history[0].currentWeight).to.equal(55)

@@ -72,21 +72,31 @@ export class UserService {
    */
   async upd (doc, newData) {
     doc.set(newData)
-    if (doc.isModified()) {
-      const {
-        currentWeight,
+    const {
+      height,
+      currentWeight,
+      effectiveDate,
+      age
+    } = newData
+
+    if (doc.history.length > 0 && doc.history[0].effectiveDate === newData.effectiveDate) {
+      // replace existing entry if the effective date is the same
+      doc.history[0] = {
         effectiveDate,
+        currentWeight,
         age,
         height
-      } = newData
-
+      }
+    } else {
       doc.history.unshift({
         effectiveDate,
         currentWeight,
         age,
         height
       })
+    }
 
+    if (doc.isModified()) {
       await doc.save()
     }
   }
