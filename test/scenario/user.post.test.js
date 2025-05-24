@@ -98,6 +98,7 @@ describe('scenario - POST user/', () => {
       .post('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(otherUserData)
+
     expect(res).to.have.status(201)
 
     const users = await UserModel.find()
@@ -139,6 +140,7 @@ describe('scenario - POST user/', () => {
         .post('/api/v1/user')
         .set('Authorization', `Bearer ${token}`)
         .send(updatedData)
+
       expect(res).to.have.status(400)
 
       const user = await UserModel.findOne({ userId: newUserId })

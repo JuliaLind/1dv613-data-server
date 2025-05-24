@@ -185,6 +185,7 @@ describe('scenario - PUT user/', () => {
         .put('/api/v1/user')
         .set('Authorization', `Bearer ${token}`)
         .send(updatedData)
+
       expect(res).to.have.status(400)
 
       const user = await UserModel.findOne({ userId })
@@ -208,6 +209,7 @@ describe('scenario - PUT user/', () => {
       .put('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData)
+
     expect(res).to.have.status(400)
 
     const user = await UserModel.findOne({ userId })

@@ -74,6 +74,7 @@ describe('scenario - POST user/', () => {
     const res = await chai.request(app)
       .delete('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
+      .send()
 
     expect(res).to.have.status(204)
 

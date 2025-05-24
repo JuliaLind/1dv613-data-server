@@ -17,6 +17,7 @@ chai.use(chaiHttp) // must have for chai.request
 describe('scenario - POST user/', () => {
   const token = 'dummytoken'
   const userId = '123456789012345678901234'
+  const otherUserId = '234567890123456789012345'
   const selectedDate = format(subDays(new Date(), 5), 'yyyy-MM-dd')
   const lunch = {
     date: selectedDate,
@@ -39,13 +40,15 @@ describe('scenario - POST user/', () => {
       }
     ]
   }
+  let firstUserMealId
 
   beforeEach(async () => {
     await MealModel.deleteMany()
-    await MealModel.create({
+    const firstUserMeal = await MealModel.create({
       ...lunch,
       userId
     })
+    firstUserMealId = firstUserMeal._id.toString()
   })
 
   afterEach(async () => {
@@ -55,7 +58,6 @@ describe('scenario - POST user/', () => {
 
   describe('Modifying meal of one user should not affect another user', () => {
     let mealId
-    const otherUserId = '234567890123456789012345'
 
     beforeEach(() => {
       sinon.stub(JwtService, 'decodeUser').resolves({
@@ -166,6 +168,73 @@ describe('scenario - POST user/', () => {
       expect(secondUserMeal.foodItems).to.have.lengthOf(3)
       expect(secondUserMeal.foodItems[1].weight).to.equal(newWeight)
       expect(firstUserMeal.foodItems[1].weight).to.equal(lunch.foodItems[1].weight) // first user's meal should not be affected
+    })
+  })
+
+  describe('Should not be able to modify meal of another user', () => {
+    beforeEach(() => {
+      sinon.stub(JwtService, 'decodeUser').resolves({
+        id: otherUserId
+      })
+    })
+
+    afterEach(() => {
+      sinon.restore()
+    })
+
+    it('Add new item to meal', async () => {
+      const newItem = {
+        ean: '7310240071870', // Mexicana X-tra Allt Pizza Fryst
+        unit: 'g',
+        weight: 150
+      }
+
+      const res = await chai.request(app)
+        .patch(`/api/v1/meals/${firstUserMealId}/add`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(newItem)
+
+      expect(res).to.have.status(404) // Should not disclose that the meal exists
+
+      const firstUserMeal = await MealModel.findById(firstUserMealId)
+      expect(firstUserMeal.foodItems).to.have.lengthOf(3) // should not be modified
+    })
+
+    it('Remove item from meal', async () => {
+      const meal = await MealModel.findById(firstUserMealId)
+      const itemToRemove = meal.foodItems[1]
+      const itemId = itemToRemove._id.toString()
+
+      const res = await chai.request(app)
+        .patch(`/api/v1/meals/${firstUserMealId}/del/${itemId}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send()
+
+      expect(res).to.have.status(404) // Should not disclose that the meal exists
+
+      const firstUserMeal = await MealModel.findById(firstUserMealId)
+      expect(firstUserMeal.foodItems).to.have.lengthOf(3) // should not be modified
+    })
+
+    it('Change weight of item in meal', async () => {
+      const meal = await MealModel.findById(firstUserMealId)
+      const itemToChange = meal.foodItems[1]
+      const itemId = itemToChange._id.toString()
+      const newWeight = 2000
+
+      const res = await chai.request(app)
+        .patch(`/api/v1/meals/${firstUserMealId}/upd`)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: itemId,
+          weight: newWeight,
+          unit: itemToChange.unit
+        })
+
+      expect(res).to.have.status(404) // Should not disclose that the meal exists
+
+      const firstUserMeal = await MealModel.findById(firstUserMealId)
+      expect(firstUserMeal.foodItems[1].weight).to.not.equal(newWeight) // should not be modified
     })
   })
 })
