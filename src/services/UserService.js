@@ -49,7 +49,14 @@ export class UserService {
       targetWeight,
       weeklyChange,
       activityLevel,
-      history: [{ effectiveDate, currentWeight, age, height }]
+      history: [
+        {
+          effectiveDate,
+          currentWeight,
+          age,
+          height
+        }
+      ]
     })
 
     await user.save()

@@ -7,6 +7,35 @@
 
 import mongoose from 'mongoose'
 
+const historyEntrySchema = new mongoose.Schema(
+  {
+    effectiveDate: {
+      type: Date,
+      required: true,
+      default: Date.now
+    },
+    currentWeight: {
+      type: Number,
+      required: true,
+      min: 1,
+      message: 'Weight must be a positive number'
+    },
+    age: {
+      type: Number,
+      required: true,
+      min: 1,
+      message: 'Age must be a positive number'
+    },
+    height: {
+      type: Number,
+      required: true,
+      min: 1,
+      message: 'Height must be a positive number'
+    }
+  },
+  { _id: false } // optional, disables _id for subdocuments
+)
+
 const convertOptions = Object.freeze({
   getters: true,
   versionKey: false,
@@ -75,35 +104,8 @@ const schema = new mongoose.Schema(
       message: 'Activity level is required'
     },
     history: {
-      type: Array,
-      default: [],
-      items: {
-        type: Object,
-        properties: {
-          effectiveDate: {
-            type: Date,
-            required: true
-          },
-          currentWeight: {
-            type: Number,
-            required: true,
-            min: 1,
-            message: 'Weight must be a positive number'
-          },
-          age: {
-            type: Number,
-            required: true,
-            min: 1,
-            message: 'Age must be a positive number'
-          },
-          height: {
-            type: Number,
-            required: true,
-            min: 1,
-            message: 'Height must be a positive number'
-          }
-        }
-      }
+      type: [historyEntrySchema],
+      default: []
     }
   },
   {
