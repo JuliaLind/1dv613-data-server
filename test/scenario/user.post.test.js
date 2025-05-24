@@ -111,4 +111,38 @@ describe('scenario - POST user/', () => {
     expect(user2.userId).to.equal(otherUserId)
     expect(user2.currentWeight).to.equal(58)
   })
+
+  const data = {
+    gender: 'f',
+    currentWeight: 58,
+    targetWeight: 53,
+    height: 163,
+    weeklyChange: 0.5,
+    activityLevel: 'light',
+    // effectiveDate: '2025-06-01', // not mandatory to create a user profile
+    age: 36
+  }
+  const requiredFields = Object.keys(data) // all fields should technically be present in
+  // the put request, but these are the only ones that are required for the update to go through
+
+  requiredFields.forEach((field) => {
+    it(`Bad Request - should not update user data without ${field}`, async () => {
+      const newUserId = 'newUserId'
+      sinon.stub(JwtService, 'decodeUser').resolves({
+        id: newUserId
+      })
+
+      const updatedData = { ...data }
+      delete updatedData[field]
+
+      const res = await chai.request(app)
+        .post('/api/v1/user')
+        .set('Authorization', `Bearer ${token}`)
+        .send(updatedData)
+      expect(res).to.have.status(400)
+
+      const user = await UserModel.findOne({ userId: newUserId })
+      expect(user).to.equal(null)
+    })
+  })
 })

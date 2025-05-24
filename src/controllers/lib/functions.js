@@ -8,6 +8,10 @@ import createError from 'http-errors'
  * @returns {Error} - the error to send in the response.
  */
 export function createHttpError (error) {
+  if (error instanceof createError.HttpError) {
+    return error
+  }
+
   if (error.code === 11000) {
     return createError(409)
   }

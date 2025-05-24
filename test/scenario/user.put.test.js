@@ -132,6 +132,7 @@ describe('scenario - PUT user/', () => {
       .put('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData)
+
     expect(res).to.have.status(404) // should not disclose that the other user exists
 
     const otherUser = await UserModel.findOne({ userId: otherUserId })
@@ -155,5 +156,62 @@ describe('scenario - PUT user/', () => {
         }
       ]
     })
+  })
+
+  const data = {
+    gender: 'f',
+    currentWeight: 58,
+    targetWeight: 53,
+    height: 163,
+    weeklyChange: 0.5,
+    activityLevel: 'light',
+    effectiveDate: '2025-06-01',
+    age: 36
+  }
+  const requiredFields = ['currentWeight', 'height', 'age'] // all fields should technically be present in
+  // the put request, but these are the only ones that are required for the update to go through
+
+  requiredFields.forEach((field) => {
+    it(`Bad Request - should not update user data without ${field}`, async () => {
+      const initialUser = await UserModel.findOne({ userId })
+      sinon.stub(JwtService, 'decodeUser').resolves({
+        id: userId
+      })
+
+      const updatedData = { ...data }
+      delete updatedData[field]
+
+      const res = await chai.request(app)
+        .put('/api/v1/user')
+        .set('Authorization', `Bearer ${token}`)
+        .send(updatedData)
+      expect(res).to.have.status(400)
+
+      const user = await UserModel.findOne({ userId })
+      // should remain unchanged
+      expect(user).to.deep.equal(initialUser)
+    })
+  })
+
+  it('Bad Request - should not update user data prior to latest effectiveDate', async () => {
+    const initialUser = await UserModel.findOne({ userId })
+    sinon.stub(JwtService, 'decodeUser').resolves({
+      id: userId
+    })
+
+    const updatedData = {
+      ...data,
+      effectiveDate: '2025-02-01'
+    }
+
+    const res = await chai.request(app)
+      .put('/api/v1/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send(updatedData)
+    expect(res).to.have.status(400)
+
+    const user = await UserModel.findOne({ userId })
+    // should remain unchanged
+    expect(user).to.deep.equal(initialUser)
   })
 })
