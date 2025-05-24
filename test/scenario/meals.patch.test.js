@@ -80,7 +80,7 @@ describe('scenario - PATCH meals/', () => {
       MealModel.deleteOne({ _id: mealId })
     })
 
-    it('Add new item to meal', async () => {
+    it('Add new item to meal - OK', async () => {
       const newItem = {
         ean: '7310240071870', // Mexicana X-tra Allt Pizza Fryst
         unit: 'g',
@@ -110,7 +110,7 @@ describe('scenario - PATCH meals/', () => {
       expect(secondUserMeal.foodItems[3].weight).to.equal(newItem.weight)
     })
 
-    it('Remove item from meal', async () => {
+    it('Remove item from meal - OK', async () => {
       const meal = await MealModel.findById(mealId)
       const itemToRemove = meal.foodItems[1]
       const itemId = itemToRemove._id.toString()
@@ -127,17 +127,19 @@ describe('scenario - PATCH meals/', () => {
         date: selectedDate,
         type: 'lunch'
       })
+
       const secondUserMeal = await MealModel.findOne({
         userId: otherUserId,
         date: selectedDate,
         type: 'lunch'
       })
+
       expect(firstUserMeal.foodItems).to.have.lengthOf(3)
       expect(secondUserMeal.foodItems).to.have.lengthOf(2)
       expect(Array.from(secondUserMeal.foodItems).some((item) => item._id.toString() === itemId)).to.be.false
     })
 
-    it('Change weight of item in meal', async () => {
+    it('Change weight of item in meal - OK', async () => {
       const meal = await MealModel.findById(mealId)
       const itemToChange = meal.foodItems[1]
       const itemId = itemToChange._id.toString()
@@ -182,7 +184,7 @@ describe('scenario - PATCH meals/', () => {
       sinon.restore()
     })
 
-    it('Add new item to meal', async () => {
+    it('Add new item to meal - Not OK', async () => {
       const newItem = {
         ean: '7310240071870', // Mexicana X-tra Allt Pizza Fryst
         unit: 'g',
@@ -200,7 +202,7 @@ describe('scenario - PATCH meals/', () => {
       expect(firstUserMeal.foodItems).to.have.lengthOf(3) // should not be modified
     })
 
-    it('Remove item from meal', async () => {
+    it('Remove item from meal - Not OK', async () => {
       const meal = await MealModel.findById(firstUserMealId)
       const itemToRemove = meal.foodItems[1]
       const itemId = itemToRemove._id.toString()
@@ -216,7 +218,7 @@ describe('scenario - PATCH meals/', () => {
       expect(firstUserMeal.foodItems).to.have.lengthOf(3) // should not be modified
     })
 
-    it('Change weight of item in meal', async () => {
+    it('Change weight of item in meal - Not OK', async () => {
       const meal = await MealModel.findById(firstUserMealId)
       const itemToChange = meal.foodItems[1]
       const itemId = itemToChange._id.toString()

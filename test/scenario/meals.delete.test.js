@@ -42,6 +42,8 @@ describe('scenario - DELETE meals/', () => {
 
   beforeEach(async () => {
     await MealModel.deleteMany()
+
+    // Create a couple of meals for each user
     await MealModel.create({
       ...lunch,
       userId
@@ -70,7 +72,8 @@ describe('scenario - DELETE meals/', () => {
     sinon.restore()
   })
 
-  it('Should delete all meals of the user, but not of other user', async () => {
+  it('Should delete all meals of the user sending the request, but not of other user', async () => {
+    // initially there should be 2 meals for each user
     let firstUserMeals = await MealModel.find({ userId })
     expect(firstUserMeals).to.have.lengthOf(2)
 
@@ -87,6 +90,9 @@ describe('scenario - DELETE meals/', () => {
       .send()
 
     expect(res).to.have.status(204)
+
+    // after deletion, first user should have no meals,
+    // but second user should still have their two meals
     firstUserMeals = await MealModel.find({ userId })
     secondUserMeals = await MealModel.find({ userId: otherUserId })
     expect(firstUserMeals).to.have.lengthOf(0)
