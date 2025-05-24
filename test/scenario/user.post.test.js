@@ -63,7 +63,6 @@ describe('scenario - POST user/', () => {
       age: 36
     }
 
-    // update user
     let res = await chai.request(app)
       .post('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
@@ -76,7 +75,6 @@ describe('scenario - POST user/', () => {
 
     const user = users[0].toObject()
 
-    // latest history entry should be the first in the array
     expect(user.history[0].currentWeight).to.equal(60)
   })
 
