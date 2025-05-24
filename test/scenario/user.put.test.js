@@ -1,4 +1,4 @@
-/* global after before */
+/* global after afterEach beforeEach */
 
 import chai from 'chai'
 import chaiHttp from 'chai-http' // must have for chai.request
@@ -18,7 +18,6 @@ describe('scenario - PUT user/', () => {
   const token = 'dummytoken'
   const userId = '123456789012345678901234'
   const day1 = format(subDays(new Date(), 5), 'yyyy-MM-dd')
-
 
   beforeEach(async () => {
     await UserModel.deleteMany()
@@ -78,7 +77,7 @@ describe('scenario - PUT user/', () => {
     }
 
     // update user
-    let res = await chai.request(app)
+    const res = await chai.request(app)
       .put('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData)
@@ -136,7 +135,7 @@ describe('scenario - PUT user/', () => {
     expect(res).to.have.status(404) // should not disclose that the other user exists
 
     const otherUser = await UserModel.findOne({ userId: otherUserId })
-    expect(otherUser).to.be.null // other user should not exist
+    expect(otherUser).to.equal(null) // other user should not exist
     const user = await UserModel.findOne({ userId })
 
     // should remain unchanged

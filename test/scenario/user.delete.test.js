@@ -1,4 +1,4 @@
-/* global after before */
+/* global afterEach beforeEach */
 
 import chai from 'chai'
 import chaiHttp from 'chai-http' // must have for chai.request
@@ -7,7 +7,7 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import { subDays, format } from 'date-fns'
 
-import { app, connection, server } from '../../src/server.js'
+import { app } from '../../src/server.js'
 import { UserModel } from '../../src/models/User.js'
 
 const expect = chai.expect
@@ -20,10 +20,8 @@ describe('scenario - POST user/', () => {
   const otherUserId = '234567890123456789012345'
   const day1 = format(subDays(new Date(), 5), 'yyyy-MM-dd')
 
-
   beforeEach(async () => {
     await UserModel.deleteMany()
-    // reset the history array
     await UserModel.create({
       userId,
       gender: 'f',
@@ -73,10 +71,9 @@ describe('scenario - POST user/', () => {
     let users = await UserModel.find()
     expect(users).to.have.lengthOf(2)
 
-    let res = await chai.request(app)
+    const res = await chai.request(app)
       .delete('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
-
 
     expect(res).to.have.status(204)
 
@@ -84,6 +81,4 @@ describe('scenario - POST user/', () => {
     expect(users).to.have.lengthOf(1)
     expect(users[0].userId).to.equal(otherUserId)
   })
-
-  
 })

@@ -1,4 +1,4 @@
-/* global after before */
+/* global afterEach beforeEach */
 
 import chai from 'chai'
 import chaiHttp from 'chai-http' // must have for chai.request
@@ -7,7 +7,7 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import { subDays, format } from 'date-fns'
 
-import { app, connection, server } from '../../src/server.js'
+import { app } from '../../src/server.js'
 import { UserModel } from '../../src/models/User.js'
 
 const expect = chai.expect
@@ -19,10 +19,8 @@ describe('scenario - POST user/', () => {
   const userId = '123456789012345678901234'
   const day1 = format(subDays(new Date(), 5), 'yyyy-MM-dd')
 
-
   beforeEach(async () => {
     await UserModel.deleteMany()
-    // reset the history array
     await UserModel.create({
       userId,
       gender: 'f',
@@ -63,7 +61,7 @@ describe('scenario - POST user/', () => {
       age: 36
     }
 
-    let res = await chai.request(app)
+    const res = await chai.request(app)
       .post('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(newData)
@@ -85,7 +83,6 @@ describe('scenario - POST user/', () => {
       id: otherUserId
     })
 
-
     const otherUserData = {
       gender: 'f',
       currentWeight: 58,
@@ -101,17 +98,17 @@ describe('scenario - POST user/', () => {
       .post('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(otherUserData)
-    expect(res).to.have.status(201) 
+    expect(res).to.have.status(201)
 
     const users = await UserModel.find()
     expect(users).to.have.lengthOf(2) // should have two users now
 
-    const user1  = users[0]
-    const user2  = users[1]
+    const user1 = users[0]
+    const user2 = users[1]
 
-    expect (user1.userId).to.equal(userId)
-    expect (user1.currentWeight).to.equal(60)
-    expect (user2.userId).to.equal(otherUserId)
-    expect (user2.currentWeight).to.equal(58)
+    expect(user1.userId).to.equal(userId)
+    expect(user1.currentWeight).to.equal(60)
+    expect(user2.userId).to.equal(otherUserId)
+    expect(user2.currentWeight).to.equal(58)
   })
 })
