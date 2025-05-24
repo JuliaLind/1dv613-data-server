@@ -108,8 +108,6 @@ describe('scenario - PUT user/', () => {
     // third history entry should be created
     expect(user.history).to.have.lengthOf(3)
     expect(user.history[0].currentWeight).to.equal(55)
-
-    await UserModel.deleteMany()
   })
 
   it('Should not update data belonging to other user', async () => {
