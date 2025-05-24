@@ -15,14 +15,35 @@ chai.use(sinonChai)
 chai.use(chaiHttp) // must have for chai.request
 
 describe('scenario - PUT user/', () => {
+  const token = 'dummytoken'
   const userId = '123456789012345678901234'
-  before(async () => {
-    sinon.stub(JwtService, 'decodeUser').resolves({
-      id: userId
+  const day1 = format(subDays(new Date(), 5), 'yyyy-MM-dd')
+
+
+  beforeEach(async () => {
+    await UserModel.deleteMany()
+    // reset the history array
+    await UserModel.create({
+      userId,
+      gender: 'f',
+      currentWeight: 60,
+      targetWeight: 55.5,
+      height: 163,
+      weeklyChange: 0.5,
+      activityLevel: 'light',
+      history: [
+        {
+          currentWeight: 60,
+          effectiveDate: day1,
+          age: 36,
+          height: 163
+        }
+      ]
     })
   })
 
-  afterEach(() => {
+  afterEach(async () => {
+    await UserModel.deleteMany()
     sinon.restore()
   })
 
@@ -32,35 +53,19 @@ describe('scenario - PUT user/', () => {
   })
 
   it('Req 1.5.6 - should save user history when updating profile', async () => {
-    const token = 'dummytoken'
-    let effectiveDate = format(subDays(new Date(), 5), 'yyyy-MM-dd')
-    const userData = {
-      gender: 'f',
-      currentWeight: 60,
-      targetWeight: 55.5,
-      height: 163,
-      weeklyChange: 0.5,
-      activityLevel: 'light',
-      effectiveDate,
-      age: 36
-    }
-
-    // create new user
-    let res = await chai.request(app)
-      .post('/api/v1/user')
-      .set('Authorization', `Bearer ${token}`)
-      .send(userData)
-
+    sinon.stub(JwtService, 'decodeUser').resolves({
+      id: userId
+    })
     let user = (await UserModel.findOne({ userId })).toObject()
     // first history entry should be created
     expect(user.history).to.have.lengthOf(1)
     expect(user.history[0].currentWeight).to.equal(60)
-    expect(user.history[0].effectiveDate).to.equal(effectiveDate)
+    expect(user.history[0].effectiveDate).to.equal(day1)
     expect(user.history[0].age).to.equal(36)
     expect(user.history[0].height).to.equal(163)
     expect(Object.keys(user.history[0])).to.have.lengthOf(4)
 
-    effectiveDate = format(subDays(new Date(), 4), 'yyyy-MM-dd')
+    const day2 = format(subDays(new Date(), 4), 'yyyy-MM-dd')
     const updatedData = {
       gender: 'f',
       currentWeight: 58,
@@ -68,12 +73,12 @@ describe('scenario - PUT user/', () => {
       height: 163,
       weeklyChange: 0.5,
       activityLevel: 'light',
-      effectiveDate,
+      effectiveDate: day2,
       age: 36
     }
 
     // update user
-    res = await chai.request(app)
+    let res = await chai.request(app)
       .put('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData)
@@ -89,13 +94,13 @@ describe('scenario - PUT user/', () => {
     expect(user.history[0].currentWeight).to.equal(58)
 
     // update user data second time
-    effectiveDate = format(subDays(new Date(), 3), 'yyyy-MM-dd')
+    const day3 = format(subDays(new Date(), 3), 'yyyy-MM-dd')
     await chai.request(app)
       .put('/api/v1/user')
       .set('Authorization', `Bearer ${token}`)
       .send({
         ...updatedData,
-        effectiveDate,
+        effectiveDate: day3,
         currentWeight: 55
       })
 
@@ -105,5 +110,53 @@ describe('scenario - PUT user/', () => {
     expect(user.history[0].currentWeight).to.equal(55)
 
     await UserModel.deleteMany()
+  })
+
+  it('Should not update data belonging to other user', async () => {
+    const otherUserId = 'otherUserId'
+
+    sinon.stub(JwtService, 'decodeUser').resolves({
+      id: otherUserId
+    })
+
+    const newDate = format(new Date(), 'yyyy-MM-dd')
+    const updatedData = {
+      gender: 'f',
+      currentWeight: 58,
+      targetWeight: 53,
+      height: 163,
+      weeklyChange: 0.5,
+      activityLevel: 'light',
+      effectiveDate: newDate,
+      age: 36
+    }
+
+    const res = await chai.request(app)
+      .put('/api/v1/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send(updatedData)
+    expect(res).to.have.status(404) // should not disclose that the other user exists
+
+    const otherUser = await UserModel.findOne({ userId: otherUserId })
+    expect(otherUser).to.be.null // other user should not exist
+    const user = await UserModel.findOne({ userId })
+
+    // should remain unchanged
+    expect(user.toObject()).to.deep.equal({
+      gender: 'f',
+      currentWeight: 60,
+      targetWeight: 55.5,
+      height: 163,
+      weeklyChange: 0.5,
+      activityLevel: 'light',
+      history: [
+        {
+          currentWeight: 60,
+          effectiveDate: day1,
+          age: 36,
+          height: 163
+        }
+      ]
+    })
   })
 })
