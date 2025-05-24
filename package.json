@@ -29,6 +29,7 @@
     "dotenv-cli": "^8.0.0",
     "eslint": "^8.57.1",
     "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-chai-friendly": "^1.0.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^46.10.1",
     "eslint-plugin-node": "^11.1.0",
@@ -41,7 +42,12 @@
     "xml2js": "^0.6.2"
   },
   "eslintConfig": {
-    "extends": "@lnu"
+  "extends": "@lnu",
+  "plugins": ["chai-friendly"],
+  "rules": {
+    "no-unused-expressions": "off",
+    "chai-friendly/no-unused-expressions": "error"
+  }
   },
   "dependencies": {
     "cors": "^2.8.5",
