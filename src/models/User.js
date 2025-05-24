@@ -109,7 +109,7 @@ const schema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true,
+    timestamps: false,
     toObject: convertOptions,
     toJSON: convertOptions,
     optimisticConcurrency: false,
