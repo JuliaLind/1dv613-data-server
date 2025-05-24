@@ -14,7 +14,7 @@ const expect = chai.expect
 chai.use(sinonChai)
 chai.use(chaiHttp) // must have for chai.request
 
-describe('scenario - POST user/', () => {
+describe('scenario - DELETE user/', () => {
   const token = 'dummytoken'
   const userId = '123456789012345678901234'
   const otherUserId = '234567890123456789012345'

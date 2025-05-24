@@ -14,9 +14,10 @@ const expect = chai.expect
 chai.use(sinonChai)
 chai.use(chaiHttp) // must have for chai.request
 
-describe('scenario - POST meals/', () => {
+describe('scenario - DELETE meals/', () => {
   const token = 'dummytoken'
   const userId = '123456789012345678901234'
+  const otherUserId = '234567890123456789012345'
   const selectedDate = format(subDays(new Date(), 5), 'yyyy-MM-dd')
   const lunch = {
     date: selectedDate,
@@ -39,13 +40,15 @@ describe('scenario - POST meals/', () => {
       }
     ]
   }
+  let mealId
 
   beforeEach(async () => {
     await MealModel.deleteMany()
-    await MealModel.create({
+    const firstUserMeal = await MealModel.create({
       ...lunch,
       userId
     })
+    mealId = firstUserMeal._id.toString()
   })
 
   afterEach(async () => {
@@ -53,51 +56,33 @@ describe('scenario - POST meals/', () => {
     sinon.restore()
   })
 
-  it('Should not be able to create second meal of same type on same date for same user', async () => {
+  it('Should be able to delete own meal', async () => {
     sinon.stub(JwtService, 'decodeUser').resolves({
       id: userId
     })
-
     const res = await chai.request(app)
-      .post('/api/v1/meals')
+      .delete(`/api/v1/meals/${mealId}`)
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        ...lunch,
-        userId
-      })
+      .send()
 
-    expect(res).to.have.status(409)
+    expect(res).to.have.status(204)
 
-    const meals = await MealModel.find({
-      userId,
-      date: selectedDate,
-      type: 'lunch'
-    })
-    expect(meals).to.have.lengthOf(1)
+    const meals = await MealModel.findById(mealId)
+    expect(meals).to.be.null
   })
 
-  it('Should be able to create meal of same type on same date for different user', async () => {
-    const otherUserId = '234567890123456789012345'
+  it('Should not be able to delete meal of another user', async () => {
     sinon.stub(JwtService, 'decodeUser').resolves({
       id: otherUserId
     })
 
     const res = await chai.request(app)
-      .post('/api/v1/meals')
+      .delete(`/api/v1/meals/${mealId}`)
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        ...lunch,
-        userId: otherUserId
-      })
+      .send()
 
-    expect(res).to.have.status(201)
-
-    const meals = await MealModel.find({
-      date: selectedDate,
-      type: 'lunch'
-    })
-    expect(meals).to.have.lengthOf(2)
-    expect(meals[1].userId).to.equal(otherUserId)
-    expect(meals[0].userId).to.equal(userId)
+    expect(res).to.have.status(404) // should not disclose that the meal exists
+    const meals = await MealModel.findById(mealId)
+    expect(meals).to.not.be.null
   })
 })
