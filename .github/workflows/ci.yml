@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+env:
+  NODE_ENV: test
+  PORT: 8080
+  DB_CONNECTION_STRING: mongodb://localhost:27017/data
+  AUTH_TOKEN_SECRET_PATH: './public.pem'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    container:
+      image: node:20
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run lint
+
+  test-unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    container:
+      image: node:20
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run test:unit
+
+  test-scen:
+    name: Scenario Tests
+    runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION_STRING: mongodb://localhost:27017/data_test
+      AUTH_TOKEN_SECRET_PATH: ./test_public.pem
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: 7
+
+      - name: Write public key
+        run: echo "${{ secrets.TEST_PUBLIC_PEM }}" > test_public.pem
+
+      - run: npm ci
+      - run: npm run test:scen
