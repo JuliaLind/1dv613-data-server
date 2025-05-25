@@ -79,4 +79,4 @@ jobs:
 
       - name: Deploy data-server via Docker Compose
         run: |
-          docker compose -f docker-compose.yml up -d --build
+          docker compose -f docker-compose.digi.yml up -d --build
