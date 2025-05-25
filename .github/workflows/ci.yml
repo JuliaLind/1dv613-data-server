@@ -74,11 +74,9 @@ jobs:
           ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Set remote Docker host
+      - name: Set remote Docker host (via SSH)
         run: echo "DOCKER_HOST=ssh://root@${{ secrets.PRODUCTION_HOST }}" >> $GITHUB_ENV
 
-      - name: Deploy with Docker Compose
+      - name: Deploy data-server via Docker Compose
         run: |
-          docker compose -f ./data-server/docker-compose.yml up -d --build
-
-
+          docker compose -f docker-compose.yml up -d --build
