@@ -1,6 +1,6 @@
 build:
   environment:
-    node: 20
+    node: 18
     variables:
       NODE_ENV: test
       PORT: 8080
