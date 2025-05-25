@@ -52,3 +52,37 @@ jobs:
 
       - run: npm ci
       - run: npm run test:scen
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [lint, test-unit, test-scen]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add - > /dev/null
+          chmod 700 ~/.ssh
+          ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        shell: bash
+
+      - name: Start ssh-agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy with Docker Compose
+        run: |
+          ssh root@${{ secrets.PRODUCTION_HOST }} '
+            cd /root/app/data-server &&
+            docker compose -f docker-compose.yml pull &&
+            docker compose -f docker-compose.yml up -d --build
+          '
+
