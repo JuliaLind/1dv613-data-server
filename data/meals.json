@@ -1,0 +1,681 @@
+[{
+  "_id": {
+    "$oid": "68187371ca070a6e35db4de9"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-05",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "68187371ca070a6e35db4dea"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68188922ca070a6e35db4e12"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-05",
+  "foodItems": [
+    {
+      "ean": "7350056796000",
+      "weight": 50,
+      "unit": "g",
+      "_id": {
+        "$oid": "68188922ca070a6e35db4e13"
+      }
+    },
+    {
+      "ean": "7350056796000",
+      "weight": 75,
+      "unit": "g",
+      "_id": {
+        "$oid": "6818892fca070a6e35db4e19"
+      }
+    }
+  ],
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "681b2639ca070a6e35db4e88"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack1",
+  "date": "2025-05-07",
+  "foodItems": [
+    {
+      "ean": "5900649011052",
+      "weight": 1000,
+      "unit": "g",
+      "_id": {
+        "$oid": "681b2639ca070a6e35db4e89"
+      }
+    },
+    {
+      "ean": "7350029731557",
+      "weight": 1000,
+      "unit": "g",
+      "_id": {
+        "$oid": "681b28d0ca070a6e35db4f16"
+      }
+    }
+  ],
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "681b28e3ca070a6e35db4f1f"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-07",
+  "foodItems": [
+    {
+      "ean": "3080216060453",
+      "weight": 1000,
+      "unit": "g",
+      "_id": {
+        "$oid": "681b28e3ca070a6e35db4f20"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68213fa66e31b77bd1abbad1"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack1",
+  "date": "2025-05-12",
+  "foodItems": [
+    {
+      "ean": "5997523312114",
+      "weight": 500,
+      "unit": "g",
+      "_id": {
+        "$oid": "68213fa66e31b77bd1abbad2"
+      }
+    },
+    {
+      "ean": "5900649011052",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "68213fa96e31b77bd1abbad8"
+      }
+    }
+  ],
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "6822305c6e31b77bd1abbaf0"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-12",
+  "foodItems": [
+    {
+      "ean": "8007153007490",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6822305c6e31b77bd1abbaf1"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "682230816e31b77bd1abbb00"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-12",
+  "foodItems": [
+    {
+      "ean": "3080216060453",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "682230816e31b77bd1abbb01"
+      }
+    },
+    {
+      "ean": "7311043009053",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6822308b6e31b77bd1abbb0f"
+      }
+    }
+  ],
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "682713367bd8b13fd0172d58"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-16",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 250,
+      "unit": "g",
+      "_id": {
+        "$oid": "682713367bd8b13fd0172d59"
+      }
+    },
+    {
+      "ean": "7311870012202",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "682713447bd8b13fd0172d6b"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "682713507bd8b13fd0172d6d"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-16",
+  "foodItems": [
+    {
+      "ean": "7350000553253",
+      "weight": 300,
+      "unit": "g",
+      "_id": {
+        "$oid": "682713507bd8b13fd0172d6e"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6828bbe07bd8b13fd0172e5a"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-17",
+  "foodItems": [
+    {
+      "ean": "7310865698391",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6828bbea7bd8b13fd0172e6b"
+      }
+    },
+    {
+      "ean": "7038010071997",
+      "weight": 200,
+      "unit": "g",
+      "_id": {
+        "$oid": "6828bbfa7bd8b13fd0172e72"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6828c5c57bd8b13fd0172ebe"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-17",
+  "foodItems": [
+    {
+      "ean": "7300324012004",
+      "weight": 200,
+      "unit": "g",
+      "_id": {
+        "$oid": "6828c5c57bd8b13fd0172ebf"
+      }
+    },
+    {
+      "ean": "7311041058572",
+      "weight": 300,
+      "unit": "g",
+      "_id": {
+        "$oid": "6828c5d67bd8b13fd0172ee3"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6829cb3653ed0f8f1cc3a4e5"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack1",
+  "date": "2025-05-18",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 250,
+      "unit": "g",
+      "_id": {
+        "$oid": "6829cb3653ed0f8f1cc3a4e6"
+      }
+    },
+    {
+      "ean": "2340398000007",
+      "weight": 80.5,
+      "unit": "g",
+      "_id": {
+        "$oid": "6829cb4b53ed0f8f1cc3a505"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6829e17e53ed0f8f1cc3a5b4"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-18",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6829e17e53ed0f8f1cc3a5b5"
+      }
+    },
+    {
+      "ean": "5900649011052",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6829e18753ed0f8f1cc3a5bb"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "682ee28953ed0f8f1cc3a61e"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-22",
+  "foodItems": [
+    {
+      "ean": "8007153007490",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "682ee28953ed0f8f1cc3a61f"
+      }
+    },
+    {
+      "ean": "3080216060453",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "682ee28e53ed0f8f1cc3a625"
+      }
+    },
+    {
+      "ean": "3080216062327",
+      "weight": 137.5,
+      "unit": "g",
+      "_id": {
+        "$oid": "682f518253ed0f8f1cc3a675"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "682f577053ed0f8f1cc3a677"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack1",
+  "date": "2025-05-22",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 137.5,
+      "unit": "g",
+      "_id": {
+        "$oid": "682f577053ed0f8f1cc3a678"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68302c7c501682f07e9a1a42"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-23",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "68302c7c501682f07e9a1a43"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68302c81501682f07e9a1a47"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack2",
+  "date": "2025-05-23",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "68302c81501682f07e9a1a48"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68302c86501682f07e9a1a4c"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack3",
+  "date": "2025-05-23",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "68302c86501682f07e9a1a4d"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6831c0d0501682f07e9a1a9b"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-24",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6831c0d0501682f07e9a1a9c"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6831c0d8501682f07e9a1aa8"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-24",
+  "foodItems": [
+    {
+      "ean": "7350008950504",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "6831c0d8501682f07e9a1aa9"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "683314d5fba87099258de62d"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "breakfast",
+  "date": "2025-05-25",
+  "foodItems": [
+    {
+      "ean": "7350029731557",
+      "weight": 100,
+      "unit": "g",
+      "_id": {
+        "$oid": "683314d5fba87099258de62e"
+      }
+    },
+    {
+      "ean": "7350056791500",
+      "weight": 200,
+      "unit": "g",
+      "_id": {
+        "$oid": "683314dffba87099258de640"
+      }
+    },
+    {
+      "ean": "7340083480157",
+      "weight": 150,
+      "unit": "g",
+      "_id": {
+        "$oid": "683314ecfba87099258de65b"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68331533fba87099258de673"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-25",
+  "foodItems": [
+    {
+      "ean": "4001724010784",
+      "weight": 500,
+      "unit": "g",
+      "_id": {
+        "$oid": "68331533fba87099258de674"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6834dea6558c344eac7d2c4f"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-26",
+  "foodItems": [
+    {
+      "ean": "7340083485732",
+      "weight": 502,
+      "unit": "g",
+      "_id": {
+        "$oid": "6834dea6558c344eac7d2c50"
+      }
+    },
+    {
+      "ean": "7310960044543",
+      "weight": 252,
+      "unit": "g",
+      "_id": {
+        "$oid": "6834debe558c344eac7d2c7b"
+      }
+    },
+    {
+      "ean": "4000339697908",
+      "weight": 98,
+      "unit": "g",
+      "_id": {
+        "$oid": "6834ded7558c344eac7d2ca8"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6834def7558c344eac7d2cdd"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack2",
+  "date": "2025-05-26",
+  "foodItems": [
+    {
+      "ean": "5420024102019",
+      "weight": 125,
+      "unit": "g",
+      "_id": {
+        "$oid": "6834def7558c344eac7d2cde"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6834df26558c344eac7d2d36"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "dinner",
+  "date": "2025-05-26",
+  "foodItems": [
+    {
+      "ean": "7310960024194",
+      "weight": 119,
+      "unit": "g",
+      "_id": {
+        "$oid": "6834df26558c344eac7d2d37"
+      }
+    },
+    {
+      "ean": "2340398000007",
+      "weight": 138,
+      "unit": "g",
+      "_id": {
+        "$oid": "6834df35558c344eac7d2d5b"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68357d6f558c344eac7d2ed7"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack1",
+  "date": "2025-05-27",
+  "foodItems": [
+    {
+      "ean": "5420024102019",
+      "weight": 125,
+      "unit": "g",
+      "_id": {
+        "$oid": "68357d6f558c344eac7d2ed8"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6835b06b558c344eac7d2f3b"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack3",
+  "date": "2025-05-26",
+  "foodItems": [
+    {
+      "ean": "7311043014682",
+      "weight": 38,
+      "unit": "g",
+      "_id": {
+        "$oid": "6835b06b558c344eac7d2f3c"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6835b08d558c344eac7d2f54"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "lunch",
+  "date": "2025-05-27",
+  "foodItems": [
+    {
+      "ean": "7311043014682",
+      "weight": 190,
+      "unit": "g",
+      "_id": {
+        "$oid": "6835b08d558c344eac7d2f55"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6835da97558c344eac7d2fa4"
+  },
+  "userId": "6818735f68f2ce4ec08f8972",
+  "type": "snack2",
+  "date": "2025-05-27",
+  "foodItems": [
+    {
+      "ean": "8697595881668",
+      "weight": 11.25,
+      "unit": "g",
+      "_id": {
+        "$oid": "6835da97558c344eac7d2fa5"
+      }
+    },
+    {
+      "ean": "8697595881668",
+      "weight": 11.25,
+      "unit": "g",
+      "_id": {
+        "$oid": "6835da98558c344eac7d2fab"
+      }
+    },
+    {
+      "ean": "8697595881668",
+      "weight": 11.25,
+      "unit": "g",
+      "_id": {
+        "$oid": "6835da99558c344eac7d2fb0"
+      }
+    },
+    {
+      "ean": "8697595881668",
+      "weight": 11.25,
+      "unit": "g",
+      "_id": {
+        "$oid": "6835da99558c344eac7d2fb6"
+      }
+    }
+  ]
+}]

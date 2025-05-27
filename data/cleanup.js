@@ -86,9 +86,9 @@ function getNutrients (item) {
 
 /**
  * Selects the relevant data from the food item.
- * Writes object to either clean.jsonl or excluded.jsonl.
+ * Writes object to excluded.jsonl.
  *
- * @param {object} item - associatie array with food data
+ * @param {object} item - associate array with food data
  * @returns {object} - cleaned food item
  */
 async function cleanObj (item) {
@@ -116,7 +116,7 @@ async function cleanObj (item) {
 /**
  * Main function to clean the data.
  * Iterates over the food items and saves the cleaned and complete
- * items to clean.jsonl. Excluded items are saved to excluded.jsonl.
+ * items to array to be saved to foods.json. Excluded items are saved to excluded.jsonl.
  */
 async function main () {
   const clean = [] // will contain all the complete items
@@ -134,7 +134,7 @@ async function main () {
     }
   }
   const json = JSON.stringify(clean, null, 4)
-  await fs.writeFile('clean.json', json, 'utf8')
+  await fs.writeFile('foods.json', json, 'utf8')
 }
 
 /**
@@ -168,7 +168,6 @@ async function writeLine (filename, obj) {
 async function addToArr (obj, clean) {
   if (obj.kcal_100g) {
     clean.push(obj)
-    // await writeLine('clean.jsonl', obj)
   } else {
     await exclude(obj, 'does not have a kcal value')
   }

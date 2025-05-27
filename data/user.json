@@ -4,12 +4,18 @@
   },
   "userId": "6818735f68f2ce4ec08f8972",
   "gender": "f",
-  "currentWeight": 59.8,
-  "targetWeight": 52,
+  "currentWeight": 60.1,
+  "targetWeight": 55,
   "height": 163,
   "weeklyChange": 0.5,
   "activityLevel": "moderate",
   "history": [
+    {
+      "effectiveDate": "2025-05-27",
+      "currentWeight": 60.1,
+      "age": 36,
+      "height": 163
+    },
     {
       "effectiveDate": "2025-05-17",
       "currentWeight": 59.8,
