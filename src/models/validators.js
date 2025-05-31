@@ -14,7 +14,7 @@ export const urlValidator = {
  * @throws {Error} - if the value is not valid.
  */
   validator: (value) => {
-    return validator.isURL(value) || validator.isDataURI(value)
+    return !value || validator.isURL(value) || validator.isDataURI(value)
   },
   message: 'Invalid image URL'
 }

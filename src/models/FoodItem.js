@@ -59,7 +59,7 @@ const schema = new mongoose.Schema(
         type: String,
         trim: true,
         // required: true,
-        validate: urlValidator
+        validate: urlValidator,
       },
       lg: {
         type: String,
