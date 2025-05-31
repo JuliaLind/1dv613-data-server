@@ -22,6 +22,7 @@ const convertOptions = Object.freeze({
    */
   transform: (doc, ret) => {
     delete ret._id
+    delete ret.createdBy
 
     return ret
   }
@@ -56,13 +57,13 @@ const schema = new mongoose.Schema(
       sm: {
         type: String,
         trim: true,
-        required: true,
+        // required: true,
         validate: urlValidator
       },
       lg: {
         type: String,
         trim: true,
-        required: true,
+        // required: true,
         validate: urlValidator
       }
     },
@@ -107,6 +108,10 @@ const schema = new mongoose.Schema(
         required: true,
         min: [0, 'Fiber cannot be negative']
       }
+    },
+    createdBy: {
+      type: String,
+      trim: true
     }
   },
   {

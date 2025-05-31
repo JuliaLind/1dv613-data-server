@@ -127,7 +127,146 @@
             "$ref": "#/components/responses/ServerError"
           }
         }
+      },
+      "post": {
+        "summary": "Create a new food item",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "img": {
+                    "type": "object",
+                    "properties": {
+                      "sm": { "type": "string", "format": "uri" },
+                      "lg": { "type": "string", "format": "uri" }
+                    }
+                  },
+                  "name": { "type": "string" },
+                  "brand": { "type": "string" },
+                  "ean": { "type": "string" },
+                  "kcal_100g": { "type": "number" },
+                  "category": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "macros_100g": {
+                    "type": "object",
+                    "properties": {
+                      "fat": { "type": "number", "example": 3 },
+                      "saturatedFat": { "type": "number", "example": 1.9 },
+                      "carbohydrates": { "type": "number", "example": 3.7 },
+                      "sugars": { "type": "number", "example": 3.7 },
+                      "protein": { "type": "number", "example": 3.5 },
+                      "salt": { "type": "number", "example": 0.09 },
+                      "fiber": { "type": "number", "example": 0 }
+                    }
+                  }
+                },
+                "example": {
+                  "img": {
+                    "sm": "https://cdn.example.com/foods/small.jpg",
+                    "lg": "https://cdn.example.com/foods/large.jpg"
+                  },
+                  "name": "Greek Yogurt",
+                  "brand": "Acme Dairy",
+                  "ean": "1234567890123",
+                  "kcal_100g": 59,
+                  "category": ["dairy", "yogurt"],
+                  "macros_100g": {
+                    "fat": 3,
+                    "saturatedFat": 1.9,
+                    "carbohydrates": 3.7,
+                    "sugars": 3.7,
+                    "protein": 3.5,
+                    "salt": 0.09,
+                    "fiber": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Food item successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "img": {
+                      "type": "object",
+                      "properties": {
+                        "sm": { "type": "string", "format": "uri" },
+                        "lg": { "type": "string", "format": "uri" }
+                      }
+                    },
+                    "name": { "type": "string" },
+                    "brand": { "type": "string" },
+                    "ean": { "type": "string" },
+                    "category": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "kcal_100g": { "type": "number" },
+                    "macros_100g": {
+                      "type": "object",
+                      "properties": {
+                        "fat": { "type": "number", "example": 3 },
+                        "saturatedFat": { "type": "number", "example": 1.9 },
+                        "carbohydrates": { "type": "number", "example": 3.7 },
+                        "sugars": { "type": "number", "example": 3.7 },
+                        "protein": { "type": "number", "example": 3.5 },
+                        "salt": { "type": "number", "example": 0.09 },
+                        "fiber": { "type": "number", "example": 0 }
+                      }
+                    }
+                  },
+                  "example": {
+                    "img": {
+                      "sm": "https://cdn.example.com/foods/small.jpg",
+                      "lg": "https://cdn.example.com/foods/large.jpg"
+                    },
+                    "name": "Greek Yogurt",
+                    "brand": "Acme Dairy",
+                    "ean": "1234567890123",
+                    "category": ["dairy", "yogurt"],
+                    "kcal_100g": 59,
+                    "macros_100g": {
+                      "fat": 3,
+                      "saturatedFat": 1.9,
+                      "carbohydrates": 3.7,
+                      "sugars": 3.7,
+                      "protein": 3.5,
+                      "salt": 0.09,
+                      "fiber": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
       }
+
     },
     "/foods/search/{search}": {
       "get": {

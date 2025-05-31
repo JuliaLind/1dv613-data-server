@@ -6,6 +6,7 @@
  */
 
 import { FoodItemModel } from '../models/FoodItem.js'
+import { createHttpError } from './lib/functions.js'
 
 /**
  * Encapsulates a controller.
@@ -70,6 +71,25 @@ export class FoodsController {
       res.status(200).json(foodItem)
     } catch (error) {
       next(error)
+    }
+  }
+
+  /**
+   * Creates a new food item.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async post (req, res, next) {
+    try {
+      const foodItem = await FoodItemModel.create({
+        ...req.body,
+        createdBy: req.user.id
+      })
+      res.status(201).json(foodItem)
+    } catch (error) {
+      next(createHttpError(error))
     }
   }
 }
