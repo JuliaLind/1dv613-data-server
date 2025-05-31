@@ -7,7 +7,7 @@ import createError from 'http-errors'
  * @param {Error} error - the error from the database.
  * @returns {Error} - the error to send in the response.
  */
-export function createHttpError(error) {
+export function createHttpError (error) {
   if (error instanceof createError.HttpError) {
     return error
   }
