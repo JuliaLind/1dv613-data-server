@@ -92,4 +92,21 @@ export class FoodsController {
       next(createHttpError(error))
     }
   }
+
+  /**
+   * Creates a new food item.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async delete (req, res, next) {
+    try {
+      await FoodItemModel.deleteByEan(req.params.ean, req.user.id)
+
+      res.status(204).end()
+    } catch (error) {
+      next(createHttpError(error))
+    }
+  }
 }

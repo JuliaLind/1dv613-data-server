@@ -25,3 +25,7 @@ router.get('/ean/:ean', (req, res, next) => foodsController.get(req, res, next))
 router.post('/',
   authenticateJWT,
   (req, res, next) => foodsController.post(req, res, next))
+
+router.delete('/ean/:ean',
+  authenticateJWT,
+  (req, res, next) => foodsController.delete(req, res, next))

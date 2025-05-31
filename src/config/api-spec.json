@@ -499,6 +499,26 @@
             "$ref": "#/components/responses/ServerError"
           }
         }
+      },
+      "delete": {
+        "summary": "Delete the food item",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "204": {
+            "description": "Fooditem successfully delted"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
       }
     },
     "/meals/date/{date}": {
@@ -597,14 +617,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Meals successfully created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MealEntry"
-                }
-              }
-            }
+            "description": "Meals successfully deleted"
           },
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
