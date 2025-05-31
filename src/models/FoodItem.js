@@ -40,7 +40,8 @@ const schema = new mongoose.Schema(
     },
     brand: {
       type: String,
-      trim: true
+      trim: true,
+      maxlength: 255
     },
     ean: {
       type: String,
