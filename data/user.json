@@ -4,12 +4,30 @@
   },
   "userId": "6818735f68f2ce4ec08f8972",
   "gender": "f",
-  "currentWeight": 60.1,
+  "currentWeight": 61,
   "targetWeight": 55,
   "height": 163,
-  "weeklyChange": 0.5,
-  "activityLevel": "moderate",
+  "weeklyChange": 0.25,
+  "activityLevel": "light",
   "history": [
+    {
+      "effectiveDate": "2025-05-30",
+      "currentWeight": 61,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-05-29",
+      "currentWeight": 60.6,
+      "age": 36,
+      "height": 163
+    },
+    {
+      "effectiveDate": "2025-05-28",
+      "currentWeight": 60.5,
+      "age": 36,
+      "height": 163
+    },
     {
       "effectiveDate": "2025-05-27",
       "currentWeight": 60.1,
