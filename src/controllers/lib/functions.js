@@ -17,7 +17,10 @@ export function createHttpError (error) {
   }
 
   if (error.errors) {
-    return createError(400)
+    const messages = Object.values(error.errors)
+      .map((subErr) => subErr.message)
+      .join('. ')
+    return createError(400, messages)
   }
 
   return createError(500)

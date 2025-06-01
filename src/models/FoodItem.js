@@ -22,6 +22,7 @@ const convertOptions = Object.freeze({
    */
   transform: (doc, ret) => {
     delete ret._id
+    delete ret.createdBy
 
     return ret
   }
@@ -39,7 +40,8 @@ const schema = new mongoose.Schema(
     },
     brand: {
       type: String,
-      trim: true
+      trim: true,
+      maxlength: 255
     },
     ean: {
       type: String,
@@ -56,13 +58,13 @@ const schema = new mongoose.Schema(
       sm: {
         type: String,
         trim: true,
-        required: true,
+        // required: true,
         validate: urlValidator
       },
       lg: {
         type: String,
         trim: true,
-        required: true,
+        // required: true,
         validate: urlValidator
       }
     },
@@ -107,6 +109,10 @@ const schema = new mongoose.Schema(
         required: true,
         min: [0, 'Fiber cannot be negative']
       }
+    },
+    createdBy: {
+      type: String,
+      trim: true
     }
   },
   {
@@ -216,6 +222,25 @@ schema.statics.getByEan = async function (ean) {
   }
 
   return foodItem
+}
+
+/**
+ * Deletes a food item by ean code.
+ * If the food item is not found, it throws a 404 error.
+ *
+ * @param {string} ean - ean code of the food item
+ * @param {string} userId - id of the user who created the food item
+ * @throws {Error} - if the food item is not found or if it was not created by the user
+ */
+schema.statics.deleteByEan = async function (ean, userId) {
+  const foodItem = await FoodItemModel.findOne({
+    ean,
+    createdBy: userId
+  })
+  if (!foodItem) {
+    throw createError(404)
+  }
+  await foodItem.deleteOne()
 }
 
 // Create a model using the schema.

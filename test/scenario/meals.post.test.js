@@ -62,8 +62,7 @@ describe('scenario - POST meals/', () => {
       .post('/api/v1/meals')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        ...lunch,
-        userId
+        ...lunch
       })
 
     expect(res).to.have.status(409)
@@ -86,8 +85,7 @@ describe('scenario - POST meals/', () => {
       .post('/api/v1/meals')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        ...lunch,
-        userId: otherUserId
+        ...lunch
       })
 
     expect(res).to.have.status(201)

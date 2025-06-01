@@ -15,7 +15,6 @@ import { swaggerDocument } from '../../config/swagger.js'
 export const router = express.Router()
 
 router.use('/foods',
-  // authenticateJWT,
   foodsRouter)
 
 router.use('/meals',
