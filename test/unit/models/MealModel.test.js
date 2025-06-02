@@ -48,7 +48,7 @@ describe('MealModel', () => {
   const ean = '7331495009104'
   const meal = {
     userId: 'someUserId',
-    date: new Date(date),
+    date,
     type,
     foodItems: [{
       ean,
@@ -65,7 +65,7 @@ describe('MealModel', () => {
     kcal_100g: 100
   })
 
-  it('transform toObject, should contain id as string and date as string', function () {
+  it('transform toObject, should contain id as string', function () {
     const doc = new MealModel(meal)
     expect(doc).to.have.property('_id')
     const obj = doc.toObject()
