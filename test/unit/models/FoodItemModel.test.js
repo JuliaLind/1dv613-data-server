@@ -107,7 +107,7 @@ describe('FoodItemModel', () => {
     expect(result).to.deep.equal(exp)
   })
 
-  it('transform toObject, should keep all fields except _id', () => {
+  it('transform toObject, should keep all fields except _id and createdBy', () => {
     const foodItem = new FoodItemModel({
       ean: '1234567890123',
       name: 'Apple',
