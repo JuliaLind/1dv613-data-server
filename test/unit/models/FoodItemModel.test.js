@@ -115,12 +115,14 @@ describe('FoodItemModel', () => {
       kcal_100g: 52
     })
     expect(foodItem).to.have.property('_id')
+    expect(foodItem).to.have.property('createdBy')
     const obj = foodItem.toObject()
     expect(obj).to.have.property('ean', '1234567890123')
     expect(obj).to.have.property('name', 'Apple')
     expect(obj).to.have.property('brand', 'Brand A')
     expect(obj).to.have.property('kcal_100g', 52)
     expect(obj).to.not.have.property('_id')
+    expect(obj).to.not.have.property('createdBy')
   })
 
   it('getByEans, should return a map with ean codeas keys and food items as values', async () => {
