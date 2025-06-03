@@ -15,6 +15,14 @@ export const router = express.Router()
 router.use('/api/v1', v1Router)
 router.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
+router.get('/',
+  (req, res) => {
+    res.status(200).json({
+      message: 'Welcome to the data server API',
+      documentation: '/swagger/'
+    })
+  })
+
 router.use((req, res, next) => {
   next(createError(404))
 })

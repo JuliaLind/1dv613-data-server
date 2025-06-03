@@ -10,7 +10,6 @@ import { router as mealsRouter } from './meals.js'
 import { router as userRouter } from './user.js'
 import { authenticateJWT } from '../../middleware/auth.js'
 
-
 export const router = express.Router()
 
 router.use('/foods',
@@ -28,7 +27,6 @@ router.get('/',
   (req, res) => {
     res.status(200).json({
       message: 'Welcome to the data server API',
-      version: '1.0.0',
-      documentation: '/swagger'
+      version: '1.0.0'
     })
   })
